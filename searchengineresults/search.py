@@ -51,6 +51,7 @@ def find_data(site, filetypes=('csv', 'xls', 'xlsx', 'json', 'shp', 'kml', 'kmz'
         'Title': l['Title'],
         'Description': l['Description'],
         'Format': l['Url'].split('.')[-1].upper()
+        'URL_Dateiname': l['Url'].split('/')[-1]
     } for l in results]
     
     return urls

@@ -1,7 +1,4 @@
 import unicodecsv as csv
-import time
-import urllib
-import xml.etree.ElementTree as etree
 import sys
 
 csvoutfile = open(sys.argv[2], 'wb')
@@ -23,7 +20,7 @@ with open(sys.argv[1], 'rb') as csvfile:
             
 csvfile.close()
     
-with open('GoogleScrape.csv', 'rb') as csvfile:
+with open(sys.argv[1], 'rb') as csvfile:
     cityreader = csv.reader(csvfile, delimiter=',')
     #Skip headings
     headings = next(cityreader, None)
