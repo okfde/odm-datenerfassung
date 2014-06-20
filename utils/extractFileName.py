@@ -13,7 +13,6 @@ with open(sys.argv[1], 'rb') as csvfile:
     
     for inrow in cityreader:
         url = inrow[1]
-        k = url.rfind("/")
         tcolumn = int(sys.argv[2])
         filename = inrow[1].split('/')[-1]
         if (len(inrow) - 1) < tcolumn:

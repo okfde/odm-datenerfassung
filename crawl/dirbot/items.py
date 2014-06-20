@@ -13,3 +13,4 @@ class Website(Item):
     Format = Field()
     URL_PARENT = Field()
     Title_PARENT = Field()
+    geo = Field()
