@@ -51,7 +51,7 @@ class DataSpider(CrawlSpider):
             #TODO? Grab other stuff in side the A like image alt text
             if (len(item['URL_Text'])>0): item['URL_Text'] = item['URL_Text'][0].encode('utf-8')
             item['URL_Dateiname'] = str(item['URL_Datei']).split('/')[-1]
-            if (len(item['URL_Dateiname'])>0): item['URL_Dateiname'] = item['URL_Dateiname'][0].encode('utf-8')
+            if (len(item['URL_Dateiname'])>0): item['URL_Dateiname'] = item['URL_Dateiname'].encode('utf-8')
             item['Format'] = 'Not interesting'
             item['geo'] = ''
             item['URL_PARENT'] = parent_url

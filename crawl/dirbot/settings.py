@@ -3,8 +3,9 @@
 SPIDER_MODULES = ['dirbot.spiders']
 NEWSPIDER_MODULE = 'dirbot.spiders'
 DEFAULT_ITEM_CLASS = 'dirbot.items.Website'
-SPIDER_MIDDLEWARES = {
-    'dirbot.middleware.robotstxt.RobotsTxtMiddleware': 543,
+DOWNLOADER_MIDDLEWARES = {
+    'dirbot.middleware.robotstxt.RobotsTxtMiddleware': 100,
+    'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
 

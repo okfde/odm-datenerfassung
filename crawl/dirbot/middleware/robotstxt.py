@@ -23,7 +23,6 @@ class RobotsTxtMiddleware(object):
         self._useragent = crawler.settings.get('USER_AGENT')
         self._parsers = {}
         self._spider_netlocs = set()
-        
         self.robots = RobotsCache()
 
     @classmethod
@@ -36,3 +35,4 @@ class RobotsTxtMiddleware(object):
             log.msg(format="Forbidden by robots.txt: %(request)s",
                     level=log.DEBUG, request=request)
             raise IgnoreRequest
+
