@@ -76,7 +76,15 @@ class DataSpider(CrawlSpider):
             #If there's something there and it isn't a repetition, use it
             if (len(directText) > 0) and (directText != thetext):
                 item['URL_Text'] += directText[0]
-            #TODO: Grab other stuff in side the A like image alt text/title...?
+            item['URL_Text'] = item['URL_Text'].replace("\t", " ").replace("\n", "").strip()
+            
+            #If that got us nothing, then look at the title and alt elements
+            title_text = site.xpath('@title').extract()
+            if (len(title_text)>0) and (item['URL_Text'] == u''):
+                item['URL_Datei'] = title_text[0]
+            alt_text = site.xpath('@alt').extract()
+            if (len(alt_text)>0) and (item['URL_Text'] == u''):
+                item['URL_Datei'] = alt_text[0]
             
             item['URL_Dateiname'] = unicode(item['URL_Datei']).split('/')[-1]
             item['Format'] = u'Not interesting'
