@@ -23,8 +23,15 @@ class DataSpider(CrawlSpider):
         self.start_urls = [
         "http://www." + domain + "/",
         ]
-        self.filetypes = ('.CSV', '.XLS', '.XLSX', '.JSON', '.GEOJSON', '.GML', '.GPX', '.GJSON', '.TIFF', '.SHP', '.KML', '.KMZ', '.WMS', '.WFS', '.RDF', '.ZIP')
+        
+        #File types to search for (non-geo); list so that we can extend
+        self.filetypes = ['.CSV', '.XLS', '.XLSX', '.JSON', '.RDF', '.ZIP']
+        #Geographic file types
         self.geofiletypes = ('.GEOJSON', '.GML', '.GPX', '.GJSON', '.TIFF', '.SHP', '.KML', '.KMZ', '.WMS', '.WFS')
+        #Combined list to search for at first
+        self.filetypes.extend(self.geofiletypes)
+        #Better for searching later
+        self.filetypes = tuple(self.filetypes)
 
         self.fields = ('Stadt_URL', 'URL_Datei', 'URL_Text', 'URL_Dateiname', 'Format', 'geo', 'URL_PARENT', 'Title_PARENT')
         self.writer = unicodecsv.DictWriter(open(self.fileoutall, "wb"), self.fields)
@@ -36,30 +43,54 @@ class DataSpider(CrawlSpider):
 
     def parse_page(self, response):
         sel = Selector(response)
+        
+        #Title of the page we are on (this will be the 'parent')
         parent_title = sel.xpath('//title/text()').extract()
-        if (len(parent_title)>0): parent_title = parent_title[0].encode('utf-8')
+        if (len(parent_title)>0): parent_title = parent_title[0]
+        #URL of the page we are on (parent)
         parent_url = response.url
+        
+        #Get all links
         sites = sel.xpath('//body//a')
         items = []
 
         for site in sites:
             item = Website()
-            item['URL_Datei'] = site.xpath('@href').extract()
-            if (len(item['URL_Datei'])>0): item['URL_Datei'] = item['URL_Datei'][0].encode('utf-8')
-            item['Stadt_URL'] = self.domain
-            item['URL_Text'] = site.xpath('text()').extract()
-            #TODO? Grab other stuff in side the A like image alt text
-            if (len(item['URL_Text'])>0): item['URL_Text'] = item['URL_Text'][0].encode('utf-8')
-            item['URL_Dateiname'] = str(item['URL_Datei']).split('/')[-1]
-            if (len(item['URL_Dateiname'])>0): item['URL_Dateiname'] = item['URL_Dateiname'].encode('utf-8')
-            item['Format'] = 'Not interesting'
-            item['geo'] = ''
+            
+            item['URL_Datei'] = unicode('', 'utf-8')
+            url_file = site.xpath('@href').extract()
+            if (len(url_file)>0):
+                item['URL_Datei'] = url_file[0]
+            
+            item['Stadt_URL'] = unicode(self.domain, 'utf-8')
+            
+            #Get ALL text of everything inside the link
+            #First any sub-elements like <span>
+            textbits = site.xpath('child::node()')
+            item['URL_Text'] = unicode('', 'utf-8')
+            for text in textbits:
+                thetext = text.xpath('text()').extract()
+                if (len(thetext) > 0): item['URL_Text'] += thetext[0]
+            #Then the actual text
+            directText = site.xpath('text()').extract()
+            #If there's something there and it isn't a repetition, use it
+            if (len(directText) > 0) and (directText != thetext):
+                item['URL_Text'] += directText[0]
+            #TODO: Grab other stuff in side the A like image alt text/title...?
+            
+            item['URL_Dateiname'] = unicode(item['URL_Datei']).split('/')[-1]
+            item['Format'] = u'Not interesting'
+            item['geo'] = u''
             item['URL_PARENT'] = parent_url
             item['Title_PARENT'] = parent_title
+            
+            #Is it a file (does it have any of the extensions (including the '.' in the filename,
+            #then remove the '.' 
             for ext in self.filetypes:
-               if ext in str(item['URL_Datei']).upper():
+               if ext in item['URL_Datei'].encode('ascii', errors='ignore').upper():
                    item['Format'] = ext[1:len(ext)]
                    self.writerdata.writerow(item)
+                   #And is it one of our special geo filetypes?
                    if ext in self.geofiletypes:
                        item['geo'] = 'x'
             self.writer.writerow(item) 
