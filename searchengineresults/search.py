@@ -5,7 +5,7 @@ import unicodecsv
 
 from census.bing_search_api import BingSearchAPI 
 
-def find_data(site, filetypes=('csv', 'xls', 'xlsx', 'json', 'shp', 'kml', 'kmz', 'rdf', 'zip')):
+def find_data(site, filetypes=('csv', 'xls', 'xlsx', 'json', 'rdf', 'zip', 'geojson', 'gml', 'gpx', 'gjson', 'tiff', 'shp', 'kml', 'kmz', 'wms', 'wfs')):
     query = ' OR '.join(['ext:%s' % f for f in filetypes])
     query = 'domain:%s AND (%s)' % (site, query)
 
@@ -35,7 +35,7 @@ def find_data(site, filetypes=('csv', 'xls', 'xlsx', 'json', 'shp', 'kml', 'kmz'
             break;
         
         if newresults[0]['Url'] == firstUrl:
-            print "Breaking after " + str(count) + "pages"
+            print "Breaking after " + str(count) + " pages"
             break;
         
         #Once repetitions 
@@ -50,7 +50,7 @@ def find_data(site, filetypes=('csv', 'xls', 'xlsx', 'json', 'shp', 'kml', 'kmz'
         'URL': l['Url'],
         'Title': l['Title'],
         'Description': l['Description'],
-        'Format': l['Url'].split('.')[-1].upper()
+        'Format': l['Url'].split('.')[-1].upper(),
         'URL_Dateiname': l['Url'].split('/')[-1]
     } for l in results]
     
@@ -69,7 +69,7 @@ def main():
             print "Searching " + row[6]
             urls.extend(find_data(row[6]))
     
-    fields = ('Stadt', 'URL', 'Title', 'Description', 'Format')
+    fields = ('Stadt', 'URL', 'Title', 'Description', 'Format', 'URL_Dateiname')
     writer = unicodecsv.DictWriter(open(fileout, "wb"), fields)
     writer.writeheader()
     print "Writing " + str(len(urls)) + "urls"
