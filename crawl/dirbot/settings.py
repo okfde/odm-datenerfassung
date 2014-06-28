@@ -8,4 +8,5 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
-
+ROBOTSTXT_BLACKLIST = ('bildung.koeln', 'anwendungen.bielefeld')
+ROBOTSTXT_WHITELIST = ('/wahlen')

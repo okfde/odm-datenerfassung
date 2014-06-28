@@ -19,6 +19,8 @@ class RobotsTxtMiddleware(object):
         if not crawler.settings.getbool('ROBOTSTXT_OBEY'):
             raise NotConfigured
 
+        self.blacklist = crawler.settings.get('ROBOTSTXT_BLACKLIST', ())
+        self.whitelist = crawler.settings.get('ROBOTSTXT_WHITELIST', ())
         self.crawler = crawler
         self._useragent = crawler.settings.get('USER_AGENT')
         self._parsers = {}
@@ -31,7 +33,12 @@ class RobotsTxtMiddleware(object):
 
     def process_request(self, request, spider):
         useragent = self._useragent
-        if self.robots and not self.robots.allowed(request.url, useragent):
+        #Blacklist overrides whitelist and robots
+        if any(bl in request.url for bl in self.blacklist):
+            log.msg(format="Forbidden by blacklist: %(request)s",
+                    level=log.DEBUG, request=request)
+            raise IgnoreRequest
+        if not any(wl in request.url for wl in self.whitelist) and self.robots and not self.robots.allowed(request.url, useragent):
             log.msg(format="Forbidden by robots.txt: %(request)s",
                     level=log.DEBUG, request=request)
             raise IgnoreRequest
