@@ -8,5 +8,12 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
-ROBOTSTXT_BLACKLIST = ('bildung.koeln', 'anwendungen.bielefeld')
+ROBOTSTXT_BLACKLIST = ('immobilien.koeln', 'stadtplan.html', 'veranstaltungen/kalender', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld')
 ROBOTSTXT_WHITELIST = ('/wahlen')
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 3.0
+AUTOTHROTTLE_DEBUG = True
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
+USER_AGENT = "Open_Data_Crawler/0.1 (+http://open-data-map.de)"
