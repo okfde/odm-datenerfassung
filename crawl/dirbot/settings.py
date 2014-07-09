@@ -8,7 +8,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
-ROBOTSTXT_BLACKLIST = ('immobilien.koeln', 'stadtplan.html', 'veranstaltungen/kalender', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld')
+ROBOTSTXT_BLACKLIST = ('search', 'suche', 'dataset?f', 'branchen', 'mobil.koeln.de', 'flag_content', 'comment', 'immobilien.koeln', 'stadtfuehrungen', 'stadtplan.html', 'veranstaltungen/kalender', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld')
 ROBOTSTXT_WHITELIST = ('/wahlen')
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 3.0

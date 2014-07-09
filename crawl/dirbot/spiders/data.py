@@ -42,6 +42,39 @@ class DataSpider(CrawlSpider):
 
 
     def parse_page(self, response):
+        for ext in self.filetypes:
+            if (ext[1:] in response.headers['Content-Type'].upper() or ('Content-Disposition' in response.headers and ext in response.headers['Content-Disposition'].upper())):
+                print "Detected a downloadable, generated file"
+                item = Website()
+            
+                item['URL_Datei'] = response.url
+                item['Stadt_URL'] = unicode(self.domain, 'utf-8')
+                #Not applicable
+                item['URL_Text'] = unicode('', 'utf-8')
+                if ('Content-Disposition' in response.headers):
+                    item['URL_Dateiname'] = response.headers['Content-Disposition']
+                else:
+                    item['URL_Dateiname'] = unicode(item['URL_Datei']).split('/')[-1]
+                item['Format'] = ext[1:]
+                #if we just have e.g. "json" and we are dealing with DKAN, then we are probably dealing with an API item description and not a file
+                if (item['URL_Dateiname'].upper() == item['Format']) and 'node' in item['URL_Datei']:
+                    return []
+                if (ext in self.geofiletypes):
+                    item['geo'] = 'x'
+                else:
+                    item['geo'] = u''
+                item['URL_PARENT'] = u'Nicht moeglich kann aber nachtraeglich ermittelt werden'
+                item['Title_PARENT'] = u'Nicht moeglich kann aber nachtraeglich ermittelt werden'
+                self.writerdata.writerow(item)
+                #Done
+                return []
+        
+        if ('Content-Type' in response.headers and 'text/html' not in response.headers['Content-Type']):
+            print "Not HTML or anything else of interest, giving up"
+            print response.headers
+            return []        
+
+        #Otherwise, its html and we process all links on the page
         sel = Selector(response)
         
         #Title of the page we are on (this will be the 'parent')
