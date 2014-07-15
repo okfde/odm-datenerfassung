@@ -44,7 +44,9 @@ for package in groups['results']:
         
     for column in columns:
         row.append(package[column])
-        
+
+    if row[columns.index('url') + 1] == '':
+        row[columns.index('url') + 1] = 'http://www.opendata-hro.de/dataset/' + row[columns.index('id') + 1]    
     datawriter.writerow(row)
 
 csvoutfile.close();
