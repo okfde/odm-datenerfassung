@@ -10,7 +10,7 @@ datawriter = csv.writer(csvoutfile, delimiter=',')
 columns = ['title', 'name', 'notes', 'id', 'url', 'author', 'author_email', 'maintainer', 'maintainer_email', 'metadata_created', 'metadata_modified', 'capacity', 'state',  'version', 'license_id']
 
 row = []
-row.append('format');
+row.extend(['format', 'geo']);
 
 for column in columns:
     row.append(column);
@@ -25,26 +25,28 @@ for package in groups['results']:
     row = []
     
     #Get resource formats
-    if (package['res_format'] != None and len(package['res_format']) > 0):
-        geo = False
+    if ('res_format' in package and len(package['res_format']) > 0):
+        geo = ''
         text = ""
         formats = []
         for format in package['res_format']:
-            if (format not in formats):
-                formats.append(format)
-                if (format.upper in geoformats):
-                    geo = True
+            if (format.upper() not in formats):
+                formats.append(format.upper())
+                if (format.upper() in geoformats):
+                    geo = 'x'
         
         for format in formats:
             text += (format + ',')
             
         #get rid of last comma
         text = text[:len(text)-1]
-        row.append(text)
+        row.extend([text, geo])
         
     for column in columns:
         row.append(package[column])
-        
+
+    if row[columns.index('url') + 2] == '':
+        row[columns.index('url') + 2] = 'http://www.opendata-hro.de/dataset/' + row[columns.index('id') + 2]    
     datawriter.writerow(row)
 
 csvoutfile.close();
