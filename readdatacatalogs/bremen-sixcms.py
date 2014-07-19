@@ -14,7 +14,7 @@ row = []
 for column in columns:
     row.append(column);
     
-row.extend(['format', 'geo', 'ansprechpartner', 'ansprechpartner_email', 'erstellt', 'aktualisiert', 'veroeffentlicht', 'licence_id', 'attribution_text'])
+row.extend(['format', 'geo', 'groups', 'tags', 'ansprechpartner', 'ansprechpartner_email', 'erstellt', 'aktualisiert', 'veroeffentlicht', 'licence_id', 'attribution_text'])
 
 extras = ['temporal_coverage_from', 'temporal_coverage_to', 'temporal_granularity', 'metadata_original', 'metadata_original_portal', 'ogdd_version']
 
@@ -49,7 +49,24 @@ for package in packages:
         #get rid of last comma
         text = text[:len(text)-1]
         row.extend([text, geo])
-        
+    
+    groups = u''
+    tags = u''
+
+    if ('groups' in package and len(package['groups']) > 0):
+        for group in package['groups']:
+            groups += (group + ',')
+        #get rid of last comma
+        groups = groups[:len(groups)-1]
+        row.append(groups)
+
+    if ('tags' in package and len(package['tags']) > 0):
+        for tag in package['tags']:
+            tags += (tag + ',')
+        #get rid of last comma
+        tags = tags[:len(tags)-1]
+        row.append(tags)
+
     ansprechpartner = u''
     ansprechpartner_email = u''
     

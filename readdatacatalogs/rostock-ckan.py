@@ -10,7 +10,9 @@ datawriter = csv.writer(csvoutfile, delimiter=',')
 columns = ['title', 'name', 'notes', 'id', 'url', 'author', 'author_email', 'maintainer', 'maintainer_email', 'metadata_created', 'metadata_modified', 'capacity', 'state',  'version', 'license_id']
 
 row = []
-row.extend(['format', 'geo']);
+extraitems = ['format', 'geo', 'groups', 'tags']
+row.extend(extraitems);
+columnsoffset = len(extraitems)
 
 for column in columns:
     row.append(column);
@@ -19,9 +21,9 @@ datawriter.writerow(row)
 
 jsonurl = urllib.urlopen("http://www.opendata-hro.de/api/2/search/dataset?q=&limit=1000&all_fields=1")
 
-groups = json.loads(jsonurl.read())
+data = json.loads(jsonurl.read())
 
-for package in groups['results']:
+for package in data['results']:
     row = []
     
     #Get resource formats
@@ -42,11 +44,29 @@ for package in groups['results']:
         text = text[:len(text)-1]
         row.extend([text, geo])
         
+    groups = u''
+    tags = u''
+
+    if ('groups' in package and len(package['groups']) > 0):
+        for group in package['groups']:
+            groups += (group + ',')
+        #get rid of last comma
+        groups = groups[:len(groups)-1]
+        row.append(groups)
+
+    if ('tags' in package and len(package['tags']) > 0):
+        for tag in package['tags']:
+            tags += (tag + ',')
+        #get rid of last comma
+        tags = tags[:len(tags)-1]
+        row.append(tags)
+
+
     for column in columns:
         row.append(package[column])
 
-    if row[columns.index('url') + 2] == '':
-        row[columns.index('url') + 2] = 'http://www.opendata-hro.de/dataset/' + row[columns.index('id') + 2]    
+    if row[columns.index('url') + columnsoffset] == '':
+        row[columns.index('url') + columnsoffset] = 'http://www.opendata-hro.de/dataset/' + row[columns.index('id') + columnsoffset]    
     datawriter.writerow(row)
 
 csvoutfile.close();
