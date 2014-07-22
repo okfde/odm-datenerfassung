@@ -28,5 +28,5 @@ for package in groups:
         row.append(package[column])
     datawriter.writerow(row)
 
-csvoutfile.close();
+csvoutfile.close()
 
