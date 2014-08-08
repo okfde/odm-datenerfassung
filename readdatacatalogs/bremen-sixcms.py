@@ -4,6 +4,8 @@ import sys
 
 geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS')
 
+allfilenameurls = []
+
 csvoutfile = open(sys.argv[1], 'wb')
 datawriter = csv.writer(csvoutfile, delimiter=',')
 
@@ -28,7 +30,7 @@ packages = json.loads(jsonurl.read())
 
 for package in packages:
     row = []
-    
+
     for column in columns:
         row.append(package[column])
     
@@ -38,6 +40,9 @@ for package in packages:
         text = ""
         formats = []
         for resource in package['resources']:
+            urlrow = []
+            urlrow.append(resource['url'])
+            allfilenameurls.append(urlrow)
             if (resource['format'] not in formats):
                 formats.append(resource['format'].upper())
                 if (resource['format'].upper() in geoformats):
@@ -107,5 +112,13 @@ for package in packages:
     
     datawriter.writerow(row)
 
-csvoutfile.close();
+csvoutfile.close()
+
+#To enable comparison with the crawler/search results, we make a listing of actual files
+csvoutfile = open(sys.argv[1] + '.urlsonly', 'wb')
+datawriter = csv.writer(csvoutfile, delimiter=',')
+for urlentry in allfilenameurls:
+    datawriter.writerow(urlentry)
+csvoutfile.close()
+
 

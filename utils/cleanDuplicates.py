@@ -16,7 +16,7 @@ with open(sys.argv[1], 'rb') as csvfile:
     for row in cityreader:
         cityurl = row[0]
         if cityurl not in cities:
-            cities[cityurl] = []
+            cities[cityurl] = dict()
             
 csvfile.close()
     
@@ -32,18 +32,21 @@ with open(sys.argv[1], 'rb') as csvfile:
 
         print "Searching for " + searchurl
 
-        for outrow in cities[cityurl]:
-            outurl = outrow[1]
-            if searchurl == outurl:
+        #Prioritize records with all data
+        #In general this shouldn't happen, as the file is downloaded
+        #after the link is found
+        if searchurl in cities[cityurl]:
+            if ('ermittelt' in cities[cityurl][searchurl][6]) and ('ermittelt' not in inrow[6]):
+                cities[cityurl][searchurl] = inrow
+                print "Replacing row"
+            else:
                 print "Row is already there: duplicate"
-                found = True
-                break
-        if not found:
+        else:
             print "Appending as unique entry"
-            cities[cityurl].append(inrow)
+            cities[cityurl][searchurl] = inrow
 
 for city in cities.values():
-    for outputrow in city:
+    for outputrow in city.values():
         citywriter.writerow(outputrow)
 
 csvfile.close();

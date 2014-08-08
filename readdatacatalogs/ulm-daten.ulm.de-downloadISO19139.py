@@ -18,6 +18,9 @@ giantxml = []
 
 dataCount = -1
 
+#Output the list of files for analysis
+csv_file = codecs.open('files.csv', 'w', 'utf-8')
+
 while True:
     if dataCount == 0:
         print u'INFO: Search page contained no results, stopping.'
@@ -45,6 +48,8 @@ while True:
         
         if ('/daten/' in dataurl) or ('/datenkatalog/' in dataurl):
             dataCount += 1
+            #Not all data records contain actual files; geo services have a download form
+            filenameFound = False
             #It would be nice if this gave us the node id, and then we could just
             #call the XML link directly. But its an alias, so to find the actual node
             #id/link for XML (which doesn't work with aliases), we have to look at the page,
@@ -60,11 +65,18 @@ while True:
                 continue
                 
             links = datapage.xpath('//body//a')
+            
             for link in links:
                 if len(link.xpath('@href')) > 0:
                     linkurl =  link.xpath('@href')[0]
                 else:
                     continue
+                    
+                #Get files... they are not listed in the XML...!
+                #Seems that link files have a nice type attribute
+                if len(link.xpath('@type')) > 0:
+                    filenamefound = True
+                    csv_file.write(link.xpath('@href')[0] + '\n')
                     
                 if ('/iso19139/' in linkurl):
                     node = linkurl.split('/')[-1]
@@ -75,11 +87,17 @@ while True:
                     xml = unicode(response.read(), 'utf-8')
                     print xml
                     giantxml.append(xml)
+              
+            if not filenameFound:
+                #Create a fake filename
+                csv_file.write('/form-' + datapage.xpath('//body//h1')[0].text + '\n')
     
 print 'Done. Found ' + str(len(giantxml)) + ' files'
 finalstring = u'\n'.join([xml for xml in giantxml])
 #currently, the portal puts '&' in URLs... bad
 finalstring = finalstring.replace('&', '&amp;')
+
+csv_file.close()
 
 with codecs.open('output.xml', 'w', 'utf-8') as xml_file:
     #Needed for valid xml

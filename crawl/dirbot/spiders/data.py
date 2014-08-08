@@ -130,10 +130,11 @@ class DataSpider(CrawlSpider):
             for ext in self.filetypes:
                if ext in item['URL_Datei'].encode('ascii', errors='ignore').upper():
                    item['Format'] = ext[1:len(ext)]
-                   self.writerdata.writerow(item)
                    #And is it one of our special geo filetypes?
                    if ext in self.geofiletypes:
                        item['geo'] = 'x'
+                   self.writerdata.writerow(item)
+                   
             self.writer.writerow(item) 
             items.append(item)
 
