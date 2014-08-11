@@ -1,6 +1,5 @@
 import unicodecsv
 import urllib2
-import sys
 import codecs
 
 from lxml import html
@@ -19,7 +18,7 @@ giantxml = []
 dataCount = -1
 
 #Output the list of files for analysis
-csv_file = codecs.open('files.csv', 'w', 'utf-8')
+csv_file = codecs.open('../metadata/ulm/catalogfiles.csv', 'w', 'utf-8')
 
 while True:
     if dataCount == 0:
@@ -99,7 +98,7 @@ finalstring = finalstring.replace('&', '&amp;')
 
 csv_file.close()
 
-with codecs.open('output.xml', 'w', 'utf-8') as xml_file:
+with codecs.open('../metadata/ulm/catalog.xml', 'w', 'utf-8') as xml_file:
     #Needed for valid xml
     xml_file.write(u'<xml>\n')
     xml_file.write(finalstring)

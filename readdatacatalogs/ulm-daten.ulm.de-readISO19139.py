@@ -1,6 +1,5 @@
 import unicodecsv as csv
 import urllib2
-import sys
 
 from lxml import objectify
 
@@ -34,7 +33,7 @@ def decrypt_role(role):
 #Geographic file types
 geofiletypes = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
 
-with open(sys.argv[1], 'r') as xml_file:
+with open('../metadata/ulm/catalog.xml', 'r') as xml_file:
     finalstring = xml_file.read()
 
 #delete later (moved to downloader)
@@ -240,7 +239,7 @@ for record in records:
 print 'There are ' + str(len(categorizations)) + ' categorization schemes: \n' + str(categorizations)
 
 #Write out the data
-with (open(sys.argv[2], 'wb')) as csvoutfile:
+with (open('../metadata/ulm/catalog.csv', 'wb')) as csvoutfile:
     datawriter = csv.writer(csvoutfile, delimiter=',')
 
     columns = ['title', 'abstract', 'url'] 
