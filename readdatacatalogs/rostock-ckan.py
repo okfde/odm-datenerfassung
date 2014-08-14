@@ -7,6 +7,9 @@ geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WM
 csvoutfile = open(sys.argv[1], 'wb')
 datawriter = csv.writer(csvoutfile, delimiter=',')
 
+csvfilesoutfile = open(sys.argv[1]+'.files', 'wb')
+filesdatawriter = csv.writer(csvfilesoutfile, delimiter=',')
+
 columns = ['title', 'name', 'notes', 'id', 'url', 'author', 'author_email', 'maintainer', 'maintainer_email', 'metadata_created', 'metadata_modified', 'capacity', 'state',  'version', 'license_id']
 
 row = []
@@ -25,6 +28,14 @@ data = json.loads(jsonurl.read())
 
 for package in data['results']:
     row = []
+    
+    #All files, for analysis
+    dict_string = package['data_dict']
+    json_dict = json.loads(dict_string)
+    for resource in json_dict['resources']:
+        frow = []
+        frow.append(resource['url'])
+        filesdatawriter.writerow(frow)
     
     #Get resource formats
     if ('res_format' in package and len(package['res_format']) > 0):
