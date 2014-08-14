@@ -7,9 +7,22 @@ if sys.argv[1] == "koeln":
     url = "http://offenedaten-koeln.de"
 elif sys.argv[1] == "bonn":
     url = "http://opendata.bonn.de"
+elif sys.argv[1] == "hamburg":
+    url = "http://opendata.hamburg.de"
 
-jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
-groups = json.loads(jsonurl.read())
+if sys.argv[1] == "hamburg":
+    jsonurl = urllib.urlopen(url + "/api/3/action/package_list?limit=10000")
+    listpackages = json.loads(jsonurl.read())
+    listpackages = listpackages['result']
+    groups = []
+    for item in listpackages:
+        print 'Downloading dataset ' + item
+        purl = urllib.urlopen(url + "/api/3/action/package_show?id=" + item)
+        pdata = json.loads(purl.read())
+        groups.append(pdata['result'])
+else:
+    jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
+    groups = json.loads(jsonurl.read())
 
 csvoutfile = open(sys.argv[2]+'.csv', 'wb')
 datawriter = csv.writer(csvoutfile, delimiter=',')
