@@ -4,6 +4,15 @@ import json
 import codecs
 import unicodecsv as csv
 
+def getgroupofelements(target, item):
+    returnstring = ''
+    if target in item:
+        for part in item[target]:
+            returnstring += part + ','
+            #Get rid of last commas
+            returnstring = returnstring[0:len(returnstring)-1]
+    return returnstring
+
 def createwholelcwords(words):
     return words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower()
     
@@ -122,7 +131,7 @@ print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) +
 
 print 'Writing CSV file...'
 
-columns = ['city', 'matched_on', 'title', 'notes', 'tags', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'license', 'isopen', 'metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created']
+columns = ['city', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'metadata_original_portal', 'license', 'isopen']
 inextras = ('metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created')
 with open(sys.argv[3], 'wb') as csvoutfile:
     datawriter = csv.writer(csvoutfile, delimiter=',')
@@ -144,13 +153,8 @@ with open(sys.argv[3], 'wb') as csvoutfile:
                 row.append(foundCities[count])
             elif column == 'matched_on':
                 row.append(matches[count])
-            elif column == 'tags':
-                tagstring = ''
-                for tag in item['tags']:
-                    tagstring += tag + ','
-                #Get rid of last commas
-                tagstring = tagstring[0:len(tagstring)-1]
-                row.append(tagstring)
+            elif column == 'groups' or column == 'tags':
+                row.append(getgroupofelements(column))
             elif column == 'url':
                 row.append('https://www.govdata.de/daten/-/details/' + item['id'])
             elif column == 'format':
