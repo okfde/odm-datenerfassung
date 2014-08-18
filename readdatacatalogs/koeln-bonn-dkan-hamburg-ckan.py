@@ -1,36 +1,35 @@
+# -*- coding: utf-8 -*-
 import urllib, json
 import unicodecsv as csv
 import sys
 
 import metautils
 
-def dequotejson(stringvalue):
-    cleanvalue = stringvalue.replace('\\', '')
-    cleanvalue = cleanvalue[1:len(cleanvalue)-1]
-    return cleanvalue
-    
-actualcategories = []
-
 url = ""
-if sys.argv[1] == "koeln":
-    url = "http://offenedaten-koeln.de"
-elif sys.argv[1] == "bonn":
-    url = "http://opendata.bonn.de"
-elif sys.argv[1] == "hamburg":
-    url = "http://opendata.hamburg.de"
+cityname = sys.argv[1]
 
-if sys.argv[1] == "hamburg":
+if cityname == "koeln":
+    url = "http://offenedaten-koeln.de"
+elif cityname == "bonn":
+    url = "http://opendata.bonn.de"
+elif cityname == "hamburg":
+    url = "http://opendata.hamburg.de"
+else:
+    print 'First argument must be an city; unsupported city'
+    exit()
+
+if cityname == "hamburg":
     jsonurl = urllib.urlopen(url + "/api/3/action/package_list?limit=10000")
     if len(sys.argv) > 3:
         print 'Loading from file...'
         jsonurl = open(sys.argv[3], 'rb')
     listpackages = json.loads(jsonurl.read())
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         listpackages = listpackages['result']
     if len(sys.argv) > 3:
         jsonurl.close()
     groups = []
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         for item in listpackages:
             print 'Downloading dataset ' + item
             purl = urllib.urlopen(url + "/api/3/action/package_show?id=" + item)
@@ -42,105 +41,92 @@ else:
     jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     groups = json.loads(jsonurl.read())
 
-#It takes a long time to gather the Hamburg data... save it
-if sys.argv[1] == "hamburg":
+#It takes a long time to gather the Hamburg data... save it if we downloaded it
+if cityname == "hamburg" and len(sys.argv) < 4:
     with open('hamburgdump.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
-csvoutfile = open(sys.argv[2]+'.csv', 'wb')
-datawriter = csv.writer(csvoutfile, delimiter=',')
-csv_files = open(sys.argv[2]+'.files.csv', 'wb')
-csv_files_writer = csv.writer(csv_files, delimiter=',')
-
-if sys.argv[1] != "hamburg":
-    columns = [ 'title', 'description', 'notes', 'keyword', 'modified', 'publisher', 'person', 'mbox', 'identifier', 'accessLevel', 'accessURL', 'webService', 'license', 'spatial', 'temporal', 'language', 'granularity']
-    inextras = []
-else:
-    columns = ['id', 'name', 'notes', 'title', 'tags', 'groups', 'isopen', 'url', 'license_id', 'license_title', 'maintainer', 'metadata_created', 'metadata_modified', 'author', 'state', 'version', 'type']
-    inextras = ['geographical_granularity', 'metadata_original_portal', 'metadata_original_xml', 'ogd_version', 'sector', 'spatial-text', 'subgroups']
-
-    possibledates = []
-
-    #Simplification!
-    if sys.argv[1] == "hamburg":
-        for hitem in groups:
-            simplifiedextras = dict()
-            for extra in hitem['extras']:
-                if extra['key'] == 'dates':
-                    cleanvalue = dequotejson(extra['value'])
-                    jsondate = json.loads(cleanvalue)
-                    if jsondate[0]['role'] not in possibledates:
-                        possibledates.append(jsondate[0]['role'])
-                    simplifiedextras[jsondate[0]['role']] = jsondate[0]['date']
-                elif extra['key'] == 'subgroups':
-                    cleanvalue = dequotejson(extra['value'])
-                    arrayofgroups = json.loads(cleanvalue)
-                    simplifiedextras['subgroups'] = metautils.arraytocsv(arrayofgroups)
-                else:
-                    simplifiedextras[extra['key']] = extra['value'].replace('"', '')
-            hitem['extras'] = simplifiedextras
-                
-    inextras.extend(possibledates)
-    columns.extend(inextras)
-                
 row = []
-for column in columns:
+for column in metautils.getTargetColumns():
     row.append(column);
 
-datawriter.writerow(row)
+csvoutfile = open(sys.argv[2]+'.csv', 'wb')
+datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')
+csv_files = open(sys.argv[2]+'.files.csv', 'wb')
+csv_files_writer = csv.writer(csv_files, delimiter=',')
+            
+datawriter.writeheader()
 
 for package in groups:
     filefound = False
     
     resources = []
-    thekey = 'url'
+    formatarray = []
+    urlkey = 'url'
+    formatkey = 'format'
     
-    if sys.argv[1] != "hamburg":
+    if cityname != "hamburg":
         fulljsonurl = urllib.urlopen(package['webService'])
         fulldata = json.loads(fulljsonurl.read())
-        thekey = 'file_url'
+        urlkey = 'file_url'
         if ('resources' in fulldata):
             resources = fulldata['resources']
     else:
         if ('resources' in package):
             resources = package['resources']
     
+    #TODO: Formats for dkan
     for file in resources:
-        if (file[thekey] != ''):
+        if (file[urlkey] != ''):
             filefound = True
             filerow = []
-            filerow.append(file[thekey])
+            filerow.append(file[urlkey])
             csv_files_writer.writerow(filerow)
+            if cityname == "hamburg":
+                format = file[formatkey]
+                if format not in formatarray:
+                    formatarray.append(format)
     
     if not filefound:
         filerow = []
         #Fake file for analysis
         filerow.append('/' + package['identifier'])
         csv_files_writer.writerow(filerow)
-
-    row = []
-    for column in columns:
-        if column == 'tags':
-            row.append(metautils.setofvaluesascsv(package['tags'], 'display_name'))
-        elif column == 'groups':
-            row.append(metautils.setofvaluesascsv(package['groups'], 'title'))
-            arrayofcats = metautils.setofvaluesasarray(package['groups'], 'title')
-            for part in arrayofcats:
-                if part not in actualcategories:
-                    actualcategories.append(part)
-        elif column in inextras:
-            if column in package['extras']:
-                row.append(package['extras'][column])
-            else:
-                row.append('')
-        elif column in package:
-            row.append(package[column])
+    
+    row = dict()
+    row[u'Quelle'] = 'd'
+    row[u'Stadt'] = cityname + '.de'
+    row[u'Dateibezeichnung'] = package['title']
+    row[u'Format'] = metautils.arraytocsv(formatarray)
+    row[u'Kosten'] = ''
+    row = metautils.setBlankCategories(row)
+    
+    if cityname == 'hamburg':
+        if 'url' in package:
+            row[u'URL Datei'] = package['url']
         else:
-            row.append('')
+            row[u'URL Datei'] = ''
+        if 'notes' in package:
+            row[u'Beschreibung'] = package['notes']
+        else:
+            row[u'Beschreibung'] = ''
+        row[u'Zeitlicher Bezug'] = ''
+        row[u'Lizenz'] = package['license_id']
+        row[u'Veröffentlichende Stelle'] = package['author']
+        for group in metautils.setofvaluesasarray(package['groups'], 'title'):
+            odm_cats = metautils.govDataLongToODM(group)
+            if len(odm_cats) > 0:
+                for cat in odm_cats:
+                    row[cat] = 'x'
+            row[u'Noch nicht kategorisiert'] = ''       
+    else:
+        row[u'URL Datei'] = package['accessURL']
+        row[u'Beschreibung'] = package['description']
+        row[u'Zeitlicher Bezug'] = package['granularity']
+        row[u'Lizenz'] = package['license']
+        row[u'Veröffentlichende Stelle'] = package['publisher']
+
     datawriter.writerow(row)
 
 csvoutfile.close()
 csv_files.close()
-
-print 'Final list of categories: ' + metautils.arraytocsv(actualcategories)
-
