@@ -4,14 +4,7 @@ import json
 import codecs
 import unicodecsv as csv
 
-def getgroupofelements(target, item):
-    returnstring = ''
-    if target in item:
-        for part in item[target]:
-            returnstring += part + ','
-            #Get rid of last commas
-            returnstring = returnstring[0:len(returnstring)-1]
-    return returnstring
+import metautils
 
 def createwholelcwords(words):
     return words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower()
@@ -24,14 +17,25 @@ def testnospacematch(cityname, searchtext):
             not ('poststelle' in searchtext.lower() and cityname == 'stelle') and 
             cityname in searchtext.lower())
 
-#This word comes up a lot
-reallysillycities = ('stelle')
+#These words comes up a lot... they will only be matched against tags
+reallysillycities = ('stelle', 'ohne')
 
 geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
+
+
+actualcategories = []
 
 if (len(sys.argv)<4):
     print 'Usage: datagov-ckan-getDataFromSettlements inputListOfCities.csv datagovJSONDump.json outputFile.csv'
     exit()
+
+excludes = []
+
+if (len(sys.argv)>4):
+    excludes = sys.argv[4].split(',')
+    print 'Excluding following portals:'
+    for portal in excludes:
+        print portal
 
 with open(sys.argv[1], 'rb') as csvfile:
     cityreader = csv.reader(csvfile, delimiter=',')
@@ -107,7 +111,7 @@ with open(sys.argv[2], 'rb') as jsonfile:
                     foundcity = city[1]
                     matchedon = 'notes'
                     break
-        #For this, we allow stelle, as stelle as a single tag would be silly
+        #For this, we allow the silly cities, as we would not expect to find them as a single tag
         if ((not founditem) and 'tags' in item and len(item['tags']) != 0):
             for city in cities:
                 if (founditem):
@@ -131,8 +135,13 @@ print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) +
 
 print 'Writing CSV file...'
 
-columns = ['city', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'metadata_original_portal', 'license', 'isopen']
+columns = ['city', 'matched_on', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'license', 'isopen']
 inextras = ('metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created')
+columns.extend(inextras)
+
+mopIndex = columns.index('metadata_original_portal')
+excludecount = 0
+
 with open(sys.argv[3], 'wb') as csvoutfile:
     datawriter = csv.writer(csvoutfile, delimiter=',')
 
@@ -142,7 +151,7 @@ with open(sys.argv[3], 'wb') as csvoutfile:
 
     datawriter.writerow(row)
 
-    count = -1;
+    count = -1
 
     for item in foundItems:
         count += 1
@@ -154,7 +163,11 @@ with open(sys.argv[3], 'wb') as csvoutfile:
             elif column == 'matched_on':
                 row.append(matches[count])
             elif column == 'groups' or column == 'tags':
-                row.append(getgroupofelements(column))
+                row.append(metautils.getgroupofelements(column, item))
+                if column == 'groups':
+                    for part in item[column]:
+                        if part not in actualcategories:
+                            actualcategories.append(part)
             elif column == 'url':
                 row.append('https://www.govdata.de/daten/-/details/' + item['id'])
             elif column == 'format':
@@ -172,6 +185,19 @@ with open(sys.argv[3], 'wb') as csvoutfile:
             elif column in inextras:
                 if column in item['extras']:
                     row.append(item['extras'][column])
-            else:
+                else:
+                    row.append('')
+            elif column in item:
                 row.append(item[column])
-        datawriter.writerow(row)
+            else:
+                row.append('')
+        print len(row)
+        print mopIndex
+        if not any(x in row[mopIndex] for x in excludes):
+            datawriter.writerow(row)
+        else:
+            print 'Not writing entry, in excludes list'
+            excludecount += 1
+
+print str(excludecount) + ' items excluded.'
+print 'Final list of categories: ' + metautils.arraytocsv(actualcategories)
