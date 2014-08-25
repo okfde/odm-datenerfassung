@@ -1,13 +1,41 @@
+# -*- coding: utf-8 -*-
 import sys
 import json
 import codecs
 import unicodecsv as csv
 
+import metautils
+
+def createwholelcwords(words):
+    return words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower()
+    
+def testnospacematch(cityname, searchtext):
+    #au is in bau, and haus and goodness knows what else
+    #stelle is in poststelle
+    sillycities = ('stein', 'au')
+    return (not any(x in cityname for x in sillycities) and 
+            not ('poststelle' in searchtext.lower() and cityname == 'stelle') and 
+            cityname in searchtext.lower())
+
+#These words comes up a lot... they will only be matched against tags
+reallysillycities = ('stelle', 'ohne')
+
 geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
+
+
+actualcategories = []
 
 if (len(sys.argv)<4):
     print 'Usage: datagov-ckan-getDataFromSettlements inputListOfCities.csv datagovJSONDump.json outputFile.csv'
     exit()
+
+excludes = []
+
+if (len(sys.argv)>4):
+    excludes = sys.argv[4].split(',')
+    print 'Excluding following portals:'
+    for portal in excludes:
+        print portal
 
 with open(sys.argv[1], 'rb') as csvfile:
     cityreader = csv.reader(csvfile, delimiter=',')
@@ -16,7 +44,16 @@ with open(sys.argv[1], 'rb') as csvfile:
     
     for row in cityreader:
         #First column is word to look for, second is original city name
-        cities.append(row)
+        germanchars = (u'ü',u'ä',u'ö',u'é',u'ß')
+        englishreplacements = ('ue', 'ae', 'oe', 'ee', 'ss')
+        newname = row[0].lower()
+        for x in range(0,len(germanchars)):
+            if germanchars[x] in row[0]:
+                newname = newname.replace(germanchars[x], englishreplacements[x])
+        cities.append([row[0].lower(), row[1]])
+        if newname != row[0].lower():
+            newrow = [newname, row[1]]
+            cities.append(newrow)
 
 with open(sys.argv[2], 'rb') as jsonfile:
     text = jsonfile.read()
@@ -24,39 +61,73 @@ with open(sys.argv[2], 'rb') as jsonfile:
     
     foundItems = []
     foundCities = []
- 
+    matches = []
+
     for item in data:
-        founditem = None
-        foundcities = []
+        founditem = False
+        foundcity = ''
+        matchedon = ''
         
         if ('maintainer' in item and item['maintainer'] != None):
+            searchtext = createwholelcwords(item['maintainer'])
             for city in cities:
-                if city[0] in item['maintainer']:
-                    foundItem = item
-                    #Note the city full name to show full basis of match
-                    if city[1] not in foundcities:
-                        foundcities.append(city[1])
-        if ('author' in item and item['author'] != None):
+                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
+                    print 'Found in maintainer: ' + city[0] + '\nin\n' + searchtext
+                    founditem = True
+                    foundcity = city[1]
+                    matchedon = 'maintainer'
+                    break
+        if ((not founditem) and 'author' in item and item['author'] != None):
+            searchtext = createwholelcwords(item['author'])
             for city in cities:
-                if city[0] in item['author']:
-                    foundItem = item
-                    if city[1] not in foundcities:
-                        foundcities.append(city[1])
-        if ('tags' in item and len(item['tags']) != 0):
+                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
+                    print 'Found in author: ' + city[0] + '\nin\n' + searchtext
+                    founditem = True
+                    foundcity = city[1]
+                    matchedon = 'author'
+                    break
+        if ((not founditem) and 'maintainer_email' in item and item['maintainer_email'] != None):
             for city in cities:
-                #TODO: convert umlauts etc to oe etc...?
+                if city[0] not in reallysillycities and testnospacematch(city[0], item['maintainer_email']):
+                    print 'Found in maintainer email: ' + city[0] + '\nin\n' + item['maintainer_email'].lower()
+                    founditem = True
+                    foundcity = city[1]
+                    matchedon = 'maintainer_email'
+                    break
+        if ((not founditem) and 'author_email' in item and item['author_email'] != None):
+            for city in cities:
+                if city[0] not in reallysillycities and testnospacematch(city[0], item['author_email']):
+                    print 'Found in author email: ' + city[0] + '\nin\n' + item['author_email'].lower()
+                    founditem = True
+                    foundcity = city[1]
+                    matchedon = 'author_email'
+                    break
+        if ((not founditem) and 'notes' in item and item['notes'] != None):
+            searchtext = createwholelcwords(item['notes'])
+            for city in cities:
+                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
+                    print 'Found in notes: ' + city[0] + '\nin\n' + searchtext
+                    founditem = True
+                    foundcity = city[1]
+                    matchedon = 'notes'
+                    break
+        #For this, we allow the silly cities, as we would not expect to find them as a single tag
+        if ((not founditem) and 'tags' in item and len(item['tags']) != 0):
+            for city in cities:
+                if (founditem):
+                    break 
                 for tag in item['tags']:
-                    if city[0].lower() in tag.lower():
-                        foundItem = item
-                        if city[1] not in foundcities:
-                            foundcities.append(city[1])
-        if foundItem != None:
+                    #Tag must be exact match
+                    if city[0] == tag.lower():
+                        print 'Matched tag: ' + city[0] + '\nin\n' + tag.lower()
+                        founditem = True
+                        foundcity = city[1]
+                        matchedon = 'tags'
+                        break
+        if founditem:
             foundItems.append(item)
-            citystring = ''
-            for city in foundcities:
-                citystring += '\"' + city + '\",'
-            citystring = citystring[0:len(citystring)-1]
-            foundCities.append(citystring)
+            foundCities.append(foundcity)
+            matches.append(matchedon)
 
 jsonfile.close()
 
@@ -64,7 +135,12 @@ print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) +
 
 print 'Writing CSV file...'
 
-columns = ['city', 'title', 'notes', 'tags', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'metadata_original_portal', 'license', 'isopen']
+columns = ['city', 'matched_on', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'license', 'isopen']
+inextras = ('metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created')
+columns.extend(inextras)
+
+mopIndex = columns.index('metadata_original_portal')
+excludecount = 0
 
 with open(sys.argv[3], 'wb') as csvoutfile:
     datawriter = csv.writer(csvoutfile, delimiter=',')
@@ -75,7 +151,7 @@ with open(sys.argv[3], 'wb') as csvoutfile:
 
     datawriter.writerow(row)
 
-    count = -1;
+    count = -1
 
     for item in foundItems:
         count += 1
@@ -84,13 +160,14 @@ with open(sys.argv[3], 'wb') as csvoutfile:
         for column in columns:
             if column == 'city':
                 row.append(foundCities[count])
-            elif column == 'tags':
-                tagstring = ''
-                for tag in item['tags']:
-                    tagstring += tag + ','
-                #Get rid of last commas
-                tagstring = tagstring[0:len(tagstring)-1]
-                row.append(tagstring)
+            elif column == 'matched_on':
+                row.append(matches[count])
+            elif column == 'groups' or column == 'tags':
+                row.append(metautils.getgroupofelements(column, item))
+                if column == 'groups':
+                    for part in item[column]:
+                        if part not in actualcategories:
+                            actualcategories.append(part)
             elif column == 'url':
                 row.append('https://www.govdata.de/daten/-/details/' + item['id'])
             elif column == 'format':
@@ -105,9 +182,22 @@ with open(sys.argv[3], 'wb') as csvoutfile:
                 row.append(formatstring)
             elif column == 'geo':
                 row.append(geo)
-            elif column == 'metadata_original_portal':
-                if 'metadata_original_portal' in item['extras']:
-                    row.append(item['extras']['metadata_original_portal'])
-            else:
+            elif column in inextras:
+                if column in item['extras']:
+                    row.append(item['extras'][column])
+                else:
+                    row.append('')
+            elif column in item:
                 row.append(item[column])
-        datawriter.writerow(row)
+            else:
+                row.append('')
+        print len(row)
+        print mopIndex
+        if not any(x in row[mopIndex] for x in excludes):
+            datawriter.writerow(row)
+        else:
+            print 'Not writing entry, in excludes list'
+            excludecount += 1
+
+print str(excludecount) + ' items excluded.'
+print 'Final list of categories: ' + metautils.arraytocsv(actualcategories)

@@ -57,9 +57,9 @@ if not nocatalog:
 print 'Downloading and reading Google and Bing and Crawl results'
 csvreader = csv.reader(googlebingcrawlcsvurl)
 firstRow = True
-googleresults = []
-bingresults = []
-crawlresults = []
+googleresults = dict()
+bingresults = dict()
+crawlresults = dict()
 for row in csvreader:
     #print row
     if (firstRow):
@@ -74,26 +74,26 @@ for row in csvreader:
     if source == 'g':
         if filename not in googleresults:
             print 'Adding ' + filename + ' to Google results.'
-            googleresults.append(filename)
+            googleresults[filename] = row
         else:
             print 'Warning: ' + filename + ' already in Google results. Not adding.'
     elif source == 'b':
         if filename not in bingresults:
             print 'Adding ' + filename + ' to Bing results.'
-            bingresults.append(filename)
+            bingresults[filename] = row
         else:
             print 'Warning: ' + filename + ' already in Bing results. Not adding.'
     elif source == 'c':
         if filename not in crawlresults:
             print 'Adding ' + filename + ' to Crawl results.'
-            crawlresults.append(filename)
+            crawlresults[filename] = row
         else:
             print 'Warning: ' + filename + ' already in Crawl results. Not adding.'
     else:
         print 'Not a valid entry type: ' + row[0]
         
 print 'Downloading and reading Catalog results'
-catalogresults = []
+catalogresults = dict()
 if not nocatalog:
 
     csvreader = csv.reader(catalogcsvurl)
@@ -106,7 +106,7 @@ if not nocatalog:
             filename = urllib.unquote(row[0].split('/')[-1])
         if filename not in catalogresults:
             print 'Adding ' + filename + ' to Catalog results.'
-            catalogresults.append(filename)
+            catalogresults[filename] = row
         else:
             print 'Warning: ' + filename + ' already in Catalog results. Not adding.'
 
@@ -119,7 +119,7 @@ alldata.append(catalogresults)
 uniquelist = []
 
 for dataset in alldata:
-    for filename in dataset:
+    for filename in dataset.keys():
         if filename not in uniquelist:
             uniquelist.append(filename)
             
@@ -138,10 +138,10 @@ print 'Catalog \'found\' ' + str(kfound) + ' of those'
 print 'For pasting: '
 print str(total) + '\t' + str(gfound) + '\t' + str(bfound) + '\t' + str(cfound) + '\t' + str(kfound)
 
-gset = set(googleresults)
-bset = set(bingresults)
-cset = set(crawlresults)
-kset = set(catalogresults)
+gset = set(googleresults.keys())
+bset = set(bingresults.keys())
+cset = set(crawlresults.keys())
+kset = set(catalogresults.keys())
 allset = set(uniquelist)
 
 intersection = gset.intersection(bset)
@@ -164,5 +164,10 @@ print 'Intersection of Crawler and Catalog: ' + str(len(intersection))
 printlist(intersection)
 difference = allset.difference(kset)
 print 'What the catalog doesn\'t contain (' + str(len(difference)) + '):'
-printlist(difference)
+for key in difference:
+    if key in googleresults: print googleresults[key][4]
+    elif key in bingresults: print bingresults[key][4]
+    elif key in crawlresults: print crawlresults[key][4]
+    else: print 'Serious error: item not in set not found in any other source!'
+    
 
