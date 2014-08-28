@@ -43,7 +43,7 @@ else:
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
 if cityname == "hamburg" and len(sys.argv) < 4:
-    with open('hamburgdump.json', 'wb') as outfile:
+    with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
 row = []

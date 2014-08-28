@@ -84,7 +84,6 @@ while True:
                     
                     response = urllib2.urlopen(xmlurl)
                     xml = unicode(response.read(), 'utf-8')
-                    print xml
                     giantxml.append(xml)
               
             if not filenameFound:
