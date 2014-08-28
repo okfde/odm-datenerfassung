@@ -75,11 +75,10 @@ with open(sys.argv[2], 'rb') as archive:
 
               for site in sites:
                   URL_Datei = unicode('', 'utf-8')
-                  url_file = u''
                   if len(site.xpath('@href')) > 0:
-                      url_file = site.xpath('@href')[0]
-                  if (len(url_file)>0):
-                      URL_Datei = url_file[0]
+                      URL_Datei  = site.xpath('@href')[0]
+                  else:
+                      continue
             
                   Stadt_URL = unicode(sys.argv[1], 'utf-8')
             
@@ -125,6 +124,7 @@ with open(sys.argv[2], 'rb') as archive:
             
                   #Is it a file (does it have any of the extensions (including the '.' in the filename,
                   #then remove the '.' 
+                  print 'Testing ' + URL_Datei.encode('ascii', errors='ignore').upper()
                   for ext in filetypes:
                      if ext in URL_Datei.encode('ascii', errors='ignore').upper():
                          Format = ext[1:len(ext)]
