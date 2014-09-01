@@ -62,6 +62,16 @@ Germany",m.draesner@ulm.de,07311616258,0731161806258,Point of Contact,Michael Dr
 Ulm
 89073
 Germany",m.draesner@ulm.de,07311616258,0731161806258,Point of Contact
+Automatisierte Liegenschaftskarte (ALK),"Die automatisiert geführte Liegenschaftskarte (ALK) bildet als bildlicher Teil zusammen mit dem ALB (Autom. Liegenschaftsbuch) das Liegenschaftskataster. In der Automatisierten Liegenschaftskarte finden sich folgende Inhalte wieder:   Beschriftung, Flur, Flurstück,    Gemarkung, Gebäude, Gebäudenutzung, Hausnummern der Gebäude, Nutzungsart / Tatsächliche Nutzung, Stadtkreis, Straßennamen. Das Amtliches Liegenschaftskatasterinformationssystem (ALKIS) wird Ende 2013in Ulm eingeführt werden. ",http://daten.ulm.de/daten/single/automatisierte-liegenschaftskarte-alk,"""Geographie, Geologie und Geobasisdaten""","""Geobasisdaten"",""Kataster Liegenschaftskataster""","""Flurstücke/Grundstücke (Katasterparzellen)""",,2014-09-1T00:00:00,publication,2014-09-01,mapDigital,ORACLE,,Es gelten die Gebührenregelungen von VGV/ME. ,keine,license,,asNeeded,asNeeded, planningCadastre,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Winfried Glaser,VGV/ME: Vermessung,Stadt Ulm,"Münchner Straße 2
+Ulm
+89073
+Germany",w.glaser@ulm.de,07311616256,0731161806256,Point of Contact,Winfried Glaser,VGV/ME: Vermessung,Stadt Ulm,"Münchner Straße 2
+Ulm
+89073
+Germany",w.glaser@ulm.de,07311616256,0731161806256,Point of Contact
 OpenStreetMap-WMS - Stil OWS terrestris,"Dieser WMS Dienst der Firma terrestris mit dem Originalnamen ""OWS-Terrestris"" stellt die vom OpenStreetMap-Projekt erhobenen Daten in einer aufgeräumten und übersichtlichen Weise dar. Der Dienst wird mit Hilfe von MapProxy beschleunigt, wöchentlich aktualisiert und deckt räumlich nicht nur für Deutschland sondern die ganze Welt ab. Die Stadt Ulm stellt den OWS-Terrestris-Dienst auf einem eigenen Server bereit. Es gibt den WMS-Dienst auch in Graustufen unter der URL: http://ows.terrestris.de/osm-gray/service?",http://daten.ulm.de/daten/single/openstreetmap-wms-stil-ows-terrestris,"""Geographie, Geologie und Geobasisdaten""","""Kartographie""","""Bodennutzung""","""infoMapAccessService""",2014-06-10T00:00:00,publication,2014-06-10,mapDigital,WMS,x,-,keine,license,,weekly,weekly,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
@@ -73,6 +83,16 @@ Ulm
 89073
 Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
 "map-it ""Mein Lieblingsplatz"" - Kartenviewer Stadt Ulm","In Ulm und Neu-Ulm gibt es viele schöne Orte, die man in der Freizeit noch entdecken kann. Eine map-it-Mitmachaktion im Ende Juni 2013 hat Bürger/innen mit Ihrer Ortskenntnis zum Mitmachen aufgerufen eine Internetkarte zu Lieblingsplätzen in und um Ulm zu erstellen. Abgefragt wurden Orte zum Relaxen, Orte mit besonders schöner Aussicht, Sehenswürdigkeiten und Ausgehtipps. ",http://daten.ulm.de/daten/single/map-it-mein-lieblingsplatz-kartenviewer-stadt-ulm,"""Kultur, Freizeit, Sport und Tourismus""","""Tourismus und Freizeit""","""Bodennutzung""",,2013-06-22T00:00:00 - 2013-07-5T00:00:00,publication,2013-09-25,mapDigital,Shape,x,,keine,license,,notPlanned,notPlanned,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
+"Sozialraumgrenzen Stadt Ulm, generalisiert","Dieser Datensatz enthält generalisierte Sozialraumgrenzen der Stadt Ulm. In Ulm gibt es 5 Sozialräume, die sich aus Stadtteilen zusammen setzen. Die Sozialräume heissen: Mitte/Ost, Böfingen, West, Eselsberg und Wiblingen  Diese Sozialgraumgrenzen sind insbesondere für die Erstellung thematischer Karten im DINA4 (Darstellungsmaßstab ca. 1:90.000) bzw. DINA3-Format geeignet. ",http://daten.ulm.de/daten/single/sozialraumgrenzen-stadt-ulm-generalisiert,"""Soziales""","""Raumordnung Landesplanung, Regionalplanung""","""Statistische Einheiten"",""Verwaltungseinheiten""",,2011-11-10T00:00:00,publication,2014-09-01,mapDigital,Shape,x,-,keine,license,,asNeeded,asNeeded,boundaries,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
 Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
@@ -114,6 +134,16 @@ Germany",s.layer@ulm.de,07311616112,0731161806112,Point of Contact,Steffen Layer
 Ulm
 89073
 Germany",s.layer@ulm.de,07311616112,0731161806112,Point of Contact
+stadtplaene.ulm.de - Kartenviewer für amtliche Stadtkarten der Stadt Ulm,"Die amtlichen Stadtkarten der Stadt Ulm werden in einer eigenen Kartenanwendung präsentiert. Präsentiert werden vor allem Karten des Sachgebietes Kartographie der Abteilung Vermessung der Stadt Ulm. Die meisten der unter stadtplaene.ulm.de bereit gestellten Karten gibt es auch als Papierkarten zu kaufen. Momentan sind die Amtlichen Stadtkarten, der Cityplan, die Stadtkarte für Menschen mit Behinderung und die Radkarte der Stadt Ulm online gestellt.",http://daten.ulm.de/daten/single/stadtplaeneulmde-kartenviewer-für-amtliche-stadtkarten-der-stadt-ulm,"""Geographie, Geologie und Geobasisdaten""","""Kartographie""","""Bodennutzung""",,2013-08-5T00:00:00,publication,2014-09-01,mapDigital,TIFF,x,Es fallen keine Gebühren für die Nutzung der Anwendung stadtplaene.ulm.de an,keine,license,,irregular,irregular,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
 "Aktionsdaten ""Mein Lieblingsplatz"" Bürger digitalisieren für die Stadt Ulm","In der Zeit vom 25.06.13 - 05.07.2013 haben Bürgerinnen und Bürger über 400 Lieblingsplätze in 5 Kategorien in eine digitale Karte eingetragen. Die Punkte stellen Lieblingsorte zum Relaxen, Sehenswürdigkeiten, Orte mit besonders schöner Aussicht, Orte für sportliche Aktivitäten und Lieblingsorte zum Essen/Trinken/Nachtleben dar. Dieses Thema ist auch Bestandteil der Kartenanwendung maps.ulm.de. Die Daten enthalten auch einen kurzen Textkommentar des Erfassers/Erfasserin zu dem jeweiligen Lieblingsort.",http://daten.ulm.de/daten/single/map-it-lieblingsplatz,"""Kultur, Freizeit, Sport und Tourismus""","""Tourismus und Freizeit""","""Bodennutzung""",,2013-07-5T00:00:00,publication,2013-10-20,mapDigital,Shape,x,-,keine,license,,notPlanned,notPlanned,imageryBaseMapsEarthCover,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
@@ -124,6 +154,17 @@ Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/
 Ulm
 89073
 Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
+Bodenrichtwerte der Stadt Ulm,"Die Bodenrichtwertkarten sind spezielle Karten, in denen die jeweils gültigen Bodenrichtwerte je m² Grundstücksfläche eingetragen sind.
+""Der Bodenrichtwert ist im deutschen Städtebaurecht ein durchschnittlicher Lagewert, ermittelt aus den Kaufpreisen von Grundstücken unter Berücksichtigung ihres Entwicklungszustandes. Er ist sehr bedeutsam für die Besteuerung von Grund und Boden in Deutschland. Die Veröffentlichung erfolgt mittels Bodenrichtwertkarten oder Bodenrichtwerttabellen."" (wikipedia)",http://daten.ulm.de/daten/single/bodenrichtwerte-der-stadt-ulm,"""Geographie, Geologie und Geobasisdaten""","""Geobasisdaten""","""Bodennutzung""",,2010-12-31T00:00:00,publication,2014-09-01,mapDigital,TIFF,x,"ja, auf Anfrage",Sicherheitseinstufung: vertrauliche Daten,license,,cyclic,cyclic, planningCadastre,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Klaus Miller,VGV/ME: Vermessung,Stadt Ulm,"Münchner Straße 2
+Ulm
+89073
+Germany",k.miller@ulm.de,07311616270,0731161806270,Point of Contact,Klaus Miller,VGV/ME: Vermessung,Stadt Ulm,"Münchner Straße 2
+Ulm
+89073
+Germany",k.miller@ulm.de,07311616270,0731161806270,Point of Contact
 Stadtviertel und Ortsteile der Stadt Ulm (Karte),Die Karte zeigt alle Stadtteile und Stadtviertel der Stadt Ulm in einer DINA4-pdf-karte auf. Die Nummerierung in der Karte ist die Nummer des Stadtviertel/Ortsteiles,http://daten.ulm.de/daten/single/karte-der-stadtviertel-und-ortsteile-der-stadt-ulm,"""Geographie, Geologie und Geobasisdaten""","""Geobasisdaten"",""Kartographie""","""Verwaltungseinheiten""",,2007-12-31T00:00:00,publication,2013-09-27,mapDigital,PDF,,-,keine,license,,asNeeded,asNeeded, planningCadastre,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
@@ -236,6 +277,16 @@ Germany",w.glaser@ulm.de,07311616256,0731161806256,Point of Contact,Winfried Gla
 Ulm
 89073
 Germany",w.glaser@ulm.de,07311616256,0731161806256,Point of Contact
+maps.ulm.de - das Geoportal der Stadt Ulm,In maps.ulm.de werden Geobasisdaten und Geofachdaten präsentiert. Hier finden sich erste Fachdaten der Abteilungen der Stadt Ulm.  ,http://daten.ulm.de/daten/single/mapsulmde-das-geoportal-der-stadt-ulm,"""Geographie, Geologie und Geobasisdaten""","""Geobasisdaten"",""Kartographie"",""Kataster Liegenschaftskataster"",""Landschaftsplanung"",""Landwirtschaft"",""Naturschutz"",""Oberflächengewässer Oberirdische Gewässer"",""Raumordnung Landesplanung, Regionalplanung"",""Straße"",""Topographie"",""Tourismus und Freizeit"",""Verkehr""","""Bodennutzung""",,2013-08-5T00:00:00,publication,2014-09-01,mapDigital,POSTGRESQL,,Es fallen keine Gebühren für die Nutzung der Anwendung maps.ulm.de an,keine,license,,irregular,irregular,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
 Sozialindikatoren Sozialraum West der Stadt Ulm ,"Die Sozialraumindikatoren zeigen für den Sozialraum West, der aus den Stadtteilen Weststadt, Söflingen und den Ortsteilen Grimmelfingen, Eggingen, Ermingen und Einsingen besteht,  sowohl Bevölkerungsbezogene Indikatoren  als auch fallbezogene Indiatoren auf. Eine beigefügte Anlage fasst diese Statistik textlich zusammen und weist auf Änderungen, z.B. bei gesetzlichen Rahmenbedingungen, bei Interpretation der Zahlen hin. Die Excel-Tabelle enthält in mehreren Registern beispielsweise den Anteil alleinerziehender Haushalte, minderjähriger Leistungsempfänger nach Sozialgesetzbuch (SGB), den prozentualen Anteil von Trennung/Scheidung betroffener Minderjähriger, junge Arbeitslose, Quoten zu Jugendgerichtshilfe und Kinderdelinquenz (=Gesetzesverstöße Strafunmündiger Kinder) u.v.m. Die aktuellen Zahlen werden Vorjahresquoten gegenüber gestellt.  Das Register ""Legende"" erläutert Bezugsquellen der jeweiligen Daten für die Quoten- und Eckwertberechnungen. ",http://daten.ulm.de/daten/single/sozialindikatoren-sozialraum-west-der-stadt-ulm,"""Soziales""","""Statistik""","""Verteilung der Bevölkerung - Demografie""",,2003-12-31T00:00:00 - 2011-12-31T00:00:00,publication,2013-09-06,mapDigital,"XLS, XLSX",,-,keine,license,,irregular,irregular,environment,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
@@ -739,7 +790,7 @@ Ulm
 89073
 Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact
 OpenStreetMap-ÖPNV-Straßenbahnhaltestellen ,"Dieser WMS Dienst der Firma terrestris mit dem Originalnamen ""OWS-Terrestris Haltestellen"" stellt die vom OpenStreetMap-Projekt erhobenen Daten der öffentlichen Straßenbahnhaltestellen für ganz Deutschland bereit. 
-Der Download umfasst das Gebiet Region Donau-Iller.",http://daten.ulm.de/datenkatalog/metadaten/openstreetmap-tramhaltestellen,"""Transport und Verkehr""","""Verkehr""","""Verkehrsnetze""","""infoMapAccessService""",2013-12-17T00:00:00,publication,2014-03-26,mapDigital,WMS,x,-,keine,license,,weekly,weekly,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Der Download umfasst das Gebiet Region Donau-Iller.",http://daten.ulm.de/datenkatalog/metadaten/openstreetmap-tramhaltestellen,"""Transport und Verkehr""","""Verkehr""","""Verkehrsnetze""","""infoMapAccessService""",2013-12-17T00:00:00,publication,2014-09-01,mapDigital,WMS,x,-,keine,license,,weekly,weekly,,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
 Ulm
 89073
 Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
@@ -771,3 +822,15 @@ Germany",e.hungele@ulm.de,07311616729,0731161806729,Point of Contact,Eugen Hunge
 Ulm
 89073
 Germany",e.hungele@ulm.de,07311616729,0731161806729,Point of Contact
+Gemeinderatswahlergebnis 2014 Stadt Ulm,"Das amtliche Ergebnis der Gemeinderatswahl in Ulm am 25. Mai 2014 zeigt die Zusammensetzung des Gemeinderats nach Parteien auf. Die gewählten Gemeinderatsvertreter/innen und deren Ersatzpersonen sind namentlich mit der jeweiligen Anzahl der erhaltenen Stimmen aufgeführt. Stimmenstärkste Partei bleibt die CDU, die jedoch im Vergleich zur letzten Wahl 2009 0,8 Prozent der Stimmen und damit auch einen Ratssitz einbüßte. Leichte prozentuale Zugewinne konnten SPD und Grüne verzeichnen - sie bleiben mit 8 bzw. 7 Sitzen im Rat vertreten. Die FWG, UWS, UVL und WWG, die in den letzten Legislaturen eine Fraktion im Ulmer Gemeinderat bildeten, konnten ihre zusammen 11 Sitze im Rat behaupten. Den Fraktionsstatus verloren hat hingegen die FDP, die knapp 3 Prozent der Stimmen und einen Ratssitz verlor. Die Linke ist nunmehr mit zwei Vertretern im Gemeinderat. Erstmals vertreten mit einem Mandat ist Ulm hoch drei.
+Die Wahlbeteiligung lag bei 46,4 Prozent (2009: 46,3 Prozent).
+",http://daten.ulm.de/datenkatalog/metadaten/gemeinderatswahl_2014,"""Politik und Wahlen""","""Statistik""","""Verteilung der Bevölkerung - Demografie""",,2014-05-25T00:00:00,publication,2014-09-01,mapDigital,"XLS, XLSX",,-,keine,license,,cyclic,cyclic,society,Lucia Erdt,ZS/T: Team IT,Stadt Ulm,"Frauenstraße 19
+Ulm
+89073
+Germany",l.erdt@ulm.de,07311611037,0731161808777,Point of Contact,Winfried Baumeister,"BD IV: Standesamt, Statistik und Wahlen, Rentenstelle, Controlling",Stadt Ulm,"Kornhausplatz 4
+Ulm
+89073
+Germany",statistik@ulm.de,07311618882,0731161808882,Point of Contact,Winfried Baumeister,"BD IV: Standesamt, Statistik und Wahlen, Rentenstelle, Controlling",Stadt Ulm,"Kornhausplatz 4
+Ulm
+89073
+Germany",statistik@ulm.de,07311618882,0731161808882,Point of Contact
