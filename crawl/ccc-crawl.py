@@ -66,7 +66,6 @@ with open(sys.argv[2], 'rb') as archive:
               if len(htmldata.xpath('//title/text()')) > 0:
                   parent_title = htmldata.xpath('//title/text()')[0]
 
-              if (len(parent_title)>0): parent_title = parent_title[0]
               #URL of the page we are on (parent)
               parent_url = parent
         
@@ -108,13 +107,13 @@ with open(sys.argv[2], 'rb') as archive:
                       title_text = site.xpath('@title')[0]
 
                   if (len(title_text)>0) and (URL_Text == u''):
-                      URL_Datei = title_text
+                      URL_Text = title_text
                   
                   alt_text = ''
                   if len(site.xpath('@alt')) > 0:
                       alt_text = site.xpath('@alt')[0]
                   if (len(alt_text)>0) and (URL_Text == u''):
-                      URL_Datei = alt_text
+                      URL_Text = alt_text
             
                   URL_Dateiname = unicode(URL_Datei).split('/')[-1]
                   Format = u'Not interesting'
@@ -124,14 +123,13 @@ with open(sys.argv[2], 'rb') as archive:
             
                   #Is it a file (does it have any of the extensions (including the '.' in the filename,
                   #then remove the '.' 
-                  print 'Testing ' + URL_Datei.encode('ascii', errors='ignore').upper()
                   for ext in filetypes:
-                     if ext in URL_Datei.encode('ascii', errors='ignore').upper():
+                      if ext in URL_Datei.encode('ascii', errors='ignore').upper():
                          Format = ext[1:len(ext)]
                          #And is it one of our special geo filetypes?
-                         if ext in self.geofiletypes:
+                         if ext in geofiletypes:
                              geo = 'x'
-                         row = [Stadt_URL, URL_Datei, URL_Text, URL_Dateiname, Format, geo, URL_PARENT, Title_Parent]
+                         row = [Stadt_URL, URL_Datei, URL_Text, URL_Dateiname, Format, geo, URL_PARENT, Title_PARENT]
                          datawriter.writerow(row)
           except:
               print 'Couldn\'t parse: \n' + record

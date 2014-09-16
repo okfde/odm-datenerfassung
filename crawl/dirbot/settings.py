@@ -8,7 +8,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
-ROBOTSTXT_BLACKLIST = ('sixcms/%20/sixcms', 'sixcms/sixcms', 'search', 'suche', 'dataset?f', 'branchen', 'mobil.koeln.de', 'flag_content', 'comment', 'immobilien.koeln', 'stadtfuehrungen', 'stadtplan.html', 'veranstaltungen/kalender', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld', 'rostock.de/veranstaltungen', 'wahlomat', 'php/merkliste', '_druck=1', 'unt_tagung', 'buergerinfo.ulm.de', 'map.jsp')
+ROBOTSTXT_BLACKLIST = ('urban.gera.de', 'sitzungsdienst.salzgitter.de', 'ris.kaiserslautern.de','extranet.iserlohn.de', 'salzgitter.de/tourismus/events/index.php', 'timestamp=', 'textmodus=&textmodu', 'modul=druckansicht', 'switchtodate', 'dienstleistungen.php', 'siegen.de/vereinsregister', 'mitarbeiter/mitarbeiter.php', 'siegen.de/veranstaltungen', 'dienstleistungen/formular.php', 'events/list.php', 'lexikon/index.php', '.krebs/karte', 'cottbus.de/opt', 'cottbus.de/abfrage', 'sixcms/%20/sixcms', 'sixcms/sixcms', 'search', 'suche', 'dataset?f', 'branchen', 'mobil.koeln.de', 'flag_content', 'comment', 'immobilien.koeln', 'stadtfuehrungen', 'stadtplan.html', 'veranstaltungen/kalender', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld', 'rostock.de/veranstaltungen', 'wahlomat', 'php/merkliste', '_druck=1', 'unt_tagung', 'buergerinfo.ulm.de', 'map.jsp')
 ROBOTSTXT_WHITELIST = ('/wahlen')
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 3.0
