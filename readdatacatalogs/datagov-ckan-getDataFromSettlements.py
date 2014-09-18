@@ -6,130 +6,27 @@ import unicodecsv as csv
 
 import metautils
 
-def createwholelcwords(words):
-    return words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower()
-    
-def testnospacematch(cityname, searchtext):
-    #au is in bau, and haus and goodness knows what else
-    #stelle is in poststelle
-    sillycities = ('stein', 'au')
-    return (not any(x in cityname for x in sillycities) and 
-            not ('poststelle' in searchtext.lower() and cityname == 'stelle') and 
-            cityname in searchtext.lower())
-
-#These words comes up a lot... they will only be matched against tags
-reallysillycities = ('stelle', 'ohne')
-
-geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
-
-
 actualcategories = []
 
-if (len(sys.argv)<4):
-    print 'Usage: datagov-ckan-getDataFromSettlements inputListOfCities.csv datagovJSONDump.json outputFile.csv'
+if (len(sys.argv)<3):
+    print 'Usage: datagov-ckan-getDataFromSettlements datagovJSONDump.json outputFile.csv'
     exit()
 
 excludes = []
 
-if (len(sys.argv)>4):
-    excludes = sys.argv[4].split(',')
+if (len(sys.argv)>3):
+    excludes = sys.argv[3].split(',')
     print 'Excluding following portals:'
     for portal in excludes:
         print portal
-
-with open(sys.argv[1], 'rb') as csvfile:
-    cityreader = csv.reader(csvfile, delimiter=',')
-    
-    cities = []
-    
-    for row in cityreader:
-        #First column is word to look for, second is original city name
-        germanchars = (u'ü',u'ä',u'ö',u'é',u'ß')
-        englishreplacements = ('ue', 'ae', 'oe', 'ee', 'ss')
-        newname = row[0].lower()
-        for x in range(0,len(germanchars)):
-            if germanchars[x] in row[0]:
-                newname = newname.replace(germanchars[x], englishreplacements[x])
-        cities.append([row[0].lower(), row[1]])
-        if newname != row[0].lower():
-            newrow = [newname, row[1]]
-            cities.append(newrow)
-
-with open(sys.argv[2], 'rb') as jsonfile:
-    text = jsonfile.read()
-    data = json.loads(text)   
-    
-    foundItems = []
-    foundCities = []
-    matches = []
-
-    for item in data:
-        founditem = False
-        foundcity = ''
-        matchedon = ''
         
-        if ('maintainer' in item and item['maintainer'] != None):
-            searchtext = createwholelcwords(item['maintainer'])
-            for city in cities:
-                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
-                    print 'Found in maintainer: ' + city[0] + '\nin\n' + searchtext
-                    founditem = True
-                    foundcity = city[1]
-                    matchedon = 'maintainer'
-                    break
-        if ((not founditem) and 'author' in item and item['author'] != None):
-            searchtext = createwholelcwords(item['author'])
-            for city in cities:
-                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
-                    print 'Found in author: ' + city[0] + '\nin\n' + searchtext
-                    founditem = True
-                    foundcity = city[1]
-                    matchedon = 'author'
-                    break
-        if ((not founditem) and 'maintainer_email' in item and item['maintainer_email'] != None):
-            for city in cities:
-                if city[0] not in reallysillycities and testnospacematch(city[0], item['maintainer_email']):
-                    print 'Found in maintainer email: ' + city[0] + '\nin\n' + item['maintainer_email'].lower()
-                    founditem = True
-                    foundcity = city[1]
-                    matchedon = 'maintainer_email'
-                    break
-        if ((not founditem) and 'author_email' in item and item['author_email'] != None):
-            for city in cities:
-                if city[0] not in reallysillycities and testnospacematch(city[0], item['author_email']):
-                    print 'Found in author email: ' + city[0] + '\nin\n' + item['author_email'].lower()
-                    founditem = True
-                    foundcity = city[1]
-                    matchedon = 'author_email'
-                    break
-        if ((not founditem) and 'notes' in item and item['notes'] != None):
-            searchtext = createwholelcwords(item['notes'])
-            for city in cities:
-                if city[0] not in reallysillycities and (' ' + city[0] + ' ') in searchtext:
-                    print 'Found in notes: ' + city[0] + '\nin\n' + searchtext
-                    founditem = True
-                    foundcity = city[1]
-                    matchedon = 'notes'
-                    break
-        #For this, we allow the silly cities, as we would not expect to find them as a single tag
-        if ((not founditem) and 'tags' in item and len(item['tags']) != 0):
-            for city in cities:
-                if (founditem):
-                    break 
-                for tag in item['tags']:
-                    #Tag must be exact match
-                    if city[0] == tag.lower():
-                        print 'Matched tag: ' + city[0] + '\nin\n' + tag.lower()
-                        founditem = True
-                        foundcity = city[1]
-                        matchedon = 'tags'
-                        break
-        if founditem:
-            foundItems.append(item)
-            foundCities.append(foundcity)
-            matches.append(matchedon)
+cities = metautils.getCities()
 
-jsonfile.close()
+with open(sys.argv[1], 'rb') as jsonfile:
+    text = jsonfile.read()
+    data = json.loads(text)
+
+foundItems = metautils.findOnlyCityData(data, cities)
 
 print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the input list of settlements'
 
@@ -142,7 +39,7 @@ columns.extend(inextras)
 mopIndex = columns.index('metadata_original_portal')
 excludecount = 0
 
-with open(sys.argv[3], 'wb') as csvoutfile:
+with open(sys.argv[2], 'wb') as csvoutfile:
     datawriter = csv.writer(csvoutfile, delimiter=',')
 
     row = []
@@ -151,17 +48,18 @@ with open(sys.argv[3], 'wb') as csvoutfile:
 
     datawriter.writerow(row)
 
-    count = -1
-
-    for item in foundItems:
-        count += 1
+    for foundItem in foundItems:
+        item = foundItem['item']
+        matchedon = foundItem['match']
+        thecity = foundItem['city']
+         
         row = []
         geo = ''
         for column in columns:
             if column == 'city':
-                row.append(foundCities[count])
+                row.append(thecity)
             elif column == 'matched_on':
-                row.append(matches[count])
+                row.append(matchedon)
             elif column == 'groups' or column == 'tags':
                 row.append(metautils.getgroupofelements(column, item))
                 if column == 'groups':
@@ -175,7 +73,7 @@ with open(sys.argv[3], 'wb') as csvoutfile:
                 if 'resources' in item:
                     for resource in item['resources']:
                         formatstring += resource['format'] + ','
-                        if resource['format'].upper() in geoformats:
+                        if resource['format'].upper() in metautils.geoformats:
                             geo = 'x'
                     #Get rid of last commas
                     formatstring = formatstring[0:len(formatstring)-1]
