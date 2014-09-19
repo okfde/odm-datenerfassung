@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+import json
 import unicodecsv as csv
 
 from collections import OrderedDict
@@ -74,12 +76,12 @@ def processListOfFormats(formatArray):
      
 #Do a fairly simple dump of desired data and try to get the filename, geo or not, unpack categories and tags
 def writerawresults(data, columns, placeholderurl, filename):
-    csvoutfile = open(sys.argv[2], 'wb')
+    csvoutfile = open(sys.argv[2] + '.csv', 'wb')
     datawriter = csv.writer(csvoutfile, delimiter=',')
 
     #Not needed in the long term. This was for comparing the file-finding capabilities of
     #of different methods
-    csvfilesoutfile = open(sys.argv[2]+'.files', 'wb')
+    csvfilesoutfile = open(sys.argv[2]+'.files.csv', 'wb')
     filesdatawriter = csv.writer(csvfilesoutfile, delimiter=',')
     
     row = []
@@ -92,7 +94,7 @@ def writerawresults(data, columns, placeholderurl, filename):
 
     datawriter.writerow(row)
     
-    for package in data['results']:
+    for package in data:
         row = []
     
         #All files, for analysis
@@ -106,7 +108,7 @@ def writerawresults(data, columns, placeholderurl, filename):
     
         #Get resource formats
         if ('res_format' in package):
-            [text, geo] = metautils.processListOfFormats(package['res_format'])
+            [text, geo] = processListOfFormats(package['res_format'])
             row.extend([text, geo])
         else:
             row.extend('','')
