@@ -1,6 +1,10 @@
 import unicodecsv as csv
 import sys
 
+if (len(sys.argv)<3):
+    print 'Usage: cleanDuplicates filetoclean.csv outputfile.csv [supportingitemsfulllist.csv]'
+    exit()
+
 lowestulmparents = ('/metadaten/', '/single/')
 
 csvoutfile = open(sys.argv[2], 'wb')
@@ -53,8 +57,35 @@ with open(sys.argv[1], 'rb') as csvfile:
             print "Appending as unique entry"
             cities[cityurl][searchurl] = inrow
 
+findparentsource = False
+
+if (len(sys.argv)>3):
+    findparentsource = True
+    parentsfile = sys.argv[3]
+
 for city in cities.values():
     for outputrow in city.values():
+        if 'ermittelt' in outputrow[6] and findparentsource:
+            #These links always have http etc. in them, the stored links from the A elements may not
+            missinglink = outputrow[1].split('/')[3]
+            #Unfortunately it won't work if the URL arguments get rearranged :(
+            #If it becomes a problem we should parse the URLs
+            with open(sys.argv[1], 'rb') as csvfile:
+                parentreader = csv.reader(csvfile, delimiter=',')
+                #Skip headings
+                headings = next(cityreader, None)
+
+                for inrow in cityreader:
+                    try:
+                        fileurl = inrow[1]
+                        if missinglink in fileurl:
+                            outputrow[2] = inrow[2]
+                            outputrow[6] = inrow[6]
+                            outputrow[6] = inrow[7]
+                            break
+                    except:
+                        print u'Data format error: ' + u', '.join(inrow) + u'\nStopping.'
+                        
         citywriter.writerow(outputrow)
 
 csvfile.close();
