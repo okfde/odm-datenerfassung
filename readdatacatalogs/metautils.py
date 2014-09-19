@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import unicodecsv as csv
 
+from collections import OrderedDict
+
 ### Interesting formats ###
 geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
 
@@ -42,6 +44,94 @@ def dequotejson(stringvalue):
 def extractFormat(filestring):
     return "PASS"
 ### End data processing utilities ###
+
+### Process CKAN data into files/DB output ###
+#Create full empty row
+def getBlankRow():
+    row = OrderedDict()
+    for key in getTargetColumns():
+        row[key] = ''
+    row[u'Quelle'] = 'd'
+    row[u'Noch nicht kategorisiert'] = 'x'
+    return row
+  
+#Our schema
+def getTargetColumns():
+    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'Arbeitsmarkt', u'Bevölkerung', u'Bildung und Wissenschaft', u'Haushalt und Steuern', u'Stadtentwicklung und Bebauung', u'Wohnen und Immobilien', u'Sozialleistungen', u'Öffentl. Sicherheit', u'Gesundheit', u'Kunst und Kultur', u'Land- und Forstwirtschaft', u'Sport und Freizeit', u'Umwelt', u'Transport und Verkehr', u'Energie, Ver- und Entsorgung', u'Politik und Wahlen', u'Gesetze und Justiz', u'Wirtschaft und Wirtschaftsförderung', u'Tourismus', u'Verbraucher', u'Sonstiges', u'Noch nicht kategorisiert']
+
+def processListOfFormats(formatArray):
+    geo = ''
+    text = ''
+    formats = []
+    for format in formatArray:
+        if (format.upper() not in formats):
+            formats.append(format.upper())
+            if (format.upper() in geoformats):
+                geo = 'x'
+    text = arraytocsv(formats)
+    
+    return [text, geo]
+     
+#Do a fairly simple dump of desired data and try to get the filename, geo or not, unpack categories and tags
+def writerawresults(data, columns, placeholderurl, filename):
+    csvoutfile = open(sys.argv[2], 'wb')
+    datawriter = csv.writer(csvoutfile, delimiter=',')
+
+    #Not needed in the long term. This was for comparing the file-finding capabilities of
+    #of different methods
+    csvfilesoutfile = open(sys.argv[2]+'.files', 'wb')
+    filesdatawriter = csv.writer(csvfilesoutfile, delimiter=',')
+    
+    row = []
+    extraitems = ['format', 'geo', 'groups', 'tags']
+    row.extend(extraitems);
+    columnsoffset = len(extraitems)
+    
+    for column in columns:
+        row.append(column)
+
+    datawriter.writerow(row)
+    
+    for package in data['results']:
+        row = []
+    
+        #All files, for analysis
+        dict_string = package['data_dict']
+        json_dict = json.loads(dict_string)
+        for resource in json_dict['resources']:
+            if 'url' in resource:
+                frow = []
+                frow.append(resource['url'])
+                filesdatawriter.writerow(frow)
+    
+        #Get resource formats
+        if ('res_format' in package):
+            [text, geo] = metautils.processListOfFormats(package['res_format'])
+            row.extend([text, geo])
+        else:
+            row.extend('','')
+    
+        groups = u''
+        tags = u''
+
+        if 'groups' in package:
+            row.append(arraytocsv(package['groups']))
+
+        if 'tags' in package:
+            row.append(arraytocsv(package['tags']))
+
+        for column in columns:
+            if column in package: 
+                row.append(package[column])
+            else:
+                row.append('')
+
+        if row[columns.index('url') + columnsoffset] == '':
+            row[columns.index('url') + columnsoffset] = placeholderurl + row[columns.index('id') + columnsoffset]    
+        datawriter.writerow(row)
+    
+    csvoutfile.close();
+    csvfilesoutfile.close();
 
 ### City names database and cleaning ###
 def getCities():
@@ -213,9 +303,6 @@ def setBlankCategories(row):
     row[u'Noch nicht kategorisiert'] = 'x'
     
     return row
-    
-def getTargetColumns():
-    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'Arbeitsmarkt', u'Bevölkerung', u'Bildung und Wissenschaft', u'Haushalt und Steuern', u'Stadtentwicklung und Bebauung', u'Wohnen und Immobilien', u'Sozialleistungen', u'Öffentl. Sicherheit', u'Gesundheit', u'Kunst und Kultur', u'Land- und Forstwirtschaft', u'Sport und Freizeit', u'Umwelt', u'Transport und Verkehr', u'Energie, Ver- und Entsorgung', u'Politik und Wahlen', u'Gesetze und Justiz', u'Wirtschaft und Wirtschaftsförderung', u'Tourismus', u'Verbraucher', u'Sonstiges', u'Noch nicht kategorisiert']
 
 def govDataLongToODM(group):
     group = group.strip()
@@ -227,7 +314,7 @@ def govDataLongToODM(group):
         return [u'Haushalt und Steuern', u'Sonstiges']
     elif group == u'Infrastruktur, Bauen und Wohnen':
         return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif group == u'Infrastruktur, Bauen und Wohnen' or group == u'Geographie, Geologie und Geobasisdaten':
+    elif group == u'Geographie, Geologie und Geobasisdaten':
         return [u'Stadtentwicklung und Bebauung']
     elif group == u'Soziales':
         return [u'Sozialleistungen']
@@ -236,7 +323,44 @@ def govDataLongToODM(group):
     elif group == u'Umwelt und Klima':
         return [u'Umwelt']
     elif group == u'Verbraucherschutz':
-        return [u'Verbraucher(-schutz)']
+        return [u'Verbraucher']
     else:
+        print 'Warning: could not return a category for ' + group
+        return []
+        
+def govDataShortToODM(group):
+    group = group.strip()
+    if group == 'bevoelkerung' or group == 'society':
+        return [u'Bevölkerung']
+    elif group == 'bildung_wissenschaft':
+        return [u'Bildung und Wissenschaft']
+    elif group == 'wirtschaft_arbeit':
+        return [u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung']
+    elif group == 'infrastruktur_bauen_wohnen':
+        return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
+    elif group == 'geo' or group == 'structure' or group == 'boundaries' or group == 'gdi-rp':
+        return [u'Stadtentwicklung und Bebauung']
+    elif group == 'gesundheit' or group == 'health':
+        return [u'Gesundheit']
+    elif group == 'soziales':
+        return [u'Sozialleistungen']
+    elif group == 'kultur_freizeit_sport_tourismus':
+        return [u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus']
+    elif group == 'umwelt_klima' or group == 'environment' or group == 'biota' or group == 'oceans':
+        return [u'Umwelt']
+    elif group == 'transport_verkehr':
+        return [u'Transport und Verkehr']
+    elif group == 'verbraucher':
+        return [u'Verbraucher']
+    elif group == 'politik_wahlen':
+        return [u'Politik und Wahlen']
+    elif group == 'gesetze_justiz':
+        return [u'Gesetze und Justiz']
+    elif group == 'economy':
+        return [u'Wirtschaft und Wirtschaftsförderung']
+    elif group == 'verwaltung':
+        return [u'Sonstiges']
+    else:
+        print 'Warning: could not return a category for ' + group
         return []
 ### End Categories ###          

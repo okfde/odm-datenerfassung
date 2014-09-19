@@ -1,84 +1,71 @@
+# -*- coding: utf-8 -*-
 import urllib, json
 import unicodecsv as csv
 import sys
 
-geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS')
+import metautils
 
-csvoutfile = open(sys.argv[1], 'wb')
-datawriter = csv.writer(csvoutfile, delimiter=',')
-
-csvfilesoutfile = open(sys.argv[1]+'.files', 'wb')
-filesdatawriter = csv.writer(csvfilesoutfile, delimiter=',')
+if (len(sys.argv)<3):
+    print 'Usage: rostock-rlp-ckan rostock|rlp outputFilePrefix'
+    exit()
 
 columns = ['title', 'name', 'notes', 'id', 'url', 'author', 'author_email', 'maintainer', 'maintainer_email', 'metadata_created', 'metadata_modified', 'capacity', 'state',  'version', 'license_id']
 
-row = []
-extraitems = ['format', 'geo', 'groups', 'tags']
-row.extend(extraitems);
-columnsoffset = len(extraitems)
-
-for column in columns:
-    row.append(column);
-
-datawriter.writerow(row)
-
-jsonurl = urllib.urlopen("http://www.opendata-hro.de/api/2/search/dataset?q=&limit=1000&all_fields=1")
+if sys.argv[1] == 'rostock':
+    jsonurl = urllib.urlopen("http://www.opendata-hro.de/api/2/search/dataset?q=&limit=1000&all_fields=1")
+elif sys.argv[1] == 'rlp':
+    jsonurl = urllib.urlopen("http://www.daten.rlp.de/api/2/search/dataset?q=&limit=4000&all_fields=1")
+else:
+    print 'Error: \'rostock\' or \'rlp\' must be specified as the first argument'
+    exit()
 
 data = json.loads(jsonurl.read())
 
-for package in data['results']:
-    row = []
+if sys.argv[1] == 'rostock':
+    #The old way - dump data
+    metautils.writerawresults(data['results'], columns, 'http://www.opendata-hro.de/dataset/', sys.argv[2])
+elif sys.argv[1] == 'rlp':
+    #Only deal with communal data
+    allcities = metautils.getCities()
+    cities = metautils.filterCitiesByLand(allcities, 'Rheinland-Pfalz')
+    beforefilter = len(data['results'])
+    data = metautils.findOnlyCityData(data['results'], cities)
+    afterfilter = len(data)
     
-    #All files, for analysis
-    dict_string = package['data_dict']
-    json_dict = json.loads(dict_string)
-    for resource in json_dict['resources']:
-        frow = []
-        frow.append(resource['url'])
-        filesdatawriter.writerow(frow)
+    print 'Of the total ' + str(beforefilter) + ' records, ' + str(afterfilter) + ' appear to be related to a city'
     
-    #Get resource formats
-    if ('res_format' in package and len(package['res_format']) > 0):
-        geo = ''
-        text = ""
-        formats = []
-        for format in package['res_format']:
-            if (format.upper() not in formats):
-                formats.append(format.upper())
-                if (format.upper() in geoformats):
-                    geo = 'x'
-        
-        for format in formats:
-            text += (format + ',')
-            
-        #get rid of last comma
-        text = text[:len(text)-1]
-        row.extend([text, geo])
-        
-    groups = u''
-    tags = u''
+    #Map and write the data. Still wondering how much of this can/should be pulled out to metautils
+    row = metautils.getBlankRow()
 
-    if ('groups' in package and len(package['groups']) > 0):
+    csvoutfile = open(sys.argv[2]+'.csv', 'wb')
+    datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')      
+    datawriter.writeheader()
+
+    for result in data:
+        package = result['item']
+        filefound = False
+    
+        row = metautils.getBlankRow()
+        
+        if ('res_format' in package):
+            [formattext, geo] = metautils.processListOfFormats(package['res_format'])
+            row[u'Format'] = formattext
+        row[u'Stadt'] = result['city']
+        row[u'Dateibezeichnung'] = package['title']
+        row[u'URL PARENT'] = 'http://www.daten.rlp.de/dataset/' + package['id']
+        if 'notes' in package:
+            row[u'Beschreibung'] = package['notes']
+        if 'license_id' in package:
+            row[u'Lizenz'] = package['license_id']
+        if 'maintainer' in package:
+            row[u'Veröffentlichende Stelle'] = package['maintainer']
         for group in package['groups']:
-            groups += (group + ',')
-        #get rid of last comma
-        groups = groups[:len(groups)-1]
-        row.append(groups)
+            odm_cats = metautils.govDataShortToODM(group)
+            if len(odm_cats) > 0:
+                for cat in odm_cats:
+                    row[cat] = 'x'
+                row[u'Noch nicht kategorisiert'] = ''       
 
-    if ('tags' in package and len(package['tags']) > 0):
-        for tag in package['tags']:
-            tags += (tag + ',')
-        #get rid of last comma
-        tags = tags[:len(tags)-1]
-        row.append(tags)
+        datawriter.writerow(row)
 
-
-    for column in columns:
-        row.append(package[column])
-
-    if row[columns.index('url') + columnsoffset] == '':
-        row[columns.index('url') + columnsoffset] = 'http://www.opendata-hro.de/dataset/' + row[columns.index('id') + columnsoffset]    
-    datawriter.writerow(row)
-
-csvoutfile.close();
-
+    csvoutfile.close()

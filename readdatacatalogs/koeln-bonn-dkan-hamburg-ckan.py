@@ -46,9 +46,7 @@ if cityname == "hamburg" and len(sys.argv) < 4:
     with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
-row = []
-for column in metautils.getTargetColumns():
-    row.append(column);
+row = metautils.getBlankRow()
 
 csvoutfile = open(sys.argv[2]+'.csv', 'wb')
 datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')
@@ -93,19 +91,17 @@ for package in groups:
         filerow.append('/' + package['identifier'])
         csv_files_writer.writerow(filerow)
     
-    row = dict()
-    row[u'Quelle'] = 'd'
+    row = metautils.getBlankRow()
+    
+    row[u'Format'] = metautils.arraytocsv(formatarray)
     row[u'Stadt'] = cityname + '.de'
     row[u'Dateibezeichnung'] = package['title']
-    row[u'Format'] = metautils.arraytocsv(formatarray)
-    row[u'Kosten'] = ''
-    row = metautils.setBlankCategories(row)
     
     if cityname == 'hamburg':
         if 'url' in package:
-            row[u'URL Datei'] = package['url']
+            row[u'URL PARENT'] = package['url']
         else:
-            row[u'URL Datei'] = ''
+            row[u'URL PARENT'] = ''
         if 'notes' in package:
             row[u'Beschreibung'] = package['notes']
         else:
@@ -118,9 +114,9 @@ for package in groups:
             if len(odm_cats) > 0:
                 for cat in odm_cats:
                     row[cat] = 'x'
-            row[u'Noch nicht kategorisiert'] = ''       
+                row[u'Noch nicht kategorisiert'] = ''       
     else:
-        row[u'URL Datei'] = package['accessURL']
+        row[u'URL PARENT'] = package['accessURL']
         row[u'Beschreibung'] = package['description']
         row[u'Zeitlicher Bezug'] = package['granularity']
         row[u'Lizenz'] = package['license']
