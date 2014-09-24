@@ -24,6 +24,11 @@ def arraytocsv(arrayvalue):
     returnstring = returnstring[0:len(returnstring)-1]
     return returnstring
     
+def csvtoarray(csvstring):
+    returnarray = csvstring.split(',')
+    returnarray = [item.strip() for item in returnarray]
+    return returnarray
+    
 def setofvaluesascsv(arrayvalue, keyvalue):
     simplearray = setofvaluesasarray(arrayvalue, keyvalue)
     return arraytocsv(simplearray)
