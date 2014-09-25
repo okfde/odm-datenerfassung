@@ -13,13 +13,13 @@ if cityname == "koeln":
 elif cityname == "bonn":
     url = "http://opendata.bonn.de"
 elif cityname == "hamburg":
-    url = "http://opendata.hamburg.de"
+    url = "http://suche.transparenz.hamburg.de"
 else:
     print 'First argument must be an city; unsupported city'
     exit()
 
 if cityname == "hamburg":
-    jsonurl = urllib.urlopen(url + "/api/3/action/package_list?limit=10000")
+    jsonurl = urllib.urlopen(url + "/api/3/action/package_list")
     if len(sys.argv) > 3:
         print 'Loading from file...'
         jsonurl = open(sys.argv[3], 'rb')
@@ -34,7 +34,10 @@ if cityname == "hamburg":
             print 'Downloading dataset ' + item
             purl = urllib.urlopen(url + "/api/3/action/package_show?id=" + item)
             pdata = json.loads(purl.read())
-            groups.append(pdata['result'])
+            if 'result' in pdata:
+                groups.append(pdata['result'])
+            else:
+                print 'WARNING: No result - access denied?\n' + purl
     else:
         groups = listpackages
 else:
@@ -43,7 +46,7 @@ else:
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
 if cityname == "hamburg" and len(sys.argv) < 4:
-    with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
+    with open('../metadata/hamburg/catalognew.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
 row = metautils.getBlankRow()
@@ -98,10 +101,11 @@ for package in groups:
     row[u'Dateibezeichnung'] = package['title']
     
     if cityname == 'hamburg':
+        row[u'URL PARENT'] = None
         if 'url' in package:
             row[u'URL PARENT'] = package['url']
-        else:
-            row[u'URL PARENT'] = ''
+        if row[u'URL PARENT'] == None:
+            row[u'URL PARENT'] = url + '/dataset/' + package['name']
         if 'notes' in package:
             row[u'Beschreibung'] = package['notes']
         else:
