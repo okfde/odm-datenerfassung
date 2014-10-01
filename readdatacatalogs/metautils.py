@@ -19,7 +19,7 @@ def getDBCursor():
     if con:
         con.close()
     try:
-        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1')
+        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='192.168.2.1')
         cur = con.cursor()
         return cur
     except psycopg2.DatabaseError, e:
@@ -35,8 +35,8 @@ def dbCommit():
 def addCities(cities, bundesland):
     cur = getDBCursor()
     for city in cities:
-        long_name = city.split(',')[0]
-        short_name = findLcGermanCharsAndReplace(long_name.replace(' ', '').replace('(', '').replace(')', '').lower())
+        long_name = convertSettlementNameToNormalName(city)
+        short_name = getShortCityName(long_name)
         print 'Trying to add ' + long_name + ' as ' + short_name 
         cur.execute("INSERT INTO cities \
                     (city_shortname, city_fullname, bundesland) \
@@ -55,6 +55,119 @@ def updateCitiesWithLatLong():
     #warn if couldn't be found; possibly print out result in any case
     #insert
     return "PASS"
+    
+#General purpose addition of data in Google Spreadsheets format to the DB
+#If checked == True then this data is 'open data'
+#If accepted == True then inter source deduplification has been performed
+def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False):
+    cur = getDBCursor()
+    badcities = []
+    
+    mapping = dict()
+    mapping['city'] = u'Stadt'
+    mapping['source'] = u'Quelle'
+    mapping['title'] = u'Dateibezeichnung'
+    mapping['description'] = u'Beschreibung'
+    mapping['temporalextent'] = u'Zeitlicher Bezug'
+    mapping['licenseshort'] = u'Lizenz'
+    mapping['costs'] = u'Kosten'
+    mapping['publisher'] = u'Veröffentlichende Stelle'
+    
+    dictsdata = dict()
+    takenrows = dict()
+    
+    validsources = ('m', 'd', 'c', 'g', 'b')
+    
+    #Check whether the cities are in the land specified
+    if bundesland:
+        uniquecities = getUniqueItems(datafordb, u'Stadt')
+        for city in uniquecities:
+            cur.execute('SELECT bundesland FROM cities WHERE city_shortname = %s', (city,))
+            result = cur.fetchone()
+            if result == None:
+                badcities.append(city)
+                print 'Warning: The city with key ' + city + ' does not exist in the DB. This shouldn\'t be possible. Please check. Not adding data from this city'
+            elif result[0] != bundesland:
+                badcities.append(city)
+                print 'Warning: The city with key ' + city + ' is not in the Bundesland ' + bundesland + '. Please try and rename the offending city if its key is not being automatically generated, otherwise change the key generation scheme to remove the conflict. Not adding data from this city'
+            
+    for row in datafordb:
+        if row[u'Stadt'] not in badcities:
+            source = row['Quelle'].strip()
+            if source not in validsources:
+                print 'Error: row has an unrecognised source: ' + source + '. Not adding'
+            else:
+                if source not in dictsdata:
+                    dictsdata[source] = []
+                dictsdata[source].append(row)
+
+    for source in validsources:
+        if source in dictsdata:
+            print 'Processing source: ' + source
+            for row in dictsdata[source]:
+                theurl = ''
+        
+                url = row['URL Datei'].strip()
+                parent = row['URL PARENT'].strip()           
+                #print 'Processing entry with parent [' + parent +'] and url [' + url + ']'
+
+                if url != '' and parent == '':
+                    theurl = url
+                else:
+                    theurl = parent
+
+                #Parents are always favoured and should be unique
+                #We assume that all catalog and manual entries are unique
+                #Otherwise we rather aggressively expect the filenames to be unique;
+                #often there is more than one way to the same file
+                if (theurl not in takenrows) or source == 'd' or source == 'm':
+                    row['URL'] = theurl
+                    if theurl == parent and url != '':
+                        row['filenames'] = [url]
+                    else:
+                        row['filenames'] = []
+                    takenrows[theurl] = row
+                else:
+                    print 'Not adding: url already there, transferring filename, categories and geo'
+                    if url != '':
+                        takenrows[theurl]['filenames'].append(url)
+                    for key in row:
+                        if row[key].strip().lower() == 'x':
+                             takenrows[theurl][key] = 'x'
+
+    for row in takenrows.values():
+        formats = csvtoarray(row['Format'].upper())
+
+        categories = []
+        geo = False
+
+        for key in row:
+            if not(type(row[key]) == list):
+                if row[key].strip().lower() == 'x':
+                    if key.strip().lower() == 'geo':
+                        geo = True
+                    else:
+                        categories.append(key)
+
+        cur.execute("INSERT INTO data \
+            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            WHERE NOT EXISTS ( \
+                SELECT url FROM data WHERE url = %s \
+            )",
+            (row['Stadt'], originating_portal, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
+            formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
+            row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
+            )
+            
+    dbCommit()
+            
+def removeDataFromPortal(portalId):
+    cur = getDBCursor()
+    cur.execute("DELETE FROM data \
+            WHERE originating_portal = %s", (portalId,))
+    dbCommit()
 
 ### Deal with data structures ###
 def getgroupofelements(target, item):
@@ -91,6 +204,11 @@ def dequotejson(stringvalue):
     cleanvalue = cleanvalue[1:len(cleanvalue)-1]
     return cleanvalue
     
+def getUniqueItems(arrayofdict, key):
+    mylist = [item[key] for item in arrayofdict]
+    uniqueset = set(mylist)
+    return list(uniqueset)
+    
 ### End Dealing with data structures ###
 
 ### Data processing utilities ###
@@ -107,6 +225,14 @@ def findLcGermanCharsAndReplace(germanstring):
         if germanchars[x] in germanstring:
             germanstring = germanstring.replace(germanchars[x], englishreplacements[x])
     return germanstring
+    
+def convertSettlementNameToNormalName(settlementName):
+    return settlementName.split(',')[0]
+    
+def getShortCityName(settlementName):
+    long_name = convertSettlementNameToNormalName(settlementName)
+    short_name = findLcGermanCharsAndReplace(long_name.replace(' ', '').replace('(', '').replace(')', '').lower())
+    return short_name
 ### End data processing utilities ###
 
 ### Process CKAN data into files/DB output ###
@@ -121,7 +247,7 @@ def getBlankRow():
   
 #Our schema
 def getTargetColumns():
-    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'Arbeitsmarkt', u'Bevölkerung', u'Bildung und Wissenschaft', u'Haushalt und Steuern', u'Stadtentwicklung und Bebauung', u'Wohnen und Immobilien', u'Sozialleistungen', u'Öffentl. Sicherheit', u'Gesundheit', u'Kunst und Kultur', u'Land- und Forstwirtschaft', u'Sport und Freizeit', u'Umwelt', u'Transport und Verkehr', u'Energie, Ver- und Entsorgung', u'Politik und Wahlen', u'Gesetze und Justiz', u'Wirtschaft und Wirtschaftsförderung', u'Tourismus', u'Verbraucher', u'Sonstiges', u'Noch nicht kategorisiert']
+    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'geo', u'Arbeitsmarkt', u'Bevölkerung', u'Bildung und Wissenschaft', u'Haushalt und Steuern', u'Stadtentwicklung und Bebauung', u'Wohnen und Immobilien', u'Sozialleistungen', u'Öffentl. Sicherheit', u'Gesundheit', u'Kunst und Kultur', u'Land- und Forstwirtschaft', u'Sport und Freizeit', u'Umwelt', u'Transport und Verkehr', u'Energie, Ver- und Entsorgung', u'Politik und Wahlen', u'Gesetze und Justiz', u'Wirtschaft und Wirtschaftsförderung', u'Tourismus', u'Verbraucher', u'Sonstiges', u'Noch nicht kategorisiert']
 
 def processListOfFormats(formatArray):
     geo = ''

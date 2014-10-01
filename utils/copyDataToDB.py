@@ -24,7 +24,6 @@ def reformatdata(cityname):
 
     with open(cityname + '.csv', 'rb') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
-        fields = reader.fieldnames
         for row in reader:
             source = row['Quelle'].strip()
             if source not in validsources:

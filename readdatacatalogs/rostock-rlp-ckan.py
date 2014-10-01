@@ -42,6 +42,7 @@ elif sys.argv[1] == 'rlp':
     datawriter.writeheader()
     
     uniquecities = []
+    datafordb = []
 
     for result in data:
         package = result['item']
@@ -52,6 +53,7 @@ elif sys.argv[1] == 'rlp':
         if ('res_format' in package):
             [formattext, geo] = metautils.processListOfFormats(package['res_format'])
             row[u'Format'] = formattext
+            row[u'geo'] = geo
         row[u'Stadt'] = result['city']['originalname']
         if result['city']['originalname'] not in uniquecities:
             uniquecities.append(result['city']['originalname'])
@@ -71,10 +73,15 @@ elif sys.argv[1] == 'rlp':
                 row[u'Noch nicht kategorisiert'] = ''       
 
         datawriter.writerow(row)
+        row[u'Stadt'] = metautils.getShortCityName(result['city']['originalname'])
+        datafordb.append(row)
 
     csvoutfile.close()
     
     #Write data to the DB (in progress)
     #Update city list
     metautils.addCities(uniquecities, 'Rheinland-Pfalz')
-    #CHECK WHETHER FOUND CITY IS IN RLP!!!
+    #Remove this catalog's data
+    metautils.removeDataFromPortal('daten.rlp.de')
+    #Add data, checking that used cities are in RLP
+    metautils.addDataToDB(datafordb=datafordb, bundesland='Rheinland-Pfalz', originating_portal='daten.rlp.de', checked=True, accepted=True)
