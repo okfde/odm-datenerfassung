@@ -46,7 +46,7 @@ else:
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
 if cityname == "hamburg" and len(sys.argv) < 4:
-    with open('../metadata/hamburg/catalognew.json', 'wb') as outfile:
+    with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
 row = metautils.getBlankRow()
@@ -88,12 +88,6 @@ for package in groups:
                 if format not in formatarray:
                     formatarray.append(format)
     
-    if not filefound:
-        filerow = []
-        #Fake file for analysis
-        filerow.append('/' + package['identifier'])
-        csv_files_writer.writerow(filerow)
-    
     row = metautils.getBlankRow()
     
     row[u'Format'] = metautils.arraytocsv(formatarray)
@@ -101,18 +95,26 @@ for package in groups:
     row[u'Dateibezeichnung'] = package['title']
     
     if cityname == 'hamburg':
-        row[u'URL PARENT'] = None
-        if 'url' in package:
-            row[u'URL PARENT'] = package['url']
-        if row[u'URL PARENT'] == None:
-            row[u'URL PARENT'] = url + '/dataset/' + package['name']
+        #Generate URL for the catalog page
+        row[u'URL PARENT'] = url + '/dataset/' + package['name']
         if 'notes' in package:
             row[u'Beschreibung'] = package['notes']
         else:
             row[u'Beschreibung'] = ''
         row[u'Zeitlicher Bezug'] = ''
-        row[u'Lizenz'] = package['license_id']
-        row[u'Veröffentlichende Stelle'] = package['author']
+        if 'license_id' in package:
+            row[u'Lizenz'] = package['license_id']
+        else:
+            row[u'Lizenz'] = 'nicht bekannt'
+        if 'author' in package:
+            row[u'Veröffentlichende Stelle'] = package['author']
+        else:
+            row[u'Veröffentlichende Stelle'] = None
+            if 'extras' in package:
+                print 'WARNING: No author, checking extras'
+                for extra in package['extras']:
+                    if extra['key'] == 'contacts':
+                        print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
         for group in metautils.setofvaluesasarray(package['groups'], 'title'):
             odm_cats = metautils.govDataLongToODM(group)
             if len(odm_cats) > 0:

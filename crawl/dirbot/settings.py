@@ -10,7 +10,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': None,
 }
 ROBOTSTXT_OBEY = True
-GENERAL_BLACKLIST = ('veranstaltungskalender', 'veranstaltungen', 'font=', 'print=', 'style=', 'font_size=', 'lang=')
+GENERAL_BLACKLIST = ('veranstaltungskalender', 'veranstaltungen', 'font=', 'print=', 'style=', 'font_size=')
 #Old - not deleting as this needs to be transferred to the DB as far as possible
 #ROBOTSTXT_BLACKLIST = ('urban.gera.de', 'sitzungsdienst.salzgitter.de', 'ris.kaiserslautern.de','extranet.iserlohn.de', 'salzgitter.de/tourismus/events/index.php', 'timestamp=', 'textmodus=&textmodu', 'modul=druckansicht', 'switchtodate', 'dienstleistungen.php', 'siegen.de/vereinsregister', 'mitarbeiter/mitarbeiter.php', 'dienstleistungen/formular.php', 'events/list.php', 'lexikon/index.php', '.krebs/karte', 'cottbus.de/opt', 'cottbus.de/abfrage', 'sixcms/%20/sixcms', 'sixcms/sixcms', 'search', 'suche', 'dataset?f', 'branchen', 'mobil.koeln.de', 'flag_content', 'comment', 'immobilien.koeln', 'stadtfuehrungen', 'stadtplan.html', 'koeln.de/kleinanzeigen', '/feedback/' , '/recommend/', 'termine.koeln', 'bildung.koeln', 'anwendungen.bielefeld', 'wahlomat', 'php/merkliste', '_druck=1', 'unt_tagung', 'buergerinfo.ulm.de', 'map.jsp')
 ROBOTSTXT_WHITELIST = ('/wahlen')

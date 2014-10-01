@@ -40,6 +40,8 @@ elif sys.argv[1] == 'rlp':
     csvoutfile = open(sys.argv[2]+'.csv', 'wb')
     datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')      
     datawriter.writeheader()
+    
+    uniquecities = []
 
     for result in data:
         package = result['item']
@@ -50,7 +52,9 @@ elif sys.argv[1] == 'rlp':
         if ('res_format' in package):
             [formattext, geo] = metautils.processListOfFormats(package['res_format'])
             row[u'Format'] = formattext
-        row[u'Stadt'] = result['city']
+        row[u'Stadt'] = result['city']['originalname']
+        if result['city']['originalname'] not in uniquecities:
+            uniquecities.append(result['city']['originalname'])
         row[u'Dateibezeichnung'] = package['title']
         row[u'URL PARENT'] = 'http://www.daten.rlp.de/dataset/' + package['id']
         if 'notes' in package:
@@ -69,3 +73,8 @@ elif sys.argv[1] == 'rlp':
         datawriter.writerow(row)
 
     csvoutfile.close()
+    
+    #Write data to the DB (in progress)
+    #Update city list
+    metautils.addCities(uniquecities, 'Rheinland-Pfalz')
+    #CHECK WHETHER FOUND CITY IS IN RLP!!!
