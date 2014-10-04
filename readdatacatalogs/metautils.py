@@ -36,7 +36,7 @@ def addCities(cities, bundesland):
     cur = getDBCursor()
     for city in cities:
         long_name = convertSettlementNameToNormalName(city)
-        short_name = getShortCityName(long_name)
+        short_name = getShortCityName(city)
         print 'Trying to add ' + long_name + ' as ' + short_name 
         cur.execute("INSERT INTO cities \
                     (city_shortname, city_fullname, bundesland) \

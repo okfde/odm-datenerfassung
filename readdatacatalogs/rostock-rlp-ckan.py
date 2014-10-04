@@ -41,13 +41,11 @@ elif sys.argv[1] == 'rlp':
     datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')      
     datawriter.writeheader()
     
-    uniquecities = []
+    uniquecities = set()
     datafordb = []
 
     for result in data:
         package = result['item']
-        filefound = False
-    
         row = metautils.getBlankRow()
         
         if ('res_format' in package):
@@ -55,8 +53,7 @@ elif sys.argv[1] == 'rlp':
             row[u'Format'] = formattext
             row[u'geo'] = geo
         row[u'Stadt'] = result['city']['originalname']
-        if result['city']['originalname'] not in uniquecities:
-            uniquecities.append(result['city']['originalname'])
+        uniquecities.add(result['city']['originalname'])
         row[u'Dateibezeichnung'] = package['title']
         row[u'URL PARENT'] = 'http://www.daten.rlp.de/dataset/' + package['id']
         if 'notes' in package:
@@ -78,7 +75,7 @@ elif sys.argv[1] == 'rlp':
 
     csvoutfile.close()
     
-    #Write data to the DB (in progress)
+    #Write data to the DB
     #Update city list
     metautils.addCities(uniquecities, 'Rheinland-Pfalz')
     #Remove this catalog's data
