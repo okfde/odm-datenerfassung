@@ -501,15 +501,15 @@ def govDataLongToODM(group):
         return [group]
     elif group == u'Wirtschaft und Arbeit':
         return [u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung']
-    elif group == u'Öffentliche Verwaltung, Haushalt und Steuern':
+    elif u'Verwaltung, Haushalt und Steuern' in group:
         return [u'Haushalt und Steuern', u'Sonstiges']
     elif group == u'Infrastruktur, Bauen und Wohnen':
         return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif group == u'Geographie, Geologie und Geobasisdaten':
+    elif u'Geographie, Geologie' in group:
         return [u'Stadtentwicklung und Bebauung']
     elif group == u'Soziales':
         return [u'Sozialleistungen']
-    elif group == u'Kultur, Freizeit, Sport und Tourismus':
+    elif u'Sport und Tourismus' in group:
         return [u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus']
     elif group == u'Umwelt und Klima':
         return [u'Umwelt']

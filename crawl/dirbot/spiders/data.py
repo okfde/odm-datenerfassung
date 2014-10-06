@@ -85,7 +85,7 @@ class DataSpider(CrawlSpider):
         
         #Get all links
         sites = sel.xpath('//body//a')
-        items = []
+        #items = []
 
         for site in sites:
             item = Website()
@@ -128,7 +128,7 @@ class DataSpider(CrawlSpider):
             #Is it a file (does it have any of the extensions (including the '.' in the filename,
             #then remove the '.' 
             for ext in self.filetypes:
-               if ext in item['URL_Datei'].encode('ascii', errors='ignore').upper():
+               if ext in item['URL_Dateiname'].encode('ascii', errors='ignore').upper():
                    item['Format'] = ext[1:len(ext)]
                    #And is it one of our special geo filetypes?
                    if ext in self.geofiletypes:
@@ -136,6 +136,6 @@ class DataSpider(CrawlSpider):
                    self.writerdata.writerow(item)
                    
             self.writer.writerow(item) 
-            items.append(item)
+            #items.append(item)
 
-        return items
+        return []
