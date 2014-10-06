@@ -19,7 +19,7 @@ def getDBCursor():
     if con:
         con.close()
     try:
-        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='192.168.2.1')
+        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1')
         cur = con.cursor()
         return cur
     except psycopg2.DatabaseError, e:
@@ -55,7 +55,15 @@ def updateCitiesWithLatLong():
     #warn if couldn't be found; possibly print out result in any case
     #insert
     return "PASS"
-    
+
+def getCitiesWithOpenDataPortals():
+    portalcities = []
+    cur = getDBCursor()
+    cur.execute('SELECT city_shortname FROM cities WHERE LENGTH(open_data_portal) > 0')
+    for result in cur.fetchall():
+        portalcities.append(result[0])
+    return portalcities
+
 #General purpose addition of data in Google Spreadsheets format to the DB
 #If checked == True then this data is 'open data'
 #If accepted == True then inter source deduplification has been performed
@@ -142,7 +150,7 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
         geo = False
 
         for key in row:
-            if not(type(row[key]) == list):
+            if type(row[key]) != list:
                 if row[key].strip().lower() == 'x':
                     if key.strip().lower() == 'geo':
                         geo = True
@@ -355,6 +363,21 @@ def filterCitiesByLand(cities, land):
             citiesreturned.append(city)
     return citiesreturned
 
+#Things that are banned from matching everywhere except email addresses
+#For tags, these are the only things banned
+#(so far... I'm still waiting to see what happens with settlements 'am Bodensee')
+reallyreallysillycities = ('boden',  'wald')
+
+#Things also not allowed in free text like notes
+extremelysillycities = list(reallyreallysillycities)
+extremelysillycities.extend(['stelle', 'ohne', 'bescheid', 'lage'])
+extremelysillycities = tuple(extremelysillycities)
+
+#Finally some things that are bad in email addresses
+#au is in bau, and haus and goodness knows what else
+#stelle is in poststelle and handled specially (below)
+sillycities = ('stein', 'au', 'bunde')
+
 #Try to get data that relates to a 'city'
 def findOnlyCityData(data, cities):
     
@@ -367,7 +390,7 @@ def findOnlyCityData(data, cities):
         if ('maintainer' in item and item['maintainer'] != None):
             searchtext = createwholelcwords(item['maintainer'])
             for city in cities:
-                if city['shortname'] not in reallysillycities and city['shortnamePadded'] in searchtext:
+                if city['shortname'] not in extremelysillycities and city['shortnamePadded'] in searchtext:
                     print 'Found in maintainer: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
@@ -376,7 +399,7 @@ def findOnlyCityData(data, cities):
         if ((not founditem) and 'author' in item and item['author'] != None):
             searchtext = createwholelcwords(item['author'])
             for city in cities:
-                if city['shortname'] not in reallysillycities and city['shortnamePadded'] in searchtext:
+                if city['shortname'] not in extremelysillycities and city['shortnamePadded'] in searchtext:
                     print 'Found in author: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
@@ -384,7 +407,7 @@ def findOnlyCityData(data, cities):
                     break
         if ((not founditem) and 'maintainer_email' in item and item['maintainer_email'] != None):
             for city in cities:
-                if city['shortname'] not in reallysillycities and testnospacematch(city['shortname'], extract_em_domain(item['maintainer_email'])):
+                if city['shortname'] not in extremelysillycities and testnospacematch(city['shortname'], extract_em_domain(item['maintainer_email'])):
                     print 'Found in maintainer email domain: ' + city['shortname'] + '\nin\n' + item['maintainer_email'].lower()
                     founditem = True
                     foundcity = city
@@ -392,7 +415,7 @@ def findOnlyCityData(data, cities):
                     break
         if ((not founditem) and 'author_email' in item and item['author_email'] != None):
             for city in cities:
-                if city['shortname'] not in reallysillycities and testnospacematch(city['shortname'], extract_em_domain(item['author_email'])):
+                if city['shortname'] not in extremelysillycities and testnospacematch(city['shortname'], extract_em_domain(item['author_email'])):
                     print 'Found in author email domain: ' + city['shortname'] + '\nin\n' + item['author_email'].lower()
                     founditem = True
                     foundcity = city
@@ -401,7 +424,7 @@ def findOnlyCityData(data, cities):
         if ((not founditem) and 'title' in item and item['title'] != None):
             searchtext = createwholelcwords(item['title'])
             for city in cities:
-                if city['shortname'] not in reallysillycities and city['shortnamePadded'] in searchtext:
+                if city['shortname'] not in extremelysillycities and city['shortnamePadded'] in searchtext:
                     print 'Found in title: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
@@ -410,7 +433,7 @@ def findOnlyCityData(data, cities):
         if ((not founditem) and 'notes' in item and item['notes'] != None):
             searchtext = createwholelcwords(item['notes'])
             for city in cities:
-                if city['shortname'] not in reallysillycities and city['shortnamePadded'] in searchtext:
+                if city['shortname'] not in extremelysillycities and city['shortnamePadded'] in searchtext:
                     print 'Found in notes: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
@@ -438,21 +461,10 @@ def findOnlyCityData(data, cities):
             
     return foundItems
 
-#These words comes up a lot, but they can be searched for in email addresses and tags
-#(Although see code below concerning stelle)
-reallysillycities = ('stelle', 'ohne', 'boden')
-
-#These words can come up in tags and other text, but would not be excluded from email addresses
-#(yet... I'm still waiting to see what happens with settlements 'am Bodensee')
-reallyreallysillycities = ('boden')
-
 #There are times when we need to test for city names without expecting whole words, like
-#email addresses. But then we really have to rule out a few things. Stein and Au are always
+#email addresses. But then we really have to rule out a few things. Stein, Au and Bunde are always
 #ignored, and stelle (the city) must not be matched against the word poststelle.
 def testnospacematch(cityname, searchtext):
-    #au is in bau, and haus and goodness knows what else
-    #stelle is in poststelle
-    sillycities = ('stein', 'au')
     return (not any(x in cityname for x in sillycities) and 
             not ('poststelle' in searchtext.lower() and cityname == 'stelle') and 
             cityname in searchtext.lower())

@@ -8,14 +8,14 @@ import metautils
 
 actualcategories = []
 
-if (len(sys.argv)<3):
-    print 'Usage: datagov-ckan-getDataFromSettlements datagovJSONDump.json outputFile.csv [list,of,portals,to,exclude]'
+if (len(sys.argv)<2):
+    print 'Usage: datagov-ckan-getDataFromSettlements datagovJSONDump.json [list,of,portals,to,exclude]'
     exit()
 
 excludes = []
 
-if (len(sys.argv)>3):
-    excludes = sys.argv[3].split(',')
+if (len(sys.argv)>2):
+    excludes = sys.argv[2].replace(' ', '').split(',')
     print 'Excluding following portals:'
     for portal in excludes:
         print portal
@@ -24,13 +24,28 @@ cities = metautils.getCities()
 
 with open(sys.argv[1], 'rb') as jsonfile:
     text = jsonfile.read()
-    data = json.loads(text)
+    alldata = json.loads(text)
+
+#Only add data we don't have from somewhere else
+data = []
+excludecount = 0
+uniqueportals = set()
+for item in alldata:
+    if ('extras' in item and 'metadata_original_portal' in item['extras']):
+        if not any(x in item['extras']['metadata_original_portal'] for x in excludes):
+            data.append(item)
+            uniqueportals.add(item['extras']['metadata_original_portal'])
+        else:
+            excludecount += 1
+    else:
+        data.append(item)
+print str(excludecount) + ' items excluded.'
+print 'List of remaining portals:'
+print uniqueportals
 
 foundItems = metautils.findOnlyCityData(data, cities)
 
 print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the input list of settlements'
-
-print 'Writing CSV file...'
 
 #columns = ['city', 'matched_on', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'isopen']
 #inextras = ('metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created')
@@ -39,29 +54,29 @@ print 'Writing CSV file...'
 #columns.extend(intermsofuse)
 
 #mopIndex = columns.index('metadata_original_portal')
-excludecount = 0
 
 #Map and write the data. Still wondering how much of this can/should be pulled out to metautils
 row = metautils.getBlankRow()
 
-csvoutfile = open(sys.argv[2]+'.csv', 'wb')
-datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')      
-datawriter.writeheader()
-
 uniquecities = set()
+uniqueportals = set()
 datafordb = []
 
-for foundItem in foundItems:
-    item = foundItem['item']
-    thecity = foundItem['city']
+#Don't use cities that have their own open data catalogs (regardless of originating portal field)
+excludecities = metautils.getCitiesWithOpenDataPortals() 
 
-    row = metautils.getBlankRow()
-    formatslist = []
-    
-    #Only add data we don't have from somewhere else
-    if ('extras' in item and 'metadata_original_portal' in item['extras'] and
-        not any(x in item['extras']['metadata_original_portal'] for x in excludes)):
-        
+print 'Excluding cities with portals:'
+print excludecities
+
+excludecount = 0
+
+for foundItem in foundItems:
+    thecity = metautils.getShortCityName(foundItem['city']['shortname'])
+    if thecity not in excludecities:
+        item = foundItem['item']
+        row = metautils.getBlankRow()
+        formatslist = []
+  
         if 'resources' in item:
             for resource in item['resources']:
                 if resource['format'].upper() not in formatslist:
@@ -69,15 +84,19 @@ for foundItem in foundItems:
             [formattext, geo] = metautils.processListOfFormats(formatslist)
             row[u'Format'] = formattext
             row[u'geo'] = geo
-        row[u'Stadt'] = theCity
-        uniquecities.add(theCity)
+        row[u'Stadt'] = thecity
+        uniquecities.add(foundItem['city']['shortname'])
         row[u'Dateibezeichnung'] = item['title']
         row[u'URL PARENT'] = 'https://www.govdata.de/daten/-/details/' + item['id']
         if 'notes' in item:
             row[u'Beschreibung'] = item['notes']
         if 'extras' in item and 'terms_of_use' in item['extras'] and 'license_id' in item['extras']['terms_of_use']:
-            row[u'Lizenz'] = item['extras']['terms_of_use']['license_id']
-        if 'maintainer' in item:
+            #Really?
+            if type(item['extras']['terms_of_use']) != dict:
+                row[u'Lizenz'] = json.loads(item['extras']['terms_of_use'])['license_id']
+            else:
+                row[u'Lizenz'] = item['extras']['terms_of_use']['license_id']
+        if 'maintainer' in item and item['maintainer'] != None:
             row[u'Veröffentlichende Stelle'] = item['maintainer']
         for group in item['groups']:
             odm_cats = metautils.govDataShortToODM(group)
@@ -86,14 +105,11 @@ for foundItem in foundItems:
                     row[cat] = 'x'
                 row[u'Noch nicht kategorisiert'] = ''       
 
-        datawriter.writerow(row)
-        row[u'Stadt'] = metautils.getShortCityName(theCity)
-        datafordb.append(row)
+        datafordb.append(row) 
     else:
-        print 'Excluding entry, in excludes list'
-        excludecount += 1
+            excludecount += 1
 
-csvoutfile.close()
+print str(excludecount) + ' items excluded.'       
 
 print 'Final list of cities for db:'
 for city in uniquecities:
@@ -106,8 +122,6 @@ metautils.addCities(uniquecities, None)
 metautils.removeDataFromPortal('govdata.de')
 #Add data, checking that used cities are in RLP
 metautils.addDataToDB(datafordb=datafordb, originating_portal='govdata.de', checked=True, accepted=False)
-
-print str(excludecount) + ' items excluded.'
 
 print 'govdata.de data added to the database with checked=True but accepted=False. Remember to run \
 the script for checking which entries have been accepted, which rejected, and which have not been \
