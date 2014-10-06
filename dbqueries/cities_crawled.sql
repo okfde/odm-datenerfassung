@@ -1,0 +1,1 @@
+﻿SELECT city_fullname, crawl_items_data FROM cities WHERE crawled = TRUE ORDER BY city_fullname
