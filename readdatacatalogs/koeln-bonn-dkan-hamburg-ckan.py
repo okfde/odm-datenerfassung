@@ -32,12 +32,13 @@ if cityname == "hamburg":
     if len(sys.argv) < 4:
         for item in listpackages:
             print 'Downloading dataset ' + item
-            purl = urllib.urlopen(url + "/api/3/action/package_show?id=" + item)
+            urltoread = url + "/api/3/action/package_show?id=" + item
+	    purl = urllib.urlopen(urltoread)
             pdata = json.loads(purl.read())
             if 'result' in pdata:
                 groups.append(pdata['result'])
             else:
-                print 'WARNING: No result - access denied?\n' + purl
+                print 'WARNING: No result - access denied?\n' + urltoread
     else:
         groups = listpackages
 else:
