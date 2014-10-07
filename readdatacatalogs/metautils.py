@@ -3,6 +3,7 @@ import sys
 import json
 import unicodecsv as csv
 import psycopg2
+import psycopg2.extras
 
 from collections import OrderedDict
 
@@ -14,12 +15,16 @@ geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WM
 ### Database operations ###
 con = None
 
-def getDBCursor():
+def getDBCursor(dictCursor = False):
     global con
+    if dictCursor:
+        dictCursor = psycopg2.extras.DictCursor
+    else:
+        dictCursor = None
     if con:
         con.close()
     try:
-        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1')
+        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1', cursor_factory=dictCursor)
         cur = con.cursor()
         return cur
     except psycopg2.DatabaseError, e:
@@ -63,6 +68,14 @@ def getCitiesWithOpenDataPortals():
     for result in cur.fetchall():
         portalcities.append(result[0])
     return portalcities
+    
+def getCitiesWithData():
+    cities = []
+    cur = getDBCursor()
+    cur.execute('SELECT DISTINCT city FROM data')
+    for result in cur.fetchall():
+        cities.append(result[0])
+    return cities
 
 #General purpose addition of data in Google Spreadsheets format to the DB
 #If checked == True then this data is 'open data'
@@ -517,7 +530,7 @@ def govDataLongToODM(group):
         return [u'Haushalt und Steuern', u'Sonstiges']
     elif group == u'Infrastruktur, Bauen und Wohnen':
         return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif u'Geographie, Geologie' in group:
+    elif u'Geologie' in group:
         return [u'Stadtentwicklung und Bebauung']
     elif group == u'Soziales':
         return [u'Sozialleistungen']

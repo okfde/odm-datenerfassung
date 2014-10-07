@@ -42,22 +42,25 @@ def reformatdata(cityname):
             for row in dictsdata[source]:
                 theurl = ''
                 
+                #URL of file found. Will be blank for data catalog.
                 url = row['URL Datei'].strip()
+                #URL of parent. Will be blank for Google/Bing
                 parent = row['URL PARENT'].strip()           
                 print 'Processing entry with parent [' + parent +'] and url [' + url + ']'
 
+                #If no parent, take file
                 if url != '' and parent == '':
                     theurl = url
+                #If no file URL or if parent isn't blank, take parent (parents are always favoured)
                 else:
                     theurl = parent
 
-                #Parents are always favoured and should be unique
+                #URLs must be unique
                 #We assume that all catalog and manual entries are unique
-                #Otherwise we rather aggressively expect the filenames to be unique;
-                #often there is more than one way to the same file
                 if (theurl not in takenrows) or source == 'd' or source == 'm':
                     print 'Adding ' + theurl 
                     row['URL'] = theurl
+                    #When we have parent and URL (crawler), store both
                     if theurl == parent and url != '':
                         row['filenames'] = [url]
                     else:
@@ -65,7 +68,7 @@ def reformatdata(cityname):
                     takenrows[theurl] = row
                 else:
                     print 'Not adding: url already there, transferring filename, categories and geo'
-                    if url != '':
+                    if url != '' and url != theurl: #Prevent storing url as filename when e.g. Google and Bing find the same result
                         takenrows[theurl]['filenames'].append(url)
                     for key in row:
                         if row[key].strip().lower() == 'x':

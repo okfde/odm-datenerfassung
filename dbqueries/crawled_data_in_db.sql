@@ -1,0 +1,1 @@
+﻿SELECT cities.city_fullname, COUNT (*) FROM data INNER JOIN cities ON data.city = cities.city_shortname WHERE cities.crawled = TRUE AND data.source = 'c' GROUP BY cities.city_fullname 
