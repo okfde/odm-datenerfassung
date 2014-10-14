@@ -7,6 +7,8 @@ import psycopg2
 
 import metautils
 
+from dbsettings import settings
+
 validsources = ('m', 'd', 'c', 'g', 'b')
 
 def reformatdata(cityname):
@@ -73,45 +75,35 @@ def reformatdata(cityname):
                     for key in row:
                         if row[key].strip().lower() == 'x':
                              takenrows[theurl][key] = 'x'
-
-    con = None
-    
-    try:
-        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1')
-        cur = con.cursor()
-        for row in takenrows.values():
-            formats = metautils.csvtoarray(row['Format'].upper())
-            
-            categories = []
-            geo = False
-            
-            for key in row:
-                if not(type(row[key]) == list):
-                    if row[key].strip().lower() == 'x':
-                        if key.strip().lower() == 'geo':
-                            geo = True
-                        else:
-                            categories.append(key)
-            checked = True #All of this data is 'open data'
-            accepted = False #Validation - inter source deduplification has NOT been performed
-            cur.execute("INSERT INTO data \
-                (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
-                SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
-                WHERE NOT EXISTS ( \
-                    SELECT url FROM data WHERE url = %s \
-                )",
-                (cityname, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
-                formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
-                row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-                row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
-                )
-    except psycopg2.DatabaseError, e:
-        print 'Database error: %s' % e
-        exit()
-    finally:
-        if con:
-            con.commit()
-            con.close()
+  
+    cur = metautils.getDBCursor(settings)
+    for row in takenrows.values():
+        formats = metautils.csvtoarray(row['Format'].upper())
+        
+        categories = []
+        geo = False
+        
+        for key in row:
+            if not(type(row[key]) == list):
+                if row[key].strip().lower() == 'x':
+                    if key.strip().lower() == 'geo':
+                        geo = True
+                    else:
+                        categories.append(key)
+        checked = True #All of this data is 'open data'
+        accepted = False #Validation - inter source deduplification has NOT been performed
+        cur.execute("INSERT INTO data \
+            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            WHERE NOT EXISTS ( \
+                SELECT url FROM data WHERE url = %s \
+            )",
+            (cityname, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
+            formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
+            row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
+            )
+        metautils.dbCommit()
            
 kurznamecolumn = 'kurzname'
 gidcolumn = 'GID in Datenerfassung'

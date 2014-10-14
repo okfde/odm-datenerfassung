@@ -19,9 +19,19 @@ geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WM
 
 ### Database operations ###
 con = None
+settings = None
 
-def getDBCursor(dictCursor = False):
+def setsettings(sentsettings):
+    global settings
+    settings = sentsettings
+    print settings
+
+def getDBCursor(sentsettings, dictCursor = False):
     global con
+    global settings
+    
+    if settings == None:
+        settings = sentsettings
     
     psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
     psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
@@ -33,7 +43,7 @@ def getDBCursor(dictCursor = False):
     if con:
         con.close()
     try:
-        con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1', cursor_factory=dictCursor)
+        con = psycopg2.connect(database=settings['DBNAME'], user=settings['DBUSER'], password=settings['DBPASSWD'], host=settings['DBHOST'], cursor_factory=dictCursor)
         cur = con.cursor()
         return cur
     except psycopg2.DatabaseError, e:
@@ -47,7 +57,7 @@ def dbCommit():
 
 #Add cities from the settlements list        
 def addCities(cities, bundesland):
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     for city in cities:
         long_name = convertSettlementNameToNormalName(city)
         short_name = getShortCityName(city)
@@ -66,7 +76,7 @@ def addCities(cities, bundesland):
     updateCitiesWithLatLong()
         
 def markCityAsUpdated(city_shortname):
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (city_shortname,))
     dbCommit()
     
@@ -74,12 +84,12 @@ def updateCitiesWithLatLong():
     #Assume terminal is UTF-8 compatible
     #sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     #sys.stderr = codecs.getwriter('utf8')(sys.stderr)
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     cur.execute('SELECT city_fullname FROM cities WHERE latitude IS NULL')
     cities = cur.fetchall()
     print str(len(cities)) + ' have missing lat/lon info'
     for row in cities:
-        cur = getDBCursor()
+        cur = getDBCursor(settings)
         print u"Trying to get location of " + row[0]
         url = u"https://nominatim.openstreetmap.org/search?q=" + urllib.quote_plus(row[0].encode('utf8')) + u",Germany&format=xml"
         print u"Using URL: " + url
@@ -102,7 +112,7 @@ def updateCitiesWithLatLong():
 
 def getCitiesWithOpenDataPortals():
     portalcities = []
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     cur.execute('SELECT city_shortname FROM cities WHERE LENGTH(open_data_portal) > 0')
     for result in cur.fetchall():
         portalcities.append(result[0])
@@ -110,7 +120,7 @@ def getCitiesWithOpenDataPortals():
     
 def getCitiesWithData():
     cities = []
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     cur.execute('SELECT DISTINCT city FROM data')
     for result in cur.fetchall():
         cities.append(result[0])
@@ -120,7 +130,7 @@ def getCitiesWithData():
 #If checked == True then this data is 'open data'
 #If accepted == True then inter source deduplification has been performed
 def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False):
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     badcities = []
     
     mapping = dict()
@@ -224,7 +234,7 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
     dbCommit()
             
 def removeDataFromPortal(portalId):
-    cur = getDBCursor()
+    cur = getDBCursor(settings)
     cur.execute("DELETE FROM data \
             WHERE originating_portal = %s", (portalId,))
     dbCommit()

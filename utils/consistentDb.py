@@ -2,13 +2,17 @@ import psycopg2
 
 import metautils
 
+from dbsettings import settings
+
+metautils.setsettings(settings)
+
 print 'Finding cities with data...'
 cities = metautils.getCitiesWithData()
 print cities
 
 print '\nRemoving search machine data that has been found with own crawler...'
 for city in cities:
-    cur = metautils.getDBCursor(dictCursor = True)
+    cur = metautils.getDBCursor(settings, dictCursor = True)
     
     #Get all Google and Bing data to see if the files have also been found by crawling (and in the future, data catalogs)
     cur.execute('SELECT source, url FROM data WHERE city LIKE %s AND source = %s OR source = %s', (city,'b','g'))
@@ -22,18 +26,18 @@ for city in cities:
     metautils.dbCommit()
 
 print '\nRemoving cities with no data that are not part of the original database...'
-cur = metautils.getDBCursor()
+cur = metautils.getDBCursor(settings)
 cur.execute('DELETE FROM cities WHERE city_shortname IN (SELECT cities.city_shortname FROM cities LEFT JOIN data ON data.city = cities.city_shortname WHERE data.city IS NULL AND cities.city_type IS NULL)')
 metautils.dbCommit()
 
 print '\nRemoving search machine and crawl data that is from the data catalog...'
-cur = metautils.getDBCursor(dictCursor = True)
+cur = metautils.getDBCursor(settings, dictCursor = True)
 #Get all portals
 cur.execute('SELECT city_shortname, open_data_portal, odp_alias FROM cities WHERE catalog_read = %s', (True,))
 citieswithportals = cur.fetchall()
 
 for result in citieswithportals:
-    cur = metautils.getDBCursor(dictCursor = True)
+    cur = metautils.getDBCursor(settings, dictCursor = True)
     city = result['city_shortname']
     print city
     cur.execute('SELECT url FROM data WHERE city LIKE %s AND source = %s OR source = %s OR source = %s AND accepted = %s', (city,'b','g','c',True))

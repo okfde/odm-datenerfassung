@@ -5,6 +5,8 @@ import sys
 
 import metautils
 
+from dbsettings import settings
+
 if (len(sys.argv)<3):
     print 'Usage: rostock-rlp-ckan rostock|rlp outputFilePrefix'
     exit()
@@ -76,6 +78,7 @@ elif sys.argv[1] == 'rlp':
     csvoutfile.close()
     
     #Write data to the DB
+    metautils.setsettings(settings)
     #Update city list
     metautils.addCities(uniquecities, 'Rheinland-Pfalz')
     #Remove this catalog's data

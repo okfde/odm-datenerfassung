@@ -2,6 +2,10 @@
 
 import psycopg2
 
+import metautils
+
+from dbsettings import settings
+
 SPIDER_MODULES = ['dirbot.spiders']
 NEWSPIDER_MODULE = 'dirbot.spiders'
 DEFAULT_ITEM_CLASS = 'dirbot.items.Website'
@@ -24,18 +28,8 @@ USER_AGENT = "Open_Data_Crawler/0.1 (+http://open-data-map.de)"
 
 ROBOTSTXT_BLACKLIST = dict()
 
-con = None
-    
-try:
-    con = psycopg2.connect(database='odm', user='postgres', password='p0stgre5', host='127.0.0.1')
-    cur = con.cursor()
-    cur.execute("SELECT url, crawl_blacklist FROM cities;")
-    results = cur.fetchall()
-    for result in results:
-        ROBOTSTXT_BLACKLIST[result[0]] = result[1] #Key is city url, value is array of forbidden URL parts    
-except psycopg2.DatabaseError, e:
-    print 'Database error: %s' % e
-    exit()
-finally:
-    if con:
-        con.close()
+cur = metautils.getDBCursor(settings)
+cur.execute("SELECT url, crawl_blacklist FROM cities;")
+results = cur.fetchall()
+for result in results:
+    ROBOTSTXT_BLACKLIST[result[0]] = result[1] #Key is city url, value is array of forbidden URL parts

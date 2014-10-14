@@ -6,6 +6,8 @@ import unicodecsv as csv
 
 import metautils
 
+from dbsettings import settings
+
 actualcategories = []
 
 if (len(sys.argv)<2):
@@ -116,6 +118,7 @@ for city in uniquecities:
     print city
 
 #Write data to the DB
+metautils.setsettings(settings)
 #Update city list
 metautils.addCities(uniquecities, None)
 #Remove this catalog's data
