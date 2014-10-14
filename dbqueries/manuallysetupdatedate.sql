@@ -1,0 +1,1 @@
+﻿SELECT DISTINCT city_fullname, contact_email, open_data_portal, last_updated, city_shortname, cities.url FROM cities JOIN data ON data.city = cities.city_shortname

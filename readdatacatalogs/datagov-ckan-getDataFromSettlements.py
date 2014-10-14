@@ -85,7 +85,7 @@ for foundItem in foundItems:
             row[u'Format'] = formattext
             row[u'geo'] = geo
         row[u'Stadt'] = thecity
-        uniquecities.add(foundItem['city']['shortname'])
+        uniquecities.add(foundItem['city']['originalname'])
         row[u'Dateibezeichnung'] = item['title']
         row[u'URL PARENT'] = 'https://www.govdata.de/daten/-/details/' + item['id']
         if 'notes' in item:
@@ -121,9 +121,6 @@ metautils.addCities(uniquecities, None)
 #Remove this catalog's data
 metautils.removeDataFromPortal('govdata.de')
 #Add data, checking that used cities are in RLP
-metautils.addDataToDB(datafordb=datafordb, originating_portal='govdata.de', checked=True, accepted=False)
+metautils.addDataToDB(datafordb=datafordb, originating_portal='govdata.de', checked=True, accepted=True)
 
-print 'govdata.de data added to the database with checked=True but accepted=False. Remember to run \
-the script for checking which entries have been accepted, which rejected, and which have not been \
-considered for acceptance yet'
 

@@ -20,11 +20,6 @@ for city in cities:
             print 'Excluding ' + result['url'] + ' from results (source: ' + result['source'] + ').'
             cur.execute('UPDATE data SET accepted = %s, checked = %s WHERE url LIKE %s', (False, True, result['url']))
     metautils.dbCommit()
-    
-
-    
-print '\nChecking if all cities with data have coordinates...'
-metautils.updateCitiesWithLatLong()
 
 print '\nRemoving cities with no data that are not part of the original database...'
 cur = metautils.getDBCursor()
@@ -66,4 +61,6 @@ for result in citieswithportals:
             cur.execute('UPDATE data SET accepted = %s, checked = %s WHERE url LIKE %s', (False, True, entry['url']))
     metautils.dbCommit()
     
+print '\nChecking if all cities with data have coordinates...'
+metautils.updateCitiesWithLatLong()
         

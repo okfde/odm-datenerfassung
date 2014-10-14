@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
+import codecs
 import json
 import unicodecsv as csv
 import psycopg2
 import psycopg2.extras
+import urllib
+import urllib2
+import time
+import xml.etree.ElementTree as etree
 
 from collections import OrderedDict
 
@@ -17,6 +22,10 @@ con = None
 
 def getDBCursor(dictCursor = False):
     global con
+    
+    psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+    psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
+    
     if dictCursor:
         dictCursor = psycopg2.extras.DictCursor
     else:
@@ -42,7 +51,7 @@ def addCities(cities, bundesland):
     for city in cities:
         long_name = convertSettlementNameToNormalName(city)
         short_name = getShortCityName(city)
-        print 'Trying to add ' + long_name + ' as ' + short_name 
+        print 'Trying to add ' + long_name + ' as ' + short_name + ' (supplied: ' + city + ')'
         cur.execute("INSERT INTO cities \
                     (city_shortname, city_fullname, bundesland) \
                     SELECT %s, %s, %s \
@@ -51,15 +60,45 @@ def addCities(cities, bundesland):
                     )",
                     (short_name, long_name, bundesland, short_name)
                    )
+        cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (short_name,))
     dbCommit()
+    print 'Updating cities with missing lat/lon info...'
     updateCitiesWithLatLong()
+        
+def markCityAsUpdated(city_shortname):
+    cur = getDBCursor()
+    cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (city_shortname,))
+    dbCommit()
     
 def updateCitiesWithLatLong():
-    #Get all cities without lat logn
-    #Do look up
-    #warn if couldn't be found; possibly print out result in any case
-    #insert
-    return "PASS"
+    #Assume terminal is UTF-8 compatible
+    #sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+    #sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+    cur = getDBCursor()
+    cur.execute('SELECT city_fullname FROM cities WHERE latitude IS NULL')
+    cities = cur.fetchall()
+    print str(len(cities)) + ' have missing lat/lon info'
+    for row in cities:
+        cur = getDBCursor()
+        print u"Trying to get location of " + row[0]
+        url = u"https://nominatim.openstreetmap.org/search?q=" + urllib.quote_plus(row[0].encode('utf8')) + u",Germany&format=xml"
+        print u"Using URL: " + url
+        req = urllib2.Request(url.encode('utf8'))
+        resp = urllib2.urlopen(req)
+        xml = resp.read()
+        root = etree.fromstring(xml)
+        
+        if len(root) > 0:
+            print row[0] + " has coordinates " + root[0].attrib['lat'] + ", " + root[0].attrib['lon'] + ' based on \"' + root[0].attrib['display_name'] + '\"'
+            cur.execute('UPDATE cities SET latitude=%s, longitude=%s WHERE city_fullname=%s', (root[0].attrib['lat'], root[0].attrib['lon'], row[0]))
+        else:
+            print 'WARNING: Could not get a location for ' + row[0]
+        #For debugging, turn this on so as to not overload the server
+        #raw_input("Press Enter to continue...")
+        
+        #Don't upset the server (extra cautious/friendly)
+        time.sleep(1)
+        dbCommit()
 
 def getCitiesWithOpenDataPortals():
     portalcities = []
