@@ -24,7 +24,6 @@ settings = None
 def setsettings(sentsettings):
     global settings
     settings = sentsettings
-    print settings
 
 def getDBCursor(sentsettings, dictCursor = False):
     global con
@@ -117,6 +116,15 @@ def getCitiesWithOpenDataPortals():
     for result in cur.fetchall():
         portalcities.append(result[0])
     return portalcities
+    
+def getCityOpenDataPortal(cityname):
+    cur = getDBCursor(settings)
+    cur.execute('SELECT open_data_portal FROM cities WHERE city_shortname=%s', (cityname,))
+    result = cur.fetchone()[0]
+    if 'http://' in result:
+        return result[7:len(result)]
+    else:
+        return result
     
 def getCitiesWithData():
     cities = []

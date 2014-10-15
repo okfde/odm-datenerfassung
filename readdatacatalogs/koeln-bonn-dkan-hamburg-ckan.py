@@ -5,6 +5,8 @@ import sys
 
 import metautils
 
+from dbsettings import settings
+
 url = ""
 cityname = sys.argv[1]
 
@@ -42,6 +44,7 @@ if cityname == "hamburg":
     else:
         groups = listpackages
 else:
+    print 'Downloading ' + url + "/api/3/action/current_package_list_with_resources..."
     jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     groups = json.loads(jsonurl.read())
 
@@ -58,6 +61,8 @@ csv_files = open(sys.argv[2]+'.files.csv', 'wb')
 csv_files_writer = csv.writer(csv_files, delimiter=',')
             
 datawriter.writeheader()
+
+datafordb = []
 
 for package in groups:
     filefound = False
@@ -98,19 +103,19 @@ for package in groups:
     if cityname == 'hamburg':
         #Generate URL for the catalog page
         row[u'URL PARENT'] = url + '/dataset/' + package['name']
-        if 'notes' in package:
+        if 'notes' in package and package['notes'] != None:
             row[u'Beschreibung'] = package['notes']
         else:
             row[u'Beschreibung'] = ''
         row[u'Zeitlicher Bezug'] = ''
-        if 'license_id' in package:
+        if 'license_id' in package and package['license_id'] != None:
             row[u'Lizenz'] = package['license_id']
         else:
             row[u'Lizenz'] = 'nicht bekannt'
-        if 'author' in package:
+        if 'author' in package and package['author'] != None:
             row[u'Veröffentlichende Stelle'] = package['author']
         else:
-            row[u'Veröffentlichende Stelle'] = None
+            row[u'Veröffentlichende Stelle'] = ''
             if 'extras' in package:
                 print 'WARNING: No author, checking extras'
                 for extra in package['extras']:
@@ -130,6 +135,17 @@ for package in groups:
         row[u'Veröffentlichende Stelle'] = package['publisher']
 
     datawriter.writerow(row)
-
+    row[u'Stadt'] = cityname
+    datafordb.append(row)
+    
 csvoutfile.close()
 csv_files.close()
+
+#Write data to the DB
+metautils.setsettings(settings)
+#Remove this catalog's data
+portalname = metautils.getCityOpenDataPortal(cityname)
+metautils.removeDataFromPortal(portalname)
+#Add data
+metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True)
+
