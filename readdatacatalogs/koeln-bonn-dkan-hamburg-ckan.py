@@ -123,16 +123,16 @@ for package in groups:
                         print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
         for group in metautils.setofvaluesasarray(package['groups'], 'title'):
             odm_cats = metautils.govDataLongToODM(group)
-            if len(odm_cats) > 0:
-                for cat in odm_cats:
-                    row[cat] = 'x'
-                row[u'Noch nicht kategorisiert'] = ''       
+            metautils.setcats(row, odm_cats)    
     else:
         row[u'URL PARENT'] = package['accessURL']
         row[u'Beschreibung'] = package['description']
         row[u'Zeitlicher Bezug'] = package['granularity']
         row[u'Lizenz'] = package['license']
         row[u'Veröffentlichende Stelle'] = package['publisher']
+        #Commas in categories cannot be distinguished from separation of categories :(
+        odm_cats = metautils.govDataLongToODM(package['keyword'], checkAll=True)
+        metautils.setcats(row, odm_cats)
 
     datawriter.writerow(row)
     row[u'Stadt'] = cityname

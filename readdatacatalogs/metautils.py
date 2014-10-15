@@ -579,32 +579,66 @@ def setBlankCategories(row):
     row[u'Verbraucher'] = ''
     row[u'Sonstiges'] = ''
     row[u'Noch nicht kategorisiert'] = 'x'
-    
     return row
-
-def govDataLongToODM(group):
-    group = group.strip()
-    if group == u'Bevölkerung' or group == u'Bildung und Wissenschaft' or group == u'Gesundheit' or group == u'Transport und Verkehr' or group == u'Politik und Wahlen' or group == u'Gesetze und Justiz':
-        return [group]
-    elif group == u'Wirtschaft und Arbeit':
-        return [u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung']
-    elif u'Verwaltung, Haushalt und Steuern' in group:
-        return [u'Haushalt und Steuern', u'Sonstiges']
-    elif group == u'Infrastruktur, Bauen und Wohnen':
-        return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif u'Geologie' in group:
-        return [u'Stadtentwicklung und Bebauung']
-    elif group == u'Soziales':
-        return [u'Sozialleistungen']
-    elif u'Sport und Tourismus' in group:
-        return [u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus']
-    elif group == u'Umwelt und Klima':
-        return [u'Umwelt']
-    elif group == u'Verbraucherschutz':
-        return [u'Verbraucher']
+    
+def setcats(row, cats):
+    if len(cats) > 0:
+        for cat in cats:
+            row[cat] = 'x'
+            row[u'Noch nicht kategorisiert'] = ''
     else:
-        print 'Warning: could not return a category for ' + group
-        return []
+        #Should already be this way, but...
+        row[u'Noch nicht kategorisiert'] = 'x'
+
+def govDataLongToODM(group, checkAll=False):
+    #This is designed to cope either with a single category or a string with all categories
+    group = group.strip()
+    returnvalue = []
+    if u'Bevölkerung' in group:
+        returnvalue.append(u'Bevölkerung')
+        if not checkAll: return returnvalue
+    if u'Bildung und Wissenschaft' in group:
+        returnvalue.append(u'Bildung und Wissenschaft')
+        if not checkAll: return returnvalue
+    if u'Gesundheit' in group:
+        returnvalue.append(u'Gesundheit')
+        if not checkAll: return returnvalue
+    if u'Transport und Verkehr' in group:
+        returnvalue.append(u'Transport und Verkehr')
+        if not checkAll: return returnvalue
+    if u'Politik und Wahlen' in group:
+        returnvalue.append(u'Politik und Wahlen')
+        if not checkAll: return returnvalue
+    if u'Gesetze und Justiz' in group:
+        returnvalue.append(u'Gesetze und Justiz')
+        if not checkAll: return returnvalue
+    if u'Wirtschaft und Arbeit' in group:
+        returnvalue.extend([u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung'])
+        if not checkAll: return returnvalue
+    if u'Verwaltung, Haushalt und Steuern' in group:
+        returnvalue.extend([u'Haushalt und Steuern', u'Sonstiges'])
+        if not checkAll: return returnvalue
+    if u'Infrastruktur, Bauen und Wohnen' in group:
+        returnvalue.extend([u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung'])
+        if not checkAll: return returnvalue
+    if u'Geologie' in group:
+        returnvalue.append(u'Stadtentwicklung und Bebauung')
+        if not checkAll: return returnvalue
+    if u'Soziales' in group:
+        returnvalue.append(u'Sozialleistungen')
+        if not checkAll: return returnvalue
+    if u'Sport und Tourismus' in group:
+        returnvalue.extend([u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus'])
+        if not checkAll: return returnvalue
+    if u'Umwelt und Klima' in group:
+        returnvalue.append(u'Umwelt')
+        if not checkAll: return returnvalue
+    if u'Verbraucherschutz' in group:
+        returnvalue.append(u'Verbraucher')
+        if not checkAll: return returnvalue
+    if len(returnvalue) == 0:
+        print 'Warning: could not return a category for \"' + group + '\"'
+    return returnvalue
         
 def govDataShortToODM(group):
     group = group.strip()
