@@ -238,6 +238,9 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
             row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
             )
+        
+        #If the city doesn't exist yet, this gets done when the city gets added 
+        cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['Stadt'],))
             
     dbCommit()
             
