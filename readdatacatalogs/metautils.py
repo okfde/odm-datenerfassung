@@ -70,7 +70,7 @@ def addCities(cities, bundesland):
                     )",
                     (short_name, long_name, bundesland, short_name)
                    )
-        cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (short_name,))
+        cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (short_name,))
     dbCommit()
     print 'Updating cities with missing lat/lon info...'
     updateCitiesWithLatLong()

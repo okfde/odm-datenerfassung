@@ -64,6 +64,9 @@ uniquecities = set()
 uniqueportals = set()
 datafordb = []
 
+#Write data to the DB
+metautils.setsettings(settings)
+
 #Don't use cities that have their own open data catalogs (regardless of originating portal field)
 excludecities = metautils.getCitiesWithOpenDataPortals() 
 
@@ -117,8 +120,6 @@ print 'Final list of cities for db:'
 for city in uniquecities:
     print city
 
-#Write data to the DB
-metautils.setsettings(settings)
 #Update city list
 metautils.addCities(uniquecities, None)
 #Remove this catalog's data
