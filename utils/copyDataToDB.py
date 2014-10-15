@@ -11,7 +11,7 @@ from dbsettings import settings
 
 validsources = ('m', 'd', 'c', 'g', 'b')
 
-def reformatdata(cityname):
+def reformatdata(cityname):    
     mapping = dict()
     mapping['city'] = u'Stadt'
     mapping['source'] = u'Quelle'
@@ -103,7 +103,7 @@ def reformatdata(cityname):
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
             row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
             )
-        metautils.dbCommit()
+    metautils.dbCommit()
            
 kurznamecolumn = 'kurzname'
 gidcolumn = 'GID in Datenerfassung'
