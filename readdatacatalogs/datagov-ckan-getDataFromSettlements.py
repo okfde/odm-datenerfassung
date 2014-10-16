@@ -114,11 +114,7 @@ for foundItem in foundItems:
     else:
             excludecount += 1
 
-print str(excludecount) + ' items excluded.'       
-
-print 'Final list of cities for db:'
-for city in uniquecities:
-    print city
+print str(excludecount) + ' items excluded.'
 
 #Update city list
 metautils.addCities(uniquecities, None)

@@ -60,7 +60,7 @@ def addCities(cities, bundesland):
     for city in cities:
         long_name = convertSettlementNameToNormalName(city)
         short_name = getShortCityName(city)
-        print 'Trying to add ' + long_name + ' as ' + short_name + ' (supplied: ' + city + ')'
+        print 'Trying to add ' + short_name
         cur.execute("INSERT INTO cities \
                     (city_shortname, city_fullname, bundesland) \
                     SELECT %s, %s, %s \
@@ -458,7 +458,7 @@ banlevel3 = tuple(banlevel3)
 baninemails = ('stein', 'au', 'bunde')
 
 #Try to get data that relates to a 'city'
-def findOnlyCityData(data, cities):
+def findOnlyCityData(data, cities, verbose=False):
     
     foundItems = []
 
@@ -470,7 +470,7 @@ def findOnlyCityData(data, cities):
             searchtext = createwholelcwords(item['maintainer'])
             for city in cities:
                 if city['shortname'] not in banlevel3 and city['shortnamePadded'] in searchtext:
-                        print 'Found in maintainer: ' + city['shortname'] + '\nin\n' + searchtext
+                        if verbose: print 'Found in maintainer: ' + city['shortname'] + '\nin\n' + searchtext
                         founditem = True
                         foundcity = city
                         matchedon = 'maintainer'
@@ -479,7 +479,7 @@ def findOnlyCityData(data, cities):
             searchtext = createwholelcwords(item['author'])
             for city in cities:
                 if city['shortname'] not in banlevel3 and city['shortnamePadded'] in searchtext:
-                    print 'Found in author: ' + city['shortname'] + '\nin\n' + searchtext
+                    if verbose: print 'Found in author: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
                     matchedon = 'author'
@@ -487,7 +487,7 @@ def findOnlyCityData(data, cities):
         if ((not founditem) and 'maintainer_email' in item and item['maintainer_email'] != None):
             for city in cities:
                 if testnospacematch(city['shortname'], extract_em_domain(item['maintainer_email'])):
-                    print 'Found in maintainer email domain: ' + city['shortname'] + '\nin\n' + item['maintainer_email'].lower()
+                    if verbose: print 'Found in maintainer email domain: ' + city['shortname'] + '\nin\n' + item['maintainer_email'].lower()
                     founditem = True
                     foundcity = city
                     matchedon = 'maintainer_email'
@@ -495,7 +495,7 @@ def findOnlyCityData(data, cities):
         if ((not founditem) and 'author_email' in item and item['author_email'] != None):
             for city in cities:
                 if testnospacematch(city['shortname'], extract_em_domain(item['author_email'])):
-                    print 'Found in author email domain: ' + city['shortname'] + '\nin\n' + item['author_email'].lower()
+                    if verbose: print 'Found in author email domain: ' + city['shortname'] + '\nin\n' + item['author_email'].lower()
                     founditem = True
                     foundcity = city
                     matchedon = 'author_email'
@@ -504,7 +504,7 @@ def findOnlyCityData(data, cities):
             searchtext = createwholelcwords(item['title'])
             for city in cities:
                 if city['shortname'] not in banlevel2 and city['shortnamePadded'] in searchtext:
-                    print 'Found in title: ' + city['shortname'] + '\nin\n' + searchtext
+                    if verbose: print 'Found in title: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
                     matchedon = 'title'
@@ -513,7 +513,7 @@ def findOnlyCityData(data, cities):
             searchtext = createwholelcwords(item['notes'])
             for city in cities:
                 if city['shortname'] not in banlevel3 and city['shortnamePadded'] in searchtext:
-                    print 'Found in notes: ' + city['shortname'] + '\nin\n' + searchtext
+                    if verbose: print 'Found in notes: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
                     foundcity = city
                     matchedon = 'notes'
@@ -525,7 +525,7 @@ def findOnlyCityData(data, cities):
                 for tag in item['tags']:
                     #Tag must be exact match
                     if city['shortname'] == tag.lower() and tag.lower() not in banlevel1:
-                        print 'Matched tag: ' + city['shortname'] + '\nin\n' + tag.lower()
+                        if verbose: print 'Matched tag: ' + city['shortname'] + '\nin\n' + tag.lower()
                         founditem = True
                         foundcity = city
                         matchedon = 'tags'
@@ -640,7 +640,7 @@ def govDataLongToODM(group, checkAll=False):
         returnvalue.append(u'Verbraucher')
         if not checkAll: return returnvalue
     if len(returnvalue) == 0:
-        print 'Warning: could not return a category for \"' + group + '\"'
+        print 'Warning: could not return a category'
     return returnvalue
         
 def govDataShortToODM(group):
