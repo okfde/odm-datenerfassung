@@ -9,8 +9,18 @@ import urllib
 import urllib2
 import time
 import xml.etree.ElementTree as etree
+from BeautifulSoup import BeautifulSoup
 
 from collections import OrderedDict
+
+### CONTENTS:
+### Interesting formats for searching
+### Database operations
+### Deal with data structures
+### Data processing utilities
+### Process CKAN data into files/DB output
+### City names database and cleaning  
+### Categories
 
 ### Interesting formats ###
 geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
@@ -203,7 +213,12 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                     if theurl == parent and url != '':
                         row['filenames'] = [url]
                     else:
-                        row['filenames'] = []
+                        #Messy, but if the data is from a catalog we may already have a list of files
+                        #deeply buried here is where they actually get carried over...
+                        if 'files' in row:
+                            row['filenames'] = row['files']
+                        else:
+                            row['filenames'] = []
                     takenrows[theurl] = row
                 else:
                     print 'Not adding: url already there, transferring filename, categories and geo'
@@ -342,7 +357,30 @@ def processListOfFormats(formatArray):
     text = arraytocsv(formats)
     
     return [text, geo]
-     
+    
+def long_license_to_short(licensetext):
+    #Put badly named things here
+    if licensetext == 'Creative Commons CCZero':
+        licensetext = 'CC0 1.0'  
+    #The action   
+    jsonurl = urllib.urlopen('http://licenses.opendefinition.org/licenses/groups/all.json')
+    licenses = json.loads(jsonurl.read())
+    for key in (licenses):
+        lic = licenses[key]
+        if licensetext.lower().strip() == lic['title'].lower():
+            return lic['id']
+    #Not open licenses
+    if licensetext == 'Datenlizenz Deutschland Namensnennung - nicht kommerziell':
+        return 'dl-de-by-nc-1.0'
+    elif licensetext == 'Datenlizenz Deutschland Namensnennung':
+        return 'dl-de-by-1.0'
+    print 'Could not find a match for ' + licensetext
+    return licensetext
+    
+def unrenderhtml(html):
+    soup = BeautifulSoup(html)
+    return soup.getText('\n')
+         
 #Do a fairly simple dump of desired data and try to get the filename, geo or not, unpack categories and tags
 def writerawresults(data, columns, placeholderurl, filename):
     csvoutfile = open(sys.argv[2] + '.csv', 'wb')
@@ -417,7 +455,7 @@ def getCities():
             newname = findLcGermanCharsAndReplace(newname)
             cityToAdd = dict()
             cityToAdd['shortname'] = row[0].lower()
-            cityToAdd['shortnamePadded'] = ' ' + cityToAdd['shortname'] + ' '
+            cityToAdd['shortnamePadded'] = ' ' + cityToAdd['shortname'].capitalize() + ' '
             cityToAdd['originalname'] = row[1]
             cityToAdd['land'] = row[2]
             cities.append(cityToAdd)
@@ -556,7 +594,7 @@ def createwholelcwords(words):
     return ' ' + words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower() + ' '
 
 ### End city names database and cleaning ###
-    
+  
 ### Categories ###
 def setBlankCategories(row):
     row[u'Veröffentlichende Stelle'] = ''
@@ -624,7 +662,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Infrastruktur, Bauen und Wohnen' in group:
         returnvalue.extend([u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung'])
         if not checkAll: return returnvalue
-    if u'Geologie' in group:
+    if u'Geo' in group:
         returnvalue.append(u'Stadtentwicklung und Bebauung')
         if not checkAll: return returnvalue
     if u'Soziales' in group:

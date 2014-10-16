@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urllib, json
+import urllib, urllib2, json
 import unicodecsv as csv
 import sys
 
@@ -20,27 +20,41 @@ else:
     print 'First argument must be an city; unsupported city'
     exit()
 
-if cityname == "hamburg":
+if cityname == "hamburg" or cityname == "koeln":
     jsonurl = urllib.urlopen(url + "/api/3/action/package_list")
-    if len(sys.argv) > 3:
+    if len(sys.argv) > 2:
         print 'Loading from file...'
-        jsonurl = open(sys.argv[3], 'rb')
+        jsonurl = open(sys.argv[2], 'rb')
     listpackages = json.loads(jsonurl.read())
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         listpackages = listpackages['result']
-    if len(sys.argv) > 3:
+    if len(sys.argv) > 2:
         jsonurl.close()
     groups = []
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
+        print 'INFO: the names that follow have had special characters removed'
         for item in listpackages:
-            print 'Downloading dataset ' + item
+            print 'Downloading dataset ' + metautils.findLcGermanCharsAndReplace(item)
             urltoread = url + "/api/3/action/package_show?id=" + item
-	    purl = urllib.urlopen(urltoread)
-            pdata = json.loads(purl.read())
-            if 'result' in pdata:
-                groups.append(pdata['result'])
+            trycount = 0
+            try:
+                req = urllib2.Request(urltoread.encode('utf8'))
+                resp = urllib2.urlopen(req)
+                urldata = resp.read()
+            except IOError:
+                if trycount == 100:
+                    print 'Download failed 100 times, giving up...'
+                    exit()
+                print 'Something went wrong, retrying...'
+                trycount += 1
+            pdata = json.loads(urldata)
+            if 'success' in pdata and pdata['success']:
+                if cityname == "koeln":
+                    groups.append(pdata['result'][0])
+                else:
+                    groups.append(pdata['result'])
             else:
-                print 'WARNING: No result - access denied?\n' + urltoread
+                print 'WARNING: No result - access denied?\n' + metautils.findLcGermanCharsAndReplace(item)
     else:
         groups = listpackages
 else:
@@ -49,30 +63,20 @@ else:
     groups = json.loads(jsonurl.read())
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
-if cityname == "hamburg" and len(sys.argv) < 4:
+if cityname == "hamburg" and len(sys.argv) < 3:
     with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
-
-row = metautils.getBlankRow()
-
-csvoutfile = open(sys.argv[2]+'.csv', 'wb')
-datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')
-csv_files = open(sys.argv[2]+'.files.csv', 'wb')
-csv_files_writer = csv.writer(csv_files, delimiter=',')
-            
-datawriter.writeheader()
 
 datafordb = []
 
 for package in groups:
-    filefound = False
-    
     resources = []
-    formatarray = []
+    formats = set()
+    files = []
     urlkey = 'url'
     formatkey = 'format'
     
-    if cityname != "hamburg":
+    if cityname == "bonn":
         fulljsonurl = urllib.urlopen(package['webService'])
         fulldata = json.loads(fulljsonurl.read())
         urlkey = 'file_url'
@@ -81,65 +85,67 @@ for package in groups:
     else:
         if ('resources' in package):
             resources = package['resources']
-    
-    #TODO: Formats for dkan
+
     for file in resources:
         if (file[urlkey] != ''):
-            filefound = True
-            filerow = []
-            filerow.append(file[urlkey])
-            csv_files_writer.writerow(filerow)
-            if cityname == "hamburg":
-                format = file[formatkey]
-                if format not in formatarray:
-                    formatarray.append(format)
-    
+            files.append(file[urlkey])
+            format = file[formatkey]
+            formats.add(format.upper())
+
     row = metautils.getBlankRow()
     
-    row[u'Format'] = metautils.arraytocsv(formatarray)
-    row[u'Stadt'] = cityname + '.de'
+    row[u'Format'] = metautils.arraytocsv(formats)
+    row[u'Stadt'] = cityname
     row[u'Dateibezeichnung'] = package['title']
+    row[u'files'] = files
     
-    if cityname == 'hamburg':
+    if cityname == 'hamburg' or cityname == 'koeln':
+        if cityname == 'hamburg':
+            licensekey = 'license_id'
+            vstellekey = 'author'
+            catskey = 'groups'
+            catssubkey = 'title'
+        if cityname == 'koeln':
+            licensekey = 'license_title'
+            vstellekey = 'maintainer' 
+            catskey = 'tags'
+            catssubkey = 'name'
         #Generate URL for the catalog page
         row[u'URL PARENT'] = url + '/dataset/' + package['name']
         if 'notes' in package and package['notes'] != None:
             row[u'Beschreibung'] = package['notes']
+            if cityname == 'koeln':
+                row[u'Beschreibung'] = metautils.unrenderhtml(row[u'Beschreibung'])
         else:
             row[u'Beschreibung'] = ''
         row[u'Zeitlicher Bezug'] = ''
-        if 'license_id' in package and package['license_id'] != None:
-            row[u'Lizenz'] = package['license_id']
+        if licensekey in package and package[licensekey] != None:
+            row[u'Lizenz'] = package[licensekey]
         else:
             row[u'Lizenz'] = 'nicht bekannt'
-        if 'author' in package and package['author'] != None:
-            row[u'Veröffentlichende Stelle'] = package['author']
+        if vstellekey in package and package[vstellekey] != None:
+            row[u'Veröffentlichende Stelle'] = package[vstellekey]
         else:
             row[u'Veröffentlichende Stelle'] = ''
             if 'extras' in package:
-                print 'WARNING: No author, checking extras'
+                print 'WARNING: No author/maintainer/publisher, checking extras'
                 for extra in package['extras']:
                     if extra['key'] == 'contacts':
                         print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
-        for group in metautils.setofvaluesasarray(package['groups'], 'title'):
+        for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
             odm_cats = metautils.govDataLongToODM(group)
             metautils.setcats(row, odm_cats)    
-    else:
+    #Bonn is just different enough to do it separately. TODO: Consider combining into above.
+    elif cityname == 'bonn':
         row[u'URL PARENT'] = package['accessURL']
-        row[u'Beschreibung'] = package['description']
+        row[u'Beschreibung'] = fulldata['description']
         row[u'Zeitlicher Bezug'] = package['granularity']
-        row[u'Lizenz'] = package['license']
+        row[u'Lizenz'] = metautils.long_license_to_short(package['license'])
         row[u'Veröffentlichende Stelle'] = package['publisher']
         #Commas in categories cannot be distinguished from separation of categories :(
         odm_cats = metautils.govDataLongToODM(package['keyword'], checkAll=True)
         metautils.setcats(row, odm_cats)
-
-    datawriter.writerow(row)
-    row[u'Stadt'] = cityname
     datafordb.append(row)
-    
-csvoutfile.close()
-csv_files.close()
 
 #Write data to the DB
 metautils.setsettings(settings)
