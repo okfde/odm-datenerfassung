@@ -90,28 +90,24 @@ def markCityAsUpdated(city_shortname):
     dbCommit()
     
 def updateCitiesWithLatLong():
-    #Assume terminal is UTF-8 compatible
-    #sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-    #sys.stderr = codecs.getwriter('utf8')(sys.stderr)
     cur = getDBCursor(settings)
-    cur.execute('SELECT city_fullname FROM cities WHERE latitude IS NULL')
+    cur.execute('SELECT city_fullname, city_shortname FROM cities WHERE latitude IS NULL')
     cities = cur.fetchall()
     print str(len(cities)) + ' have missing lat/lon info'
     for row in cities:
         cur = getDBCursor(settings)
-        print u"Trying to get location of " + row[0]
+        print u"Trying to get location of " + row[1]
         url = u"https://nominatim.openstreetmap.org/search?q=" + urllib.quote_plus(row[0].encode('utf8')) + u",Germany&format=xml"
-        print u"Using URL: " + url
         req = urllib2.Request(url.encode('utf8'))
         resp = urllib2.urlopen(req)
         xml = resp.read()
         root = etree.fromstring(xml)
         
         if len(root) > 0:
-            print row[0] + " has coordinates " + root[0].attrib['lat'] + ", " + root[0].attrib['lon'] + ' based on \"' + root[0].attrib['display_name'] + '\"'
+            print row[1] + " has coordinates " + root[0].attrib['lat'] + ", " + root[0].attrib['lon'] + ' based on \"' + metautils.findLcGermanCharsAndReplace(root[0].attrib['display_name'].lower()) + '\"'
             cur.execute('UPDATE cities SET latitude=%s, longitude=%s WHERE city_fullname=%s', (root[0].attrib['lat'], root[0].attrib['lon'], row[0]))
         else:
-            print 'WARNING: Could not get a location for ' + row[0]
+            print 'WARNING: Could not get a location for ' + row[1]
         #For debugging, turn this on so as to not overload the server
         #raw_input("Press Enter to continue...")
         
