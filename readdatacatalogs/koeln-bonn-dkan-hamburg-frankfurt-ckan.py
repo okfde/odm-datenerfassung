@@ -67,8 +67,12 @@ else:
         groups = groups['result']
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
+#Also do this for Köln as the data is much better when using individual data sets
 if cityname == "hamburg" and len(sys.argv) < 3:
     with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
+        json.dump(groups, outfile)
+elif cityname == 'koeln':
+    with open('../metadata/koeln/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
 datafordb = []
