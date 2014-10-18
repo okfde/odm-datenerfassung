@@ -104,7 +104,7 @@ def updateCitiesWithLatLong():
         root = etree.fromstring(xml)
         
         if len(root) > 0:
-            print row[1] + " has coordinates " + root[0].attrib['lat'] + ", " + root[0].attrib['lon'] + ' based on \"' + metautils.findLcGermanCharsAndReplace(root[0].attrib['display_name'].lower()) + '\"'
+            print row[1] + " has coordinates " + root[0].attrib['lat'] + ", " + root[0].attrib['lon'] + ' based on \"' + findLcGermanCharsAndReplace(root[0].attrib['display_name'].lower()) + '\"'
             cur.execute('UPDATE cities SET latitude=%s, longitude=%s WHERE city_fullname=%s', (root[0].attrib['lat'], root[0].attrib['lon'], row[0]))
         else:
             print 'WARNING: Could not get a location for ' + row[1]
