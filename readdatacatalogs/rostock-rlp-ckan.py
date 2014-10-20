@@ -7,15 +7,11 @@ import metautils
 
 from dbsettings import settings
 
-if (len(sys.argv)<3):
-    print 'Usage: rostock-rlp-ckan rostock|rlp outputFilePrefix'
-    exit()
+cityimport = sys.argv[1]
 
-columns = ['title', 'name', 'notes', 'id', 'url', 'author', 'author_email', 'maintainer', 'maintainer_email', 'metadata_created', 'metadata_modified', 'capacity', 'state',  'version', 'license_id']
-
-if sys.argv[1] == 'rostock':
+if cityimport == 'rostock':
     jsonurl = urllib.urlopen("http://www.opendata-hro.de/api/2/search/dataset?q=&limit=1000&all_fields=1")
-elif sys.argv[1] == 'rlp':
+elif cityimport == 'rlp':
     jsonurl = urllib.urlopen("http://www.daten.rlp.de/api/2/search/dataset?q=&limit=4000&all_fields=1")
 else:
     print 'Error: \'rostock\' or \'rlp\' must be specified as the first argument'
@@ -23,65 +19,86 @@ else:
 
 data = json.loads(jsonurl.read())
 
-if sys.argv[1] == 'rostock':
-    #The old way - dump data
-    metautils.writerawresults(data['results'], columns, 'http://www.opendata-hro.de/dataset/', sys.argv[2])
-elif sys.argv[1] == 'rlp':
+if cityimport == 'rlp':
     #Only deal with communal data
     allcities = metautils.getCities()
-    cities = metautils.filterCitiesByLand(allcities, 'Rheinland-Pfalz')
+    #First take the Verbandsgemeinde
+    cities = metautils.getCities(alternativeFile='verbandsgemeinderlp.csv')
+    #Then all settlements in RLP
+    cities.extend(metautils.filterCitiesByLand(allcities, 'Rheinland-Pfalz'))
     beforefilter = len(data['results'])
     data = metautils.findOnlyCityData(data['results'], cities)
     afterfilter = len(data)
-    
     print 'Of the total ' + str(beforefilter) + ' records, ' + str(afterfilter) + ' appear to be related to a city'
-    
-    #Map and write the data. Still wondering how much of this can/should be pulled out to metautils
+elif cityimport == 'rostock':
+    data = data['results']
+
+#Map and write the data. Still wondering how much of this can/should be pulled out to metautils
+row = metautils.getBlankRow()
+uniquecities = set()
+datafordb = []
+
+for result in data:
+
+    files = []
+    resources = []
+
+    if cityimport == 'rlp':
+        package = result['item']
+    elif cityimport == 'rostock':
+        package = result
+        
     row = metautils.getBlankRow()
 
-    csvoutfile = open(sys.argv[2]+'.csv', 'wb')
-    datawriter = csv.DictWriter(csvoutfile, row, delimiter=',')      
-    datawriter.writeheader()
-    
-    uniquecities = set()
-    datafordb = []
+    if ('res_url' in package):
+        resources = package['res_url']
 
-    for result in data:
-        package = result['item']
-        row = metautils.getBlankRow()
+    for file in resources:
+        files.append(file)
         
-        if ('res_format' in package):
-            [formattext, geo] = metautils.processListOfFormats(package['res_format'])
-            row[u'Format'] = formattext
-            row[u'geo'] = geo
-        row[u'Stadt'] = result['city']['originalname']
-        uniquecities.add(result['city']['originalname'])
-        row[u'Dateibezeichnung'] = package['title']
-        row[u'URL PARENT'] = 'http://www.daten.rlp.de/dataset/' + package['id']
-        if 'notes' in package:
-            row[u'Beschreibung'] = package['notes']
-        if 'license_id' in package:
-            row[u'Lizenz'] = package['license_id']
-        if 'maintainer' in package:
-            row[u'Veröffentlichende Stelle'] = package['maintainer']
-        for group in package['groups']:
-            odm_cats = metautils.govDataShortToODM(group)
-            if len(odm_cats) > 0:
-                for cat in odm_cats:
-                    row[cat] = 'x'
-                row[u'Noch nicht kategorisiert'] = ''       
+    row[u'files'] = files
 
-        datawriter.writerow(row)
+    if cityimport == 'rlp':
         row[u'Stadt'] = metautils.getShortCityName(result['city']['originalname'])
-        datafordb.append(row)
+        uniquecities.add(result['city']['originalname'])
+        row[u'URL PARENT'] = 'http://www.daten.rlp.de/dataset/' + package['id']
+    elif cityimport == 'rostock':
+        row[u'Stadt'] = 'rostock'
+        row[u'URL PARENT'] = 'http://www.opendata-hro.de/dataset/' + package['id']
+        
+    if ('res_format' in package):
+        [formattext, geo] = metautils.processListOfFormats(package['res_format'])
+        row[u'Format'] = formattext
+        row[u'geo'] = geo
+        
+    row[u'Dateibezeichnung'] = package['title']
+    if 'notes' in package:
+        row[u'Beschreibung'] = package['notes']
+    if 'license_id' in package:
+        row[u'Lizenz'] = package['license_id']
+    if 'maintainer' in package:
+        row[u'Veröffentlichende Stelle'] = package['maintainer']
+        
+    for group in package['groups']:
+        odm_cats = metautils.govDataShortToODM(group)
+        if len(odm_cats) > 0:
+            for cat in odm_cats:
+                row[cat] = 'x'
+            row[u'Noch nicht kategorisiert'] = ''       
 
-    csvoutfile.close()
-    
-    #Write data to the DB
-    metautils.setsettings(settings)
+    datafordb.append(row)
+
+#Write data to the DB
+metautils.setsettings(settings)
+if cityimport == 'rlp':
     #Update city list
     metautils.addCities(uniquecities, 'Rheinland-Pfalz')
     #Remove this catalog's data
     metautils.removeDataFromPortal('daten.rlp.de')
     #Add data, checking that used cities are in RLP
     metautils.addDataToDB(datafordb=datafordb, bundesland='Rheinland-Pfalz', originating_portal='daten.rlp.de', checked=True, accepted=True)
+elif cityimport == 'rostock':
+    #Remove this catalog's data
+    metautils.removeDataFromPortal('opendata-hro.de')
+    #Add data, checking that used cities are in RLP
+    metautils.addDataToDB(datafordb=datafordb, originating_portal='opendata-hro.de', checked=True, accepted=True)

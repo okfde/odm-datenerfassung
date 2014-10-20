@@ -97,7 +97,12 @@ def updateCitiesWithLatLong():
     for row in cities:
         cur = getDBCursor(settings)
         print u"Trying to get location of " + row[1]
-        url = u"https://nominatim.openstreetmap.org/search?q=" + urllib.quote_plus(row[0].encode('utf8')) + u",Germany&format=xml"
+        #Cope with Verbandsgemeinde
+        if 'Verbandsgemeinde ' in row[0]:
+            searchtext = row[0][17:len(row[0])] + ', Rheinland-Pfalz'
+        else:
+            searchtext = row[0]
+        url = u"https://nominatim.openstreetmap.org/search?q=" + urllib.quote_plus(searchtext.encode('utf8')) + u",Germany&format=xml"
         req = urllib2.Request(url.encode('utf8'))
         resp = urllib2.urlopen(req)
         xml = resp.read()
@@ -145,6 +150,7 @@ def getCitiesWithData():
 #If accepted == True then inter source deduplification has been performed
 def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False):
     cur = getDBCursor(settings)
+    
     badcities = []
     
     mapping = dict()
@@ -231,7 +237,7 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
         geo = False
 
         for key in row:
-            if type(row[key]) != list:
+            if type(row[key]) != list and type(row[key]) != dict:
                 if row[key].strip().lower() == 'x':
                     if key.strip().lower() == 'geo':
                         geo = True
@@ -239,15 +245,15 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                         categories.append(key)
 
         cur.execute("INSERT INTO data \
-            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, metadata) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
             WHERE NOT EXISTS ( \
                 SELECT url FROM data WHERE url = %s \
             )",
             (row['Stadt'], originating_portal, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
             formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row['URL'])
             )
         
         #If the city doesn't exist yet, this gets done when the city gets added 
@@ -335,6 +341,10 @@ def getBlankRow():
         row[key] = ''
     row[u'Quelle'] = 'd'
     row[u'Noch nicht kategorisiert'] = 'x'
+    
+    #Extra things that need to be there but aren't part of the original plan
+    row[u'metadata'] = ''
+    
     return row
   
 #Our schema
@@ -439,8 +449,12 @@ def writerawresults(data, columns, placeholderurl, filename):
     csvfilesoutfile.close();
 
 ### City names database and cleaning ###
-def getCities():
-    with open('settlementsInGermany.csv', 'rb') as csvfile:
+def getCities(alternativeFile = ''):
+    if alternativeFile == '':
+        filetoread = 'settlementsInGermany.csv'
+    else:
+        filetoread = alternativeFile
+    with open(filetoread, 'rb') as csvfile:
         cityreader = csv.reader(csvfile, delimiter=',')
     
         cities = []
@@ -453,7 +467,8 @@ def getCities():
             cityToAdd['shortname'] = row[0].lower()
             cityToAdd['shortnamePadded'] = ' ' + cityToAdd['shortname'].capitalize() + ' '
             cityToAdd['originalname'] = row[1]
-            cityToAdd['land'] = row[2]
+            if len(row) > 2:
+                cityToAdd['land'] = row[2]
             cities.append(cityToAdd)
             if newname != row[0].lower():
                 newCity = cityToAdd.copy()
@@ -587,7 +602,7 @@ def testnospacematch(cityname, searchtext):
 # separating items to spaces as a pre-processing step. In case the city might be mentioned
 # at the very beginning, we add a space at the beginning, ditto at the end.
 def createwholelcwords(words):
-    return ' ' + words.replace(',', ' ').replace('.', ' ').replace('\n', ' ').lower() + ' '
+    return ' ' + words.replace(',', ' ').replace('.', ' ').replace('\n', ' ') + ' '
 
 ### End city names database and cleaning ###
   
@@ -681,31 +696,33 @@ def govDataShortToODM(group):
     group = group.strip()
     if group == 'bevoelkerung' or group == 'society':
         return [u'Bevölkerung']
-    elif group == 'bildung_wissenschaft':
+    elif group == 'bildung_wissenschaft' or group == 'bildung':
         return [u'Bildung und Wissenschaft']
     elif group == 'wirtschaft_arbeit':
         return [u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung']
     elif group == 'infrastruktur_bauen_wohnen':
         return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif group == 'geo' or group == 'structure' or group == 'boundaries' or group == 'gdi-rp':
+    elif group == 'geo' or group == 'geografie' or group == 'structure' or group == 'infrastruktur' or group == 'boundaries' or group == 'gdi-rp':
         return [u'Stadtentwicklung und Bebauung']
     elif group == 'gesundheit' or group == 'health':
         return [u'Gesundheit']
-    elif group == 'soziales':
+    elif group == 'soziales' or group == 'sozial':
         return [u'Sozialleistungen']
+    elif group == 'kultur':
+        return [u'Kunst und Kultur']
     elif group == 'kultur_freizeit_sport_tourismus':
         return [u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus']
-    elif group == 'umwelt_klima' or group == 'environment' or group == 'biota' or group == 'oceans':
+    elif group == 'umwelt_klima' or group == 'umwelt' or group == 'environment' or group == 'biota' or group == 'oceans':
         return [u'Umwelt']
-    elif group == 'transport_verkehr':
+    elif group == 'transport_verkehr' or group == 'transport':
         return [u'Transport und Verkehr']
     elif group == 'verbraucher':
         return [u'Verbraucher']
-    elif group == 'politik_wahlen':
+    elif group == 'politik_wahlen' or group == 'politik':
         return [u'Politik und Wahlen']
-    elif group == 'gesetze_justiz':
+    elif group == 'gesetze_justiz' or group == 'justiz':
         return [u'Gesetze und Justiz']
-    elif group == 'economy':
+    elif group == 'economy' or group == 'wirtschaft':
         return [u'Wirtschaft und Wirtschaftsförderung']
     elif group == 'verwaltung':
         return [u'Sonstiges']

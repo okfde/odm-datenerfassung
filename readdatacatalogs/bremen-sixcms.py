@@ -1,124 +1,63 @@
 import urllib, json
 import unicodecsv as csv
-import sys
 
-geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS')
+import metautils
 
-allfilenameurls = []
-
-csvoutfile = open(sys.argv[1], 'wb')
-datawriter = csv.writer(csvoutfile, delimiter=',')
-
-columns = ['title', 'name', 'notes', 'url']
-
-row = []
-
-for column in columns:
-    row.append(column);
-    
-row.extend(['format', 'geo', 'groups', 'tags', 'ansprechpartner', 'ansprechpartner_email', 'erstellt', 'aktualisiert', 'veroeffentlicht', 'licence_id', 'attribution_text'])
-
-extras = ['temporal_coverage_from', 'temporal_coverage_to', 'temporal_granularity', 'metadata_original', 'metadata_original_portal', 'ogdd_version']
-
-row.extend(extras)
-
-datawriter.writerow(row)
+from dbsettings import settings
 
 jsonurl = urllib.urlopen("http://daten.bremen.de/sixcms/detail.php?template=export_daten_json_d")
 
 packages = json.loads(jsonurl.read())
 
-for package in packages:
-    row = []
+datafordb = []
 
-    for column in columns:
-        row.append(package[column])
+for package in packages:
+    row = metautils.getBlankRow()
+    row[u'Stadt'] = 'bremen'
+    row[u'Dateibezeichnung'] = package['title']
+    row[u'Beschreibung'] = package['notes']
+    row[u'URL PARENT'] = package['url']
     
-    #Get resource formats
+    #Get resources and formats
     if ('resources' in package and len(package['resources']) > 0):
-        geo = ''
-        text = ""
         formats = []
+        files = []
         for resource in package['resources']:
-            urlrow = []
-            urlrow.append(resource['url'])
-            allfilenameurls.append(urlrow)
-            if (resource['format'] not in formats):
-                formats.append(resource['format'].upper())
-                if (resource['format'].upper() in geoformats):
-                    geo = 'x'
+            files.append(resource['url'])
+            formats.append(resource['format'])
+        [formattext, geo] = metautils.processListOfFormats(formats)
+        row[u'Format'] = formattext
+        row[u'geo'] = geo
+        row[u'files'] = files
         
-        for format in formats:
-            text += (format + ',')
-            
-        #get rid of last comma
-        text = text[:len(text)-1]
-        row.extend([text, geo])
+    if 'temporal_coverage_from' in package['extras'] and len(package['extras']['temporal_coverage_from'])>3:
+        row[u'Zeitlicher Bezug'] = package['extras']['temporal_coverage_from'][0:4]
     
+    if ('terms_of_use' in package['extras'] and len(package['extras']['terms_of_use']) > 0):
+        row[u'Lizenz'] = package['extras']['terms_of_use']['licence_id']
+
     groups = u''
     tags = u''
 
     if ('groups' in package and len(package['groups']) > 0):
         for group in package['groups']:
-            groups += (group + ',')
-        #get rid of last comma
-        groups = groups[:len(groups)-1]
-        row.append(groups)
-
-    if ('tags' in package and len(package['tags']) > 0):
-        for tag in package['tags']:
-            tags += (tag + ',')
-        #get rid of last comma
-        tags = tags[:len(tags)-1]
-        row.append(tags)
-
-    ansprechpartner = u''
-    ansprechpartner_email = u''
-    
-    if ('contacts' in package['extras'] and len(package['extras']['contacts']) > 0):
-        for entry in package['extras']['contacts']:
-            if entry['role'] == 'ansprechpartner':
-                ansprechpartner = entry['name']
-                ansprechpartner_email = entry['email']
-                break
-    
-    erstellt = ''
-    aktualisiert = ''
-    veroeffentlicht = ''
-    
-    if ('dates' in package['extras'] and len(package['extras']['dates']) > 0):
-        for entry in package['extras']['dates']:
-            if entry['role'] == 'erstellt':
-                erstellt = entry['date']
-            elif entry['role'] == 'aktualisiert':
-                aktualisiert = entry['date']
-            elif entry['role'] == 'veroeffentlicht':
-                veroeffentlicht = entry['date']
+            odm_cats = metautils.govDataShortToODM(group)
+            if len(odm_cats) > 0:
+                for cat in odm_cats:
+                    row[cat] = 'x'
+                row[u'Noch nicht kategorisiert'] = ''
                 
-    licence_id = ''
-    attribution_text = u''
-    
-    if ('terms_of_use' in package['extras'] and len(package['extras']['terms_of_use']) > 0):
-        licence_id = package['extras']['terms_of_use']['licence_id']
-        attribution_text = package['extras']['terms_of_use']['attribution_text']
-        
-    row.extend([ansprechpartner, ansprechpartner_email, erstellt, aktualisiert, veroeffentlicht, licence_id, attribution_text])
-        
-    for column in extras:
-        if column in package['extras']:
-        		row.append(package['extras'][column])
-        else:
-            row.append('')
-    
-    datawriter.writerow(row)
+    #Store a copy of the metadata
+    row['metadata'] = package
+                
+    datafordb.append(row)
 
-csvoutfile.close()
+#Write data to the DB
+metautils.setsettings(settings)
+#Remove this catalog's data
+metautils.removeDataFromPortal('daten.bremen.de')
+#Add data, checking that used cities are in RLP
+metautils.addDataToDB(datafordb=datafordb, originating_portal='daten.bremen.de', checked=True, accepted=True)
 
-#To enable comparison with the crawler/search results, we make a listing of actual files
-csvoutfile = open(sys.argv[1] + '.urlsonly', 'wb')
-datawriter = csv.writer(csvoutfile, delimiter=',')
-for urlentry in allfilenameurls:
-    datawriter.writerow(urlentry)
-csvoutfile.close()
 
 
