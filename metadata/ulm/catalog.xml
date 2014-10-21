@@ -39518,7 +39518,7 @@ Die Wahlbeteiligung lag bei 46,4 Prozent (2009: 46,3 Prozent).
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>18710a290c7d2dfee4a448d443c1a1438aba125f</gco:CharacterString>
+		<gco:CharacterString>01baf7780302135648a4b78293f354d0322c3140</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -39577,7 +39577,7 @@ Die Wahlbeteiligung lag bei 46,4 Prozent (2009: 46,3 Prozent).
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-09-08</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-10-21</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -39625,7 +39625,8 @@ Die Wahlbeteiligung lag bei 46,4 Prozent (2009: 46,3 Prozent).
 			</gmd:citation>
 			<gmd:abstract>
 				<gco:CharacterString>Im Spazierwegeführer Unterwegs in Ulm sind 16 Stadtteile in einem eigenen Stadtkartenausschnitt im Maßstab 1:20 000 dargestellt. Auf den Kartenausschnitten sind insgesamt 60 Spazierwege zusammen mit allen sehenswerten und wichtigen Punkten eingezeichnet. In einem eigenen Textteil werden alle Spazierwegrouten ausführlich beschrieben.
-Herausgeber ist die Stadt Ulm - Lokale Agenda Ulm 21.</gco:CharacterString>
+Herausgeber ist die Stadt Ulm - Lokale Agenda Ulm 21.
+zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gco:CharacterString>
 			</gmd:abstract>
 			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
 			<gmd:individualName>
@@ -39702,7 +39703,7 @@ Herausgeber ist die Stadt Ulm - Lokale Agenda Ulm 21.</gco:CharacterString>
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-09-08</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -39723,7 +39724,7 @@ Herausgeber ist die Stadt Ulm - Lokale Agenda Ulm 21.</gco:CharacterString>
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-09-08</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -39744,7 +39745,7 @@ Herausgeber ist die Stadt Ulm - Lokale Agenda Ulm 21.</gco:CharacterString>
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-09-08</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -40913,7 +40914,7 @@ Die Ergebnisse der Erst- und Zweitstimmen können in den Excell-Tabellen eingese
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>e568bbb59f7838bcc7e32b774e5c3ab745ee1723</gco:CharacterString>
+		<gco:CharacterString>1455056c8fe00bc522d4dac489249f7363e4a544</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -40972,7 +40973,7 @@ Die Ergebnisse der Erst- und Zweitstimmen können in den Excell-Tabellen eingese
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-10-20</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-10-21</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -41019,9 +41020,10 @@ Die Ergebnisse der Erst- und Zweitstimmen können in den Excell-Tabellen eingese
 				</gmd:CI_Citation>
 			</gmd:citation>
 			<gmd:abstract>
-				<gco:CharacterString>Dieser Datensatz enthält die 29 Vorausrechnungsgebiete der Stadt Ulm. Diese eignen sich zur Bevölkerungsvorausrechnung und bauen auf einer Aggregation von generalisierten Stadtvierteln auf. Sie sind insbesondere für die Erstellung thematischer Karten im DINA4 bzw. DINA3-Format geeignet. Dieses Thema ist auch Bestandteil der Kartenanwendung maps.ulm.de.
+				<gco:CharacterString>Dieser Datensatz enthält die 29 Vorausrechnungsgebiete der Stadt Ulm. Diese eignen sich zur Bevölkerungsvorausrechnung und bauen auf einer Aggregation von generalisierten Stadtvierteln auf. Sie sind insbesondere für die Erstellung thematischer Karten im DINA4 bzw. DINA3-Format geeignet. Die Daten können gut mit statistischen Daten zu Vorausrechnungsgebieten kombiniert werden.
+Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach Anwendungszweck zusammen gestellten Raumaggregaten.
 
-Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach Anwendungszweck zusammen gestellten Raumaggregaten.</gco:CharacterString>
+</gco:CharacterString>
 			</gmd:abstract>
 			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
 			<gmd:individualName>
@@ -41087,7 +41089,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 						<gco:CharacterString>data_vorausrechnungsgebiete.jpg</gco:CharacterString>
 					</gmd:fileDescription>
 				</gmd:MD_BrowseGraphic>
-			</gmd:graphicOverview><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Bevölkerung</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Geographie, Geologie und Geobasisdaten</gco:CharacterString></gmd:keyword><gmd:type>
+			</gmd:graphicOverview><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Bevölkerung</gco:CharacterString></gmd:keyword><gmd:type>
 						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
 					</gmd:type>
 					<gmd:thesaurusName>
@@ -41098,7 +41100,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41119,7 +41121,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41129,7 +41131,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 						</gmd:CI_Citation>
 					</gmd:thesaurusName>
 				</gmd:MD_Keywords>
-			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Geobasisdaten</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Statistik</gco:CharacterString></gmd:keyword><gmd:type>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Geobasisdaten</gco:CharacterString></gmd:keyword><gmd:type>
 						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
 					</gmd:type>
 					<gmd:thesaurusName>
@@ -41140,7 +41142,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41306,7 +41308,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 					<gmd:source>
 						<gmd:LI_Source>
 							<gmd:description>
-								<gco:CharacterString>Aggregation auf Basis der generalisierten Stadtviertelgrenzen </gco:CharacterString>
+								<gco:CharacterString>Aggregation auf Basis der generalisierten Stadtviertelgrenzen, Koordinatensystem Gauss Krüger 3 </gco:CharacterString>
 							</gmd:description>
 						</gmd:LI_Source>
 					</gmd:source>
@@ -41379,7 +41381,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>b263da2d2e9e72eff7cc9ba4097b8f0fe0926cb5</gco:CharacterString>
+		<gco:CharacterString>e537f7fef92eb8a26d77d38a4f8c087efe344af4</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -41438,7 +41440,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-10-20</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-10-21</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -41485,7 +41487,10 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 				</gmd:CI_Citation>
 			</gmd:citation>
 			<gmd:abstract>
-				<gco:CharacterString>Landschaftsschutzgebiete werden nach § 29 NatSchG und § 26 BNatSchG zur Erhaltung der natürlichen Vielfalt, Eigenart und Schönheit der Landschaft ausgewiesen. </gco:CharacterString>
+				<gco:CharacterString>Landschaftsschutzgebiete werden nach § 29 NatSchG und § 26 BNatSchG zur Erhaltung der natürlichen Vielfalt, Eigenart und Schönheit der Landschaft ausgewiesen. 
+Die Landschaftschutzgebiete können Sie auch im Kartendienst der Landesanstalt für Umwelt, Messungen und Naturschutz BW aufrufen: http://udo.lubw.baden-wuerttemberg.de/public/
+
+</gco:CharacterString>
 			</gmd:abstract>
 			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
 			<gmd:individualName>
@@ -41562,7 +41567,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41583,7 +41588,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41604,7 +41609,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2014-10-20</gco:Date>
+										<gco:Date>2014-10-21</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -41682,7 +41687,7 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 			<gmd:distributionFormat>
 				<gmd:MD_Format>
 					<gmd:name>
-						<gco:CharacterString>Shape</gco:CharacterString>
+						<gco:CharacterString>ORACLE</gco:CharacterString>
 					</gmd:name></gmd:MD_Format>
 			</gmd:distributionFormat>
 			<gmd:distributor>
@@ -41763,17 +41768,14 @@ Die Vorausrechnungsgebiete werden oft verwechselt mit den individuell je nach An
 					<gmd:processStep>
 						<gmd:LI_ProcessStep>
 							<gmd:description>
-								<gco:CharacterString>- Landschaftsschutzgebiet Ulm: Auf ALK-Ebene (M1)
-- Landschaftsschutzgebiete BW: WMS der LUBW (M1/M2) </gco:CharacterString>
+								<gco:CharacterString>- </gco:CharacterString>
 							</gmd:description>
 						</gmd:LI_ProcessStep>
 					</gmd:processStep>
 					<gmd:source>
 						<gmd:LI_Source>
 							<gmd:description>
-								<gco:CharacterString>- Landschaftsschutzgebiet Ulm: SUBV
-- Landschaftsschutzgebiete BW: WMS der LUBW
-- UIS-Metadaten zu Landschaftsschutzgebieten </gco:CharacterString>
+								<gco:CharacterString>- Eigendigitalisierung nach Vorgaben der LUBW</gco:CharacterString>
 							</gmd:description>
 						</gmd:LI_Source>
 					</gmd:source>
