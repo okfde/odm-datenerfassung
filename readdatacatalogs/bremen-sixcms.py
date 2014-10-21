@@ -37,8 +37,6 @@ for package in packages:
         row[u'Lizenz'] = package['extras']['terms_of_use']['licence_id']
 
     groups = u''
-    tags = u''
-
     if ('groups' in package and len(package['groups']) > 0):
         for group in package['groups']:
             odm_cats = metautils.govDataShortToODM(group)
@@ -56,7 +54,7 @@ for package in packages:
 metautils.setsettings(settings)
 #Remove this catalog's data
 metautils.removeDataFromPortal('daten.bremen.de')
-#Add data, checking that used cities are in RLP
+#Add data
 metautils.addDataToDB(datafordb=datafordb, originating_portal='daten.bremen.de', checked=True, accepted=True)
 
 

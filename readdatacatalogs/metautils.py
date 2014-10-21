@@ -245,15 +245,15 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                         categories.append(key)
 
         cur.execute("INSERT INTO data \
-            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, metadata) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
             WHERE NOT EXISTS ( \
                 SELECT url FROM data WHERE url = %s \
             )",
             (row['Stadt'], originating_portal, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
             formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row['URL'])
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['URL'])
             )
         
         #If the city doesn't exist yet, this gets done when the city gets added 
@@ -344,6 +344,7 @@ def getBlankRow():
     
     #Extra things that need to be there but aren't part of the original plan
     row[u'metadata'] = ''
+    row[u'metadata_xml'] = ''
     
     return row
   

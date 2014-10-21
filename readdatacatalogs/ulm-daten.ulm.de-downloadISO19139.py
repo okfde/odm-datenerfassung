@@ -1,13 +1,11 @@
 import unicodecsv
 import urllib2
+import urllib
 import codecs
 
 from lxml import html
 from lxml import etree
 from lxml.etree import LxmlError
-
-#Geographic file types
-geofiletypes = ('.GEOJSON', '.GML', '.GPX', '.GJSON', '.TIFF', '.SHP', '.KML', '.KMZ', '.WMS', '.WFS')
 
 root = u'http://daten.ulm.de'
 startUrl = root + u'/suche?search_api_views_fulltext='
@@ -32,7 +30,7 @@ while True:
     dataCount = 0
 
     searchurl = startUrl + '&page=' + str(page)
-    print u'Reading ' + searchurl
+    print u'Reading search page ' + searchurl
     data = html.parse(searchurl)
     
     page += 1
@@ -56,7 +54,7 @@ while True:
             #create the link ourselves.
             dataurl = root + dataurl
             
-            print u'Reading ' + dataurl
+            print u'Reading dataset page ' + dataurl
             try:
                 datapage = html.parse(dataurl)
             except:
@@ -70,13 +68,23 @@ while True:
                     linkurl =  link.xpath('@href')[0]
                 else:
                     continue
-                    
+
+                #The dataurl although containing ascii-safe text is actually unicoded
+                #First produce an ascii-coded string that we can then decode into unicode
+                unquotedurl = urllib.unquote(dataurl.encode('ASCII')).decode('utf8')
+                
                 #Get files... they are not listed in the XML...!
                 #Seems that link files have a nice type attribute
                 if len(link.xpath('@type')) > 0:
                     filenamefound = True
-                    csv_file.write(link.xpath('@href')[0] + '\n')
-                    
+                    print 'Found file: ' + link.xpath('@href')[0]
+                    csv_file.write(unquotedurl  + ',file,' + link.xpath('@href')[0] + '\n')
+                #Find the license, also not in XML  
+                if len(link.xpath('@rel')) > 0 and link.xpath('@rel')[0] == 'license' and link.text is not None:
+                    licenseFound = True
+                    print 'Found license: ' + link.text
+                    csv_file.write(unquotedurl  + ',license,' + link.text + '\n')
+                #Find the metadata XML    
                 if ('/iso19139/' in linkurl):
                     node = linkurl.split('/')[-1]
                     xmlurl = root + u'/datenkatalog/iso19139/' + node
@@ -85,10 +93,6 @@ while True:
                     response = urllib2.urlopen(xmlurl)
                     xml = unicode(response.read(), 'utf-8')
                     giantxml.append(xml)
-              
-            if not filenameFound:
-                #Create a fake filename
-                csv_file.write('/form-' + datapage.xpath('//body//h1')[0].text + '\n')
     
 print 'Done. Found ' + str(len(giantxml)) + ' files'
 finalstring = u'\n'.join([xml for xml in giantxml])

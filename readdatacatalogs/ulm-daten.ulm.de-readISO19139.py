@@ -1,7 +1,11 @@
 import unicodecsv as csv
 import urllib2
+import json
 
 from lxml import objectify
+
+import metautils
+from dbsettings import settings
 
 def decrypt_role(role):
     #Based on http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml
@@ -58,6 +62,7 @@ for part in xmlparts:
         record = dict()
       
         part += '</gmd:MD_Metadata>'
+        record['xml'] = part
         root = objectify.fromstring(part)
       
         maintainer = root[ns1+'contact'][ns1+'CI_ResponsibleParty']
@@ -238,29 +243,90 @@ for record in records:
 
 print 'There are ' + str(len(categorizations)) + ' categorization schemes: \n' + str(categorizations)
 
-#Write out the data
-with (open('../metadata/ulm/catalog.csv', 'wb')) as csvoutfile:
-    datawriter = csv.writer(csvoutfile, delimiter=',')
+#Read in files and licenses
+fileslookup = {}
+licenselookup = {}
+with (open('../metadata/ulm/catalogfiles.csv', 'rb')) as csvinfile:
+    datareader = csv.reader(csvinfile, delimiter=',')
+    
+    for row in datareader:
+        if row[1] == 'file':
+            if row[0] not in fileslookup:
+                fileslookup[row[0]] = []
+            fileslookup[row[0]].append(row[2])
+        elif row[1] == 'license':
+            if row[0] not in licenselookup:
+                licenselookup[row[0]] = row[2]
 
-    columns = ['title', 'abstract', 'url'] 
+allrecords = []
+datafordb = []
 
-    for categorization in categorizations:
-        columns.append(categorization)
+for record in records:
+    print 'Processing ' + record['url']
+    row = metautils.getBlankRow()
+    
+    #Store the XML in the DB, but don't store it again in the JSON (which we will also store in the DB
+    row['metadata_xml'] = record['xml']
+    del record['xml']
+    
+    #Get license and files info from the HTML (stored during download of XML files)
+    if record['url'] in licenselookup:
+        row[u'Lizenz'] = licenselookup[record['url']]
+        record['license'] = licenselookup[record['url']]
+    else:
+        row[u'Lizenz'] = ''
+        record['license'] = []
+        print 'WARNING: Couldn\'t find a license for ' + record['url']
         
-    columns.extend(['datadate','datadatetype','datacatalogdate','form','format','geo','costs','accessconstraints','useconstraints','uselimitations','frequpdated','maintenanceInfo','topiccategory','maintainername','maintainerposition','maintainerorganisation','maintaineraddress','maintaineremail','maintainerphone','maintainerfax','maintainerrole','contactname','contactposition','contactorganisation','contactaddress','contactemail','contactphone','contactfax','contactrole','distributorname','distributorposition','distributororganisation','distributoraddress','distributoremail','distributorphone','distributorfax','distributorrole'])
+    if record['url'] in fileslookup:
+        row['files'] = fileslookup[record['url']]
+        record['files'] = fileslookup[record['url']]
+    else:
+        row['files'] = []
+        record['files'] = []
+        print 'WARNING: Couldn\'t find any files for ' + record['url']
     
-    datawriter.writerow(columns)
-    
-    for record in records:
-        row = []
-        for column in columns:
-            if (column in categorizations):
-                if (column in record['keywords']):
-                    row.append(record['keywords'][column])
-                else:
-                    row.append('')
+    row['metadata'] = record
+
+    row[u'Stadt'] = 'ulm'
+    row[u'Dateibezeichnung'] = record['title']
+    row[u'Beschreibung'] = record['abstract']
+    row[u'URL PARENT'] = record['url']
+    row[u'Format'] = record['format']
+    row[u'geo'] = record['geo']
+    if record['costs'] is not None:
+        row[u'Kosten'] = record['costs']  
+    row[u'Zeitlicher Bezug'] = record['datadate'][0:4]
+
+    groups = u''
+
+    if ('GOV-Data Kategorien' in record and len(record['GOV-Data Kategorien']) > 0):
+        for group in record['GOV-Data Kategorien']:
+            odm_cats = metautils.govDataLongToODM(group)
+            if len(odm_cats) > 0:
+                for cat in odm_cats:
+                    row[cat] = 'x'
+                row[u'Noch nicht kategorisiert'] = ''
             else:
-                row.append(record[column]);
-        datawriter.writerow(row)
+                print 'TEMP REMOVE! DID NOT FIND CAT: ' + group
+                
+    allrecords.append(record)
+    datafordb.append(row)
+    
+#Dump to file
+with open('../metadata/ulm/catalog.json', 'wb') as outfile:
+    json.dump(allrecords, outfile)
+
+#Add to DB
+metautils.setsettings(settings)
+#Remove this catalog's data
+metautils.removeDataFromPortal('daten.ulm.de')
+#Add data
+metautils.addDataToDB(datafordb=datafordb, originating_portal='daten.ulm.de', checked=True, accepted=True)
+
+
+                    
+                  
+
 
 
