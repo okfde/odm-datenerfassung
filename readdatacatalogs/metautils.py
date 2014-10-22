@@ -697,7 +697,7 @@ def govDataLongToODM(group, checkAll=False):
         returnvalue.append(u'Sonstiges')
         if not checkAll: return returnvalue
     if u'Internet' in group:
-        returnvalue.extend([u'Bildung und Wissenschaft', u'Wirtschaft und Arbeit'])
+        returnvalue.extend([u'Bildung und Wissenschaft', u'Wirtschaft und Wirtschaftsförderung'])
         if not checkAll: return returnvalue
     if u'Kultur und Bildung' in group:
         returnvalue.extend([u'Bildung und Wissenschaft', u'Kunst und Kultur'])
