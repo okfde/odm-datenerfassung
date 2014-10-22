@@ -227,8 +227,9 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                     if url != '':
                         takenrows[theurl]['filenames'].append(url)
                     for key in row:
-                        if row[key].strip().lower() == 'x':
-                             takenrows[theurl][key] = 'x'
+                        if type(row[key]) != list and type(row[key]) != dict and row[key] is not None:
+                            if row[key].strip().lower() == 'x':
+                                 takenrows[theurl][key] = 'x'
 
     for row in takenrows.values():
         formats = csvtoarray(row['Format'].upper())
@@ -237,7 +238,7 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
         geo = False
 
         for key in row:
-            if type(row[key]) != list and type(row[key]) != dict:
+            if type(row[key]) != list and type(row[key]) != dict and row[key] is not None:
                 if row[key].strip().lower() == 'x':
                     if key.strip().lower() == 'geo':
                         geo = True
@@ -344,7 +345,7 @@ def getBlankRow():
     
     #Extra things that need to be there but aren't part of the original plan
     row[u'metadata'] = ''
-    row[u'metadata_xml'] = ''
+    row[u'metadata_xml'] = None
     
     return row
   
