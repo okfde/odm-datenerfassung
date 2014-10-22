@@ -164,7 +164,7 @@ for part in xmlparts:
             keywordstring = keywordstring[0:len(keywordstring)-1]
             record['keywords'][keyworddata[ns1+'MD_Keywords'][ns1+'thesaurusName'][ns1+'CI_Citation'][ns1+'title'][ns2+'CharacterString'].text] = keywordstring
           
-        print record['keywords']
+        #print record['keywords']
       
         #And just for extra merit, we have a topic category too for data entries
         record['topiccategory'] = ''
@@ -262,7 +262,8 @@ allrecords = []
 datafordb = []
 
 for record in records:
-    print 'Processing ' + record['url']
+    printsafeurl = metautils.findLcGermanCharsAndReplace(record['url'].lower())
+    print 'Processing ' + printsafeurl
     row = metautils.getBlankRow()
     
     #Store the XML in the DB, but don't store it again in the JSON (which we will also store in the DB
@@ -276,7 +277,7 @@ for record in records:
     else:
         row[u'Lizenz'] = ''
         record['license'] = []
-        print 'WARNING: Couldn\'t find a license for ' + record['url']
+        print 'WARNING: Couldn\'t find a license for ' + printsafeurl
         
     if record['url'] in fileslookup:
         row['files'] = fileslookup[record['url']]
@@ -284,7 +285,7 @@ for record in records:
     else:
         row['files'] = []
         record['files'] = []
-        print 'WARNING: Couldn\'t find any files for ' + record['url']
+        print 'WARNING: Couldn\'t find any files for ' + printsafeurl
     
     row['metadata'] = record
 
@@ -307,8 +308,6 @@ for record in records:
                 for cat in odm_cats:
                     row[cat] = 'x'
                 row[u'Noch nicht kategorisiert'] = ''
-            else:
-                print 'TEMP REMOVE! DID NOT FIND CAT: ' + group
                 
     allrecords.append(record)
     datafordb.append(row)

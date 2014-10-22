@@ -1,3 +1,4 @@
+dbsettings.py
 *.pyc
 *.csv
 *.log
