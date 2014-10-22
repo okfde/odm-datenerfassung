@@ -4,6 +4,7 @@ import urllib
 import unicodecsv as csv
 import os
 import psycopg2
+import sys
 
 import metautils
 
@@ -11,7 +12,7 @@ from dbsettings import settings
 
 validsources = ('m', 'd', 'c', 'g', 'b')
 
-def reformatdata(cityname):    
+def reformatdata(cityname, multiCity = False):    
     mapping = dict()
     mapping['city'] = u'Stadt'
     mapping['source'] = u'Quelle'
@@ -29,7 +30,7 @@ def reformatdata(cityname):
         for row in reader:
             source = row['Quelle'].strip()
             if source not in validsources:
-                print 'Error: ' + file + ' has missing or unrecognised source(s)'
+                print 'Error: ' + cityname + '.csv has missing or unrecognised source(s): ' + source
                 exit()
             else:
                 if source not in dictsdata:
@@ -92,6 +93,15 @@ def reformatdata(cityname):
                         categories.append(key)
         checked = True #All of this data is 'open data'
         accepted = False #Validation - inter source deduplification has NOT been performed
+        
+        #Note, we don't add any cities here as in general the data being added this way is data for 
+        #the list of 100 'cities'. This might change in the future.
+        
+        if multiCity:
+            #We have .de at the end of every city
+            cityname = row[mapping['city']][0:len(row[mapping['city']])-3]
+            print 'Inserting a row for ' + cityname
+        
         cur.execute("INSERT INTO data \
             (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
             SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
@@ -104,31 +114,44 @@ def reformatdata(cityname):
             row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
             )
     metautils.dbCommit()
-           
-kurznamecolumn = 'kurzname'
-gidcolumn = 'GID in Datenerfassung'
 
-indexkey = os.environ['INDEXKEY']
-erfassungkey = os.environ['ERFASSUNGKEY']
+if len(sys.argv) > 2:
+    print 'Processing sheet with key ' + sys.argv[1] + ' and gid ' + sys.argv[2]
+    durl = "https://docs.google.com/spreadsheets/d/" + sys.argv[1] + "/export?gid=" + sys.argv[2] + "&format=csv"
+    print "Downloading data for using url " + durl + "..."
+    urllib.urlretrieve (durl, "tempsheet.csv");
+    reformatdata('tempsheet', multiCity = True)
+                  
+elif len(sys.argv) == 1:
+    print 'Downloading all data specified in index (DEPRECATED!)'
+    kurznamecolumn = 'kurzname'
+    gidcolumn = 'GID in Datenerfassung'
 
-iurl = "https://docs.google.com/spreadsheets/d/" + indexkey + "/export?gid=0&format=csv"
-print "Downloading index of cities to index.csv using url " + iurl + "..."
-urllib.urlretrieve (iurl, "index.csv");
+    indexkey = os.environ['INDEXKEY']
+    erfassungkey = os.environ['ERFASSUNGKEY']
 
-print "Parsing list of cities to download each file..."
+    iurl = "https://docs.google.com/spreadsheets/d/" + indexkey + "/export?gid=0&format=csv"
+    print "Downloading index of cities to index.csv using url " + iurl + "..."
+    urllib.urlretrieve (iurl, "index.csv");
 
-with open('index.csv', 'rb') as csvfile:
-    cityreader = csv.DictReader(csvfile, delimiter=',')
-    indexfields = cityreader.fieldnames
+    print "Parsing list of cities to download each file..."
+
+    with open('index.csv', 'rb') as csvfile:
+        cityreader = csv.DictReader(csvfile, delimiter=',')
+        indexfields = cityreader.fieldnames
     
-    #For each city that has a short name, download its data from the other sheet, if we have the gid
-    for row in cityreader:
-        if row[kurznamecolumn] != "":
-          if row[gidcolumn] != "":
-              durl = "https://docs.google.com/spreadsheets/d/" + erfassungkey + "/export?gid=" + row[gidcolumn] + "&format=csv"
-              print "Downloading data for " + row[kurznamecolumn] + " using url " + durl + "..."
-              urllib.urlretrieve (durl, row[kurznamecolumn] + ".csv");
-              reformatdata(row[kurznamecolumn])
-          else:
-              print "No gid for this city, please check spreadsheet"
+        #For each city that has a short name, download its data from the other sheet, if we have the gid
+        for row in cityreader:
+            if row[kurznamecolumn] != "":
+              if row[gidcolumn] != "":
+                  durl = "https://docs.google.com/spreadsheets/d/" + erfassungkey + "/export?gid=" + row[gidcolumn] + "&format=csv"
+                  print "Downloading data for " + row[kurznamecolumn] + " using url " + durl + "..."
+                  urllib.urlretrieve (durl, row[kurznamecolumn] + ".csv");
+                  reformatdata(row[kurznamecolumn])
+              else:
+                  print "No gid for this city, please check spreadsheet"
+else:
+    print 'Either use two arguments, GSheets key and gid for importing a sheet, or no arguments, setting the environment variables INDEXKEY and ERFASSUNGSKEY appropriately'
+ 
+
 
