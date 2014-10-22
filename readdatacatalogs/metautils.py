@@ -646,6 +646,8 @@ def setcats(row, cats):
 
 def govDataLongToODM(group, checkAll=False):
     #This is designed to cope either with a single category or a string with all categories
+    #It has been extended to include the wild moers categories
+    #Eventually, we need one function that matches all words, short and long to the govdata categories
     group = group.strip()
     returnvalue = []
     if u'Bevölkerung' in group:
@@ -660,7 +662,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Transport und Verkehr' in group:
         returnvalue.append(u'Transport und Verkehr')
         if not checkAll: return returnvalue
-    if u'Politik und Wahlen' in group:
+    if u'Wahlen' in group:
         returnvalue.append(u'Politik und Wahlen')
         if not checkAll: return returnvalue
     if u'Gesetze und Justiz' in group:
@@ -669,7 +671,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Wirtschaft und Arbeit' in group:
         returnvalue.extend([u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung'])
         if not checkAll: return returnvalue
-    if u'Verwaltung, Haushalt und Steuern' in group:
+    if any(x in group for x in [u'Verwaltung, Haushalt und Steuern', u'Finanzen', u'Verwaltung']):
         returnvalue.extend([u'Haushalt und Steuern', u'Sonstiges'])
         if not checkAll: return returnvalue
     if u'Infrastruktur, Bauen und Wohnen' in group:
@@ -681,7 +683,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Soziales' in group:
         returnvalue.append(u'Sozialleistungen')
         if not checkAll: return returnvalue
-    if u'Sport und Tourismus' in group:
+    if u'Tourismus' in group:
         returnvalue.extend([u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus'])
         if not checkAll: return returnvalue
     if u'Umwelt und Klima' in group:
@@ -690,6 +692,17 @@ def govDataLongToODM(group, checkAll=False):
     if u'Verbraucherschutz' in group:
         returnvalue.append(u'Verbraucher')
         if not checkAll: return returnvalue
+    #Moers only
+    if u'Allgemein' in group:
+        returnvalue.append(u'Sonstiges')
+        if not checkAll: return returnvalue
+    if u'Internet' in group:
+        returnvalue.extend([u'Bildung und Wissenschaft', u'Wirtschaft und Arbeit'])
+        if not checkAll: return returnvalue
+    if u'Kultur und Bildung' in group:
+        returnvalue.extend([u'Bildung und Wissenschaft', u'Kunst und Kultur'])
+        if not checkAll: return returnvalue
+    #end Moers only
     if len(returnvalue) == 0:
         print 'Warning: could not return a category'
     return returnvalue
