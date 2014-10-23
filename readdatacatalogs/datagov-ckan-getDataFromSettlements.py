@@ -11,67 +11,71 @@ from dbsettings import settings
 actualcategories = []
 
 if (len(sys.argv)<2):
-    print 'Usage: datagov-ckan-getDataFromSettlements datagovJSONDump.json [list,of,portals,to,exclude]'
+    print 'Usage: datagov-ckan-getDataFromSettlements all|portal datagovJSONDump.json [list,of,portals,to,exclude]'
     exit()
 
-excludes = []
-
-if (len(sys.argv)>2):
-    excludes = sys.argv[2].replace(' ', '').split(',')
-    print 'Excluding following portals:'
-    for portal in excludes:
-        print portal
-        
-cities = metautils.getCities()
-
-with open(sys.argv[1], 'rb') as jsonfile:
+with open(sys.argv[2], 'rb') as jsonfile:
     text = jsonfile.read()
     alldata = json.loads(text)
 
-#Only add data we don't have from somewhere else
-data = []
-excludecount = 0
-uniqueportals = set()
-for item in alldata:
-    if ('extras' in item and 'metadata_original_portal' in item['extras']):
-        if not any(x in item['extras']['metadata_original_portal'] for x in excludes):
-            data.append(item)
-            uniqueportals.add(item['extras']['metadata_original_portal'])
+if sys.argv[1] == 'all':
+    portal = 'govdata.de'
+    excludes = []
+
+    if (len(sys.argv)>3):
+        excludes = sys.argv[3].replace(' ', '').split(',')
+        print 'Excluding following portals:'
+        for portal in excludes:
+            print portal
+        
+    cities = metautils.getCities()
+
+    #Only add data we don't have from somewhere else
+    data = []
+    excludecount = 0
+    uniqueportals = set()
+    for item in alldata:
+        if ('extras' in item and 'metadata_original_portal' in item['extras']):
+            if not any(x in item['extras']['metadata_original_portal'] for x in excludes):
+                data.append(item)
+                uniqueportals.add(item['extras']['metadata_original_portal'])
+            else:
+                excludecount += 1
         else:
-            excludecount += 1
-    else:
-        data.append(item)
-print str(excludecount) + ' items excluded.'
-print 'List of remaining portals:'
-print uniqueportals
+            data.append(item)
+    print str(excludecount) + ' items excluded.'
+    print 'List of remaining portals:'
+    print uniqueportals
 
-foundItems = metautils.findOnlyCityData(data, cities)
+    foundItems = metautils.findOnlyCityData(data, cities)
+    print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the input list of settlements'
 
-print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the input list of settlements'
+else:
+    portal = sys.argv[1]
+    if 'http://' in portal:
+        portal = portal[7:len(portal)]
+    data = alldata
+    #Search for the input term, it can include http://
+    foundItems = metautils.findOnlyPortalData(data, sys.argv[1])
+    print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the portal specified'
 
-#columns = ['city', 'matched_on', 'title', 'notes', 'tags', 'groups', 'format', 'geo', 'metadata_modified', 'author', 'author_email', 'maintainer', 'maintainer_email', 'id', 'url', 'isopen']
-#inextras = ('metadata_original_portal', 'temporal_coverage_to', 'temporal_coverage_from', 'metadata_modified', 'metadata_created')
-#intermsofuse = ('license_id')
-#columns.extend(inextras)
-#columns.extend(intermsofuse)
-
-#mopIndex = columns.index('metadata_original_portal')
 
 #Map and write the data. Still wondering how much of this can/should be pulled out to metautils
+datafordb = []
 row = metautils.getBlankRow()
 
 uniquecities = set()
-uniqueportals = set()
-datafordb = []
 
 #Write data to the DB
 metautils.setsettings(settings)
 
-#Don't use cities that have their own open data catalogs (regardless of originating portal field)
-excludecities = metautils.getCitiesWithOpenDataPortals() 
-
-print 'Excluding cities with portals:'
-print excludecities
+if sys.argv[1] == 'all':
+    #Don't use cities that have their own open data catalogs (regardless of originating portal field)
+    excludecities = metautils.getCitiesWithOpenDataPortals() 
+    print 'Excluding cities with portals:'
+    print excludecities
+else:
+    excludecities = []
 
 excludecount = 0
 
@@ -84,6 +88,7 @@ for foundItem in foundItems:
   
         if 'resources' in item:
             for resource in item['resources']:
+                row['files'].append(resource['url'])
                 if resource['format'].upper() not in formatslist:
                     formatslist.append(resource['format'].upper())
             [formattext, geo] = metautils.processListOfFormats(formatslist)
@@ -92,7 +97,10 @@ for foundItem in foundItems:
         row[u'Stadt'] = thecity
         uniquecities.add(foundItem['city']['originalname'])
         row[u'Dateibezeichnung'] = item['title']
-        row[u'URL PARENT'] = 'https://www.govdata.de/daten/-/details/' + item['id']
+        if sys.argv[1] == 'all' or 'url' not in item or item['url'] == '':
+            row[u'URL PARENT'] = 'https://www.govdata.de/daten/-/details/' + item['id']
+        else:
+            row[u'URL PARENT'] = item['url']
         if 'notes' in item:
             row[u'Beschreibung'] = item['notes']
         if 'extras' in item and 'terms_of_use' in item['extras'] and 'license_id' in item['extras']['terms_of_use']:
@@ -109,18 +117,19 @@ for foundItem in foundItems:
                 for cat in odm_cats:
                     row[cat] = 'x'
                 row[u'Noch nicht kategorisiert'] = ''       
-
+        row['metadata'] = item
         datafordb.append(row) 
     else:
-            excludecount += 1
+        excludecount += 1
 
-print str(excludecount) + ' items excluded.'
+if sys.argv[1] == 'all':
+    print str(excludecount) + ' items excluded.'
 
 #Update city list
 metautils.addCities(uniquecities, None)
 #Remove this catalog's data
-metautils.removeDataFromPortal('govdata.de')
-#Add data, checking that used cities are in RLP
-metautils.addDataToDB(datafordb=datafordb, originating_portal='govdata.de', checked=True, accepted=True)
+metautils.removeDataFromPortal(portal)
+#Add data
+metautils.addDataToDB(datafordb=datafordb, originating_portal=portal, checked=True, accepted=True)
 
 

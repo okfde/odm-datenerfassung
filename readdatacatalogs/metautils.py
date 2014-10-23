@@ -136,6 +136,16 @@ def getCityOpenDataPortal(cityname):
         return result[7:len(result)]
     else:
         return result
+        
+def getCityWithOpenDataPortal(portalname):
+    #There are some complications to doing this with the DB,
+    # - We can have http:// in the portal name
+    # - The actual name of the originating portal is not necessarily the same as the public portal (Berlin)
+    #And right now we only need it for Berlin... relaxed to accept with or without http://
+    if 'datenregister.berlin.de' in portalname:
+        return {'shortname': 'berlin', 'originalname': 'Berlin'}
+    else:
+        return None
     
 def getCitiesWithData():
     cities = []
@@ -217,7 +227,7 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                     else:
                         #Messy, but if the data is from a catalog we may already have a list of files
                         #deeply buried here is where they actually get carried over...
-                        if 'files' in row:
+                        if len(row['files']) > 0:
                             row['filenames'] = row['files']
                         else:
                             row['filenames'] = []
@@ -344,6 +354,7 @@ def getBlankRow():
     row[u'Noch nicht kategorisiert'] = 'x'
     
     #Extra things that need to be there but aren't part of the original plan
+    row[u'files'] = []
     row[u'metadata'] = ''
     row[u'metadata_xml'] = None
     
@@ -507,6 +518,21 @@ banlevel3 = tuple(banlevel3)
 #au is in bau, and haus and goodness knows what else
 #stelle is in poststelle and handled specially (below)
 baninemails = ('stein', 'au', 'bunde')
+
+#Try to get data that relates to a 'city'
+#For govdata
+def findOnlyPortalData(data, portal):
+    foundItems = []
+    foundcity = getCityWithOpenDataPortal(portal)
+    matchedon = 'portal' 
+    for item in data:
+        if 'metadata_original_portal' in item['extras'] and item['extras']['metadata_original_portal'] == portal:
+            recordtoadd = dict()
+            recordtoadd['item'] = item
+            recordtoadd['city'] = foundcity
+            recordtoadd['match'] = matchedon
+            foundItems.append(recordtoadd)          
+    return foundItems
 
 #Try to get data that relates to a 'city'
 def findOnlyCityData(data, cities, verbose=False):
