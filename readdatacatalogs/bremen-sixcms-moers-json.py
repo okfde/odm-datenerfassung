@@ -1,5 +1,5 @@
-#Moers data doesn't read well with json module... strange
-import urllib, simplejson
+# -*- coding: utf-8 -*-
+import urllib, json
 import unicodecsv as csv
 import sys
 
@@ -12,26 +12,31 @@ if sys.argv[1] == 'bremen':
     portalname = 'daten.bremen.de'
     jsonurl = 'http://daten.bremen.de/sixcms/detail.php?template=export_daten_json_d'
     jsonurl = urllib.urlopen(jsonurl)
-    packages = simplejson.loads(jsonurl.read())
+    packages = json.loads(jsonurl.read())
 elif sys.argv[1] == 'moers':
     city = 'moers'
     portalname = 'offenedaten.moers.de'
     jsonurl = 'http://download.moers.de/Open_Data/Gesamtdatei/Moers_alles.json'
     jsonurl = urllib.urlopen(jsonurl)
-    jtext = jsonurl.read().replace('\r','').replace('}\n}\n}]','}]').replace('}\n}\n},{', '},{').replace('\\', '\\\\')
-    packages = simplejson.loads(jtext)
+    #The JSON file is very broken, and this is probably not the best way to fix it, but it might change tomorrow, so...
+    jtexts = jsonurl.read().split('\"name\"')
+    jtexts[len(jtexts)-1] = jtexts[len(jtexts)-1] + ' '
+    del jtexts[0]
+    packages = []
+    for text in jtexts:
+	jtext = ('[{\"name\"' + text[0:len(text)-7] + ']').replace('application\\', 'application/').replace('\r', '').replace('\n', '').replace('},"license_id"', ']},"license_id"').replace('"description": "Ressourcen: Folgende Felder können für jede Ressource individuell angegeben werden.","type": "array","items": {','"description": "Ressourcen: Folgende Felder können für jede Ressource individuell angegeben werden.","type": "array","items": [{') 
+        package = json.loads(jtext)
+	packages.append(package[0])
     #Save the fixed JSON
     with open('../metadata/moers/catalog.json', 'wb') as outfile:
-        simplejson.dump(packages, outfile)
+        json.dump(packages, outfile)
 
 datafordb = []
-
 for part in packages:
 
     row = metautils.getBlankRow()
 
     if city == 'moers':
-        part = part['properties']
         package = {}
         #Simplify JSON
         package['title'] = part['title']['description']
@@ -39,19 +44,16 @@ for part in packages:
         package['author'] = part['author']['description']
         package['url'] = part['url']['description']
         package['groups'] = [part['subgroups']['items']['description']]
-        if part['resources']['items']['properties']['url']['description'].strip() != '':
-            package['resources'] = [{}]
-            package['resources'][0]['url'] = part['resources']['items']['properties']['url']['description']
-            if 'apijson' in package['resources'][0]['url']:
-                package['resources'][0]['format'] = 'JSON'
-            elif 'webio.nsf' in package['resources'][0]['url']:
-                package['resources'][0]['format'] = 'XML'
-            elif '.csv' in package['resources'][0]['url']:
-                package['resources'][0]['format'] = 'CSV'
-            else:
-                print 'Could not guess format: ' + package['url'] + ', ' + package['resources'][0]['url']
-            if 'moers.de' not in package['resources'][0]['url']:
-                package['resources'][0]['url'] = 'http://www.moers.de' + package['resources'][0]['url']
+	if 'resources' in part:
+            package['resources'] = []
+	    for theresource in part['resources']['items']:
+                resource = {}
+	        resource['url'] = theresource['properties']['url']['description']
+                resource['format'] = theresource['properties']['format']['description'].split('/')[1].upper()
+                if 'moers.de' not in resource['url']:
+                    resource['url'] = 'http://www.moers.de' + package['url']
+                if resource['format'] == 'NSF': resource['format'] = 'XML'
+                package['resources'].append(resource)
         package['extras'] = {}
         package['extras']['temporal_coverage_from'] = part['extras']['properties']['dates']['items']['properties']['date']['description'][6:10]
         package['extras']['terms_of_use'] = {}
@@ -99,7 +101,6 @@ for part in packages:
                 row[u'Noch nicht kategorisiert'] = ''
 
     datafordb.append(row)
-
 #Write data to the DB
 metautils.setsettings(settings)
 #Remove this catalog's data
