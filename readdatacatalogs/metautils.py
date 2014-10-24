@@ -23,7 +23,7 @@ from collections import OrderedDict
 ### Categories
 
 ### Interesting formats ###
-geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE')
+geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE', 'OVL', 'IKT', 'CRS', 'TCX')
 
 #TODO: Define mime types also
 
@@ -87,6 +87,22 @@ def addCities(cities, bundesland):
 def markCityAsUpdated(city_shortname):
     cur = getDBCursor(settings)
     cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (city_shortname,))
+    dbCommit()
+    
+def removeUnknownCategories():
+    cur = getDBCursor(settings)
+    cur.execute("SELECT url, categories FROM data")
+    rows = cur.fetchall()
+    for row in rows:
+        newcats = set()
+        changed = False
+        for cat in row[1]:
+            if cat in getCategories():
+                newcats.add(cat)
+            else:
+                changed = True
+        if changed: print 'Old: ' + str(row[1]) + ', New: ' + str(newcats)
+        cur.execute("UPDATE data set categories = %s WHERE url = %s", (list(newcats), row[0]))
     dbCommit()
     
 def updateCitiesWithLatLong():
@@ -362,7 +378,7 @@ def getBlankRow():
   
 #Our schema
 def getTargetColumns():
-    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'geo', u'Arbeitsmarkt', u'Bevölkerung', u'Bildung und Wissenschaft', u'Haushalt und Steuern', u'Stadtentwicklung und Bebauung', u'Wohnen und Immobilien', u'Sozialleistungen', u'Öffentl. Sicherheit', u'Gesundheit', u'Kunst und Kultur', u'Land- und Forstwirtschaft', u'Sport und Freizeit', u'Umwelt', u'Transport und Verkehr', u'Energie, Ver- und Entsorgung', u'Politik und Wahlen', u'Gesetze und Justiz', u'Wirtschaft und Wirtschaftsförderung', u'Tourismus', u'Verbraucher', u'Sonstiges', u'Noch nicht kategorisiert']
+    return [u'Quelle', u'Stadt', u'URL PARENT', u'Dateibezeichnung', u'URL Datei', u'Format', u'Beschreibung', u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle', u'geo', u'Bevölkerung', u'Bildung und Wissenschaft', u'Geographie, Geologie und Geobasisdaten', u'Gesetze und Justiz', u'Gesundheit', u'Infrastruktur, Bauen und Wohnen', u'Kultur, Freizeit, Sport, Tourismus', u'Politik und Wahlen', u'Soziales', u'Transport und Verkehr', u'Umwelt und Klima', u'Verbraucherschutz', u'Öffentliche Verwaltung, Haushalt und Steuern', u'Wirtschaft und Arbeit', u'Sonstiges', u'Noch nicht kategorisiert']
 
 def processListOfFormats(formatArray):
     geo = ''
@@ -635,29 +651,14 @@ def createwholelcwords(words):
 ### End city names database and cleaning ###
   
 ### Categories ###
+def getCategories():
+    return [u'Bevölkerung', u'Bildung und Wissenschaft', u'Geographie, Geologie und Geobasisdaten', u'Gesetze und Justiz', u'Gesundheit', u'Infrastruktur, Bauen und Wohnen', u'Kultur, Freizeit, Sport, Tourismus', u'Politik und Wahlen', u'Soziales', u'Transport und Verkehr', u'Umwelt und Klima', u'Verbraucherschutz', u'Öffentliche Verwaltung, Haushalt und Steuern', u'Wirtschaft und Arbeit', u'Sonstiges', u'Noch nicht kategorisiert']
+
 def setBlankCategories(row):
+    #TODO: Why is Veröffentlichende Stelle in here?
     row[u'Veröffentlichende Stelle'] = ''
-    row[u'Arbeitsmarkt'] = ''
-    row[u'Bevölkerung'] = ''
-    row[u'Bildung und Wissenschaft'] = ''
-    row[u'Haushalt und Steuern'] = ''
-    row[u'Stadtentwicklung und Bebauung'] = ''
-    row[u'Wohnen und Immobilien'] = ''
-    row[u'Sozialleistungen'] = ''
-    row[u'Öffentl. Sicherheit'] = ''
-    row[u'Gesundheit'] = ''
-    row[u'Kunst und Kultur'] = ''
-    row[u'Land- und Forstwirtschaft'] = ''
-    row[u'Sport und Freizeit'] = ''
-    row[u'Umwelt'] = ''
-    row[u'Transport und Verkehr'] = ''
-    row[u'Energie, Ver- und Entsorgung'] = ''
-    row[u'Politik und Wahlen'] = ''
-    row[u'Gesetze und Justiz'] = ''
-    row[u'Wirtschaft und Wirtschaftsförderung'] = ''
-    row[u'Tourismus'] = ''
-    row[u'Verbraucher'] = ''
-    row[u'Sonstiges'] = ''
+    for cat in getCategories():
+        row[cat]= ''
     row[u'Noch nicht kategorisiert'] = 'x'
     return row
     
@@ -671,7 +672,8 @@ def setcats(row, cats):
         row[u'Noch nicht kategorisiert'] = 'x'
 
 def govDataLongToODM(group, checkAll=False):
-    #This is designed to cope either with a single category or a string with all categories
+    #The name is a misnomer: this checks for a valid govdata category and does some mapping where not. We have one extra category: Sonstiges
+    #This is designed to cope either with a single category or a string with all categories. Quotes are allowed.
     #It has been extended to include the wild moers categories
     #Eventually, we need one function that matches all words, short and long to the govdata categories
     group = group.strip()
@@ -695,38 +697,38 @@ def govDataLongToODM(group, checkAll=False):
         returnvalue.append(u'Gesetze und Justiz')
         if not checkAll: return returnvalue
     if u'Wirtschaft und Arbeit' in group:
-        returnvalue.extend([u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung'])
+        returnvalue.append(u'Wirtschaft und Arbeit')
         if not checkAll: return returnvalue
-    if any(x in group for x in [u'Verwaltung, Haushalt und Steuern', u'Finanzen', u'Verwaltung']):
-        returnvalue.extend([u'Haushalt und Steuern', u'Sonstiges'])
+    if any(x in group for x in [u'Verwaltung', u'Finanzen', ]):
+        returnvalue.append(u'Öffentliche Verwaltung, Haushalt und Steuern')
         if not checkAll: return returnvalue
     if u'Infrastruktur, Bauen und Wohnen' in group:
-        returnvalue.extend([u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung'])
+        returnvalue.append(u'Infrastruktur, Bauen und Wohnen')
         if not checkAll: return returnvalue
     if u'Geo' in group:
-        returnvalue.append(u'Stadtentwicklung und Bebauung')
+        returnvalue.append(u'Geographie, Geologie und Geobasisdaten')
         if not checkAll: return returnvalue
     if u'Soziales' in group:
-        returnvalue.append(u'Sozialleistungen')
+        returnvalue.append(u'Soziales')
         if not checkAll: return returnvalue
     if u'Tourismus' in group:
-        returnvalue.extend([u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus'])
+        returnvalue.append(u'Kultur, Freizeit, Sport, Tourismus')
         if not checkAll: return returnvalue
     if u'Umwelt und Klima' in group:
-        returnvalue.append(u'Umwelt')
+        returnvalue.append(u'Umwelt und Klima')
         if not checkAll: return returnvalue
     if u'Verbraucherschutz' in group:
-        returnvalue.append(u'Verbraucher')
+        returnvalue.append(u'Verbraucherschutz')
         if not checkAll: return returnvalue
     #Moers only
     if u'Allgemein' in group:
         returnvalue.append(u'Sonstiges')
         if not checkAll: return returnvalue
     if u'Internet' in group:
-        returnvalue.extend([u'Bildung und Wissenschaft', u'Wirtschaft und Wirtschaftsförderung'])
+        returnvalue.extend([u'Bildung und Wissenschaft', u'Wirtschaft und Arbeit'])
         if not checkAll: return returnvalue
     if u'Kultur und Bildung' in group:
-        returnvalue.extend([u'Bildung und Wissenschaft', u'Kunst und Kultur'])
+        returnvalue.extend([u'Bildung und Wissenschaft', u'Kultur, Freizeit, Sport, Tourismus'])
         if not checkAll: return returnvalue
     #end Moers only
     if len(returnvalue) == 0:
@@ -735,38 +737,36 @@ def govDataLongToODM(group, checkAll=False):
         
 def govDataShortToODM(group):
     group = group.strip()
-    if group == 'bevoelkerung' or group == 'society':
+    if any(x == group for x in ('bevoelkerung', 'society')):
         return [u'Bevölkerung']
-    elif group == 'bildung_wissenschaft' or group == 'bildung':
+    elif any(x == group for x in('bildung_wissenschaft', 'bildung')):
         return [u'Bildung und Wissenschaft']
-    elif group == 'wirtschaft_arbeit':
-        return [u'Arbeitsmarkt', u'Wirtschaft und Wirtschaftsförderung']
+    elif 'wirtschaft' in group or group == 'economy':
+        return [u'Wirtschaft und Arbeit']
     elif group == 'infrastruktur_bauen_wohnen':
-        return [u'Wohnen und Immobilien', u'Stadtentwicklung und Bebauung']
-    elif group == 'geo' or group == 'geografie' or group == 'structure' or group == 'infrastruktur' or group == 'boundaries' or group == 'gdi-rp':
-        return [u'Stadtentwicklung und Bebauung']
-    elif group == 'gesundheit' or group == 'health':
+        return [u'Infrastruktur, Bauen und Wohnen']
+    elif any(x == group for x in ('geo', 'geografie', 'gdi-rp', 'boundaries')):
+        return [u'Geographie, Geologie und Geobasisdaten']
+    elif group == 'infrastruktur' or group == 'structure':
+        return [u'Infrastruktur, Bauen und Wohnen']
+    elif any (x == group for x in ('gesundheit', 'health')):
         return [u'Gesundheit']
     elif group == 'soziales' or group == 'sozial':
-        return [u'Sozialleistungen']
-    elif group == 'kultur':
-        return [u'Kunst und Kultur']
-    elif group == 'kultur_freizeit_sport_tourismus':
-        return [u'Kunst und Kultur', u'Sport und Freizeit', u'Tourismus']
-    elif group == 'umwelt_klima' or group == 'umwelt' or group == 'environment' or group == 'biota' or group == 'oceans':
-        return [u'Umwelt']
-    elif group == 'transport_verkehr' or group == 'transport':
+        return [u'Soziales']
+    elif 'kultur' in group:
+        return [u'Kultur, Freizeit, Sport, Tourismus']
+    elif any (x == group for x in ('umwelt_klima', 'umwelt', 'environment', 'biota', 'oceans')):
+        return [u'Umwelt und Klima']
+    elif any(x == group for x in ('transport_verkehr', 'transport')):
         return [u'Transport und Verkehr']
     elif group == 'verbraucher':
-        return [u'Verbraucher']
-    elif group == 'politik_wahlen' or group == 'politik':
+        return [u'Verbraucherschutz']
+    elif any(x == group for x in ('politik_wahlen', 'politik')):
         return [u'Politik und Wahlen']
-    elif group == 'gesetze_justiz' or group == 'justiz':
+    elif any(x == group for x in ('gesetze_justiz', 'justiz')):
         return [u'Gesetze und Justiz']
-    elif group == 'economy' or group == 'wirtschaft':
-        return [u'Wirtschaft und Wirtschaftsförderung']
     elif group == 'verwaltung':
-        return [u'Sonstiges']
+        return [u'Öffentliche Verwaltung, Haushalt und Steuern']
     else:
         print 'Warning: could not return a category for ' + group
         return []

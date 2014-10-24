@@ -293,7 +293,7 @@ for record in records:
     row[u'Dateibezeichnung'] = record['title']
     row[u'Beschreibung'] = record['abstract']
     row[u'URL PARENT'] = record['url']
-    row[u'Format'] = record['format']
+    row[u'Format'] = record['format'].upper()
     row[u'geo'] = record['geo']
     if record['costs'] is not None:
         row[u'Kosten'] = record['costs']  
@@ -301,13 +301,12 @@ for record in records:
 
     groups = u''
 
-    if ('GOV-Data Kategorien' in record and len(record['GOV-Data Kategorien']) > 0):
-        for group in record['GOV-Data Kategorien']:
-            odm_cats = metautils.govDataLongToODM(group)
-            if len(odm_cats) > 0:
-                for cat in odm_cats:
-                    row[cat] = 'x'
-                row[u'Noch nicht kategorisiert'] = ''
+    if ('GOV-Data Kategorien' in record['keywords'] and len(record['keywords']['GOV-Data Kategorien']) > 0):
+        odm_cats = metautils.govDataLongToODM(record['keywords']['GOV-Data Kategorien'], checkAll=True)
+        if len(odm_cats) > 0:
+            for cat in odm_cats:
+                row[cat] = 'x'
+            row[u'Noch nicht kategorisiert'] = ''
                 
     allrecords.append(record)
     datafordb.append(row)
