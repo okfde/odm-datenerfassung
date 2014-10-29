@@ -174,7 +174,10 @@ def getCitiesWithData():
 #General purpose addition of data in Google Spreadsheets format to the DB
 #If checked == True then this data is 'open data'
 #If accepted == True then inter source deduplification has been performed
-def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False):
+def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False, remove_data=False):
+    if remove_data:
+        removeDataFromPortal(originating_portal)
+        
     cur = getDBCursor(settings)
     
     badcities = []
@@ -693,7 +696,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Wahlen' in group:
         returnvalue.append(u'Politik und Wahlen')
         if not checkAll: return returnvalue
-    if u'Gesetze und Justiz' in group:
+    if any (x.lower() in group.lower() for x in [u'Gesetze und Justiz', u'Recht']):
         returnvalue.append(u'Gesetze und Justiz')
         if not checkAll: return returnvalue
     if u'Wirtschaft und Arbeit' in group:
@@ -711,7 +714,7 @@ def govDataLongToODM(group, checkAll=False):
     if u'Soziales' in group:
         returnvalue.append(u'Soziales')
         if not checkAll: return returnvalue
-    if u'Tourismus' in group:
+    if any(x in group for x in [u'Kultur', u'Tourismus']):
         returnvalue.append(u'Kultur, Freizeit, Sport, Tourismus')
         if not checkAll: return returnvalue
     if u'Umwelt und Klima' in group:
@@ -732,7 +735,7 @@ def govDataLongToODM(group, checkAll=False):
         if not checkAll: return returnvalue
     #end Moers only
     if len(returnvalue) == 0:
-        print 'Warning: could not return a category'
+        print 'Warning: could not return a category for ' + group
     return returnvalue
         
 def govDataShortToODM(group):

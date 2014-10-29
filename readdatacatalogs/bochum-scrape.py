@@ -1,23 +1,36 @@
 # -*- coding: utf-8 -*-
 import urllib2
+import urllib
+
+import metautils
+from dbsettings import settings
 
 from lxml import html
-from lxml.etree import LxmlError
+from lxml import etree
 
 def findfilesanddata(html):
     #Start to get the data for each dataset
-    tables = html.xpath('//body//table')
+    tables = html.xpath('//table')
     #Tables with captions contain info, tables with no caption and no border contain the files
     datatables = []
     filetables = []
     for table in tables:
+        #We append the text because for some reason the objects are weird and contain data from elsewhere in the page
         if len(table.xpath('caption')) == 1:
-           datatables.append(table)
+           datatables.append(etree.tostring(table))
            print 'Found table of data'
-        elif len(table.xpath('@border')) > 0 and table.xpath('@border')[0] == '0':
+        if len(table.xpath('caption')) == 0 and len(table.xpath('@border')) > 0 and table.xpath('@border')[0] == '0':
            print 'Found table of files'
-           filetables.append(table)
-    return [datatables, filetables]
+           filetables.append(etree.tostring(table))
+    return datatables, filetables
+    
+def get_datasets(data):
+    #Get the number of datasets
+    datasets = data.xpath('//body//h2/text()')
+    #Maybe it's there, maybe it isn't
+    if 'Inhaltsverzeichnis' in datasets:
+        datasets.remove('Inhaltsverzeichnis')  
+    return datasets
 
 rooturl = u'http://www.bochum.de'
 url = u'/opendata/datensaetze/nav/75F9RD294BOLD'
@@ -34,63 +47,152 @@ cat_urls.remove('/opendata/datensaetze/neueste-datensaetze/nav/75F9RD294BOLD')
 
 print str(len(cat_urls))  + ' categories found'
 
+allrecords = []
+
 for category_link in cat_urls:
     #Get the page
-    data = html.parse(rooturl + category_link)
+    parser = etree.HTMLParser(encoding='utf-8')
+    data = etree.parse(rooturl + category_link, parser)
     #Get the category
     category = data.xpath('//body//h1/text()')[2].strip()
-    #Get set of datasets
-    datasets = data.xpath('//body//h2/text()')
-    if 'Inhaltsverzeichnis' in datasets:
-        datasets.remove('Inhaltsverzeichnis')    
-    
-    [datatables, filetables] = findfilesanddata(data)
+    #category = urllib.unquote(category).decode('utf8')
+    print 'Category: ' + category
 
-    print len(datasets)
-    print len(datatables)
-    if len(datatables) < len(datasets):
-        checkforsubpage = data.xpath('//body//div//span//a')
-        for link in checkforsubpage:
-            if len(link.xpath('text()')) > 0 and u'zu den Datensätzen' in link.xpath('text()')[0]:
-                testurl = link.xpath('@href')[0]
-                print 'Following URL ' + rooturl + testurl
-                [extradatatables, extrafiletables] = findfilesanddata(html.parse(rooturl + testurl))
-                print len(extradatatables)
-                print len(extrafiletables)
-    #TODO: Match everything together!
-    continue
-    filefound = False
+    datasets = get_datasets(data)
+    numdatasets = len(datasets)
     
-    print u'Reading ' + rooturl + site
-    datapage = html.parse(rooturl + site)
+    print 'There are ' + str(numdatasets) + ' datasets'
     
-    tableheaders = datapage.xpath('//*[@id="content"]//div/table/tbody/tr/th')
+    #Now get the html for each one. This is painful.
+    #The bit of html concerning the datasets:
+    corehtml = data.xpath('//div[@id=\'ContentBlock\']')[0]
+    #First try to split by the horizontal rules. This usually works, but not always
+    datasetparts = etree.tostring(corehtml).split('<hr id="hr')
+    print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by hr elements with ids'
+    if len(datasetparts) != numdatasets:
+        print 'This doesn\'t match. Trying with links to TOC'
+        #If there is TOC, this works. There isn\'t always one.
+        datasetparts = etree.tostring(corehtml).split('nach oben')
+        del datasetparts[len(datasetparts)-1]
+        for index in range(0, len(datasetparts)):
+            datasetparts[index] = datasetparts[index] + '</a>'   
+        print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by links to TOC'
+        if len(datasetparts) != numdatasets:
+            print 'Well, that didn\'t work either. Giving up'
+            exit()
+    else:
+        if numdatasets>1:
+            for index in range(1, len(datasetparts)):
+                #That split makes for bad HTML. Make it better.
+                datasetparts[index] = '<hr id="hr' + datasetparts[index]
     
-    linkcount = 0
+    count = 1
     
-    for th in tableheaders:
-        rowtitle = th.xpath('text()')[0]
-        rowid = th.xpath('@id')[0]
-        #Oh Moers... oh Moers... (not all of these necessarily exist, some are guesses)
-        titles = ('Datei', 'Link', 'Download', 'Dateien', 'Links', 'Downloads') #Any more...?
-        if any(x == rowtitle for x in titles):
-            query = '//*[@id="content"]//div/table/tbody/tr/td[contains(@headers, "' + rowid + '")]//a'
-            links = datapage.xpath(query)
-     
-            print  'Found ' + str(len(links)) + ' under ' + rowtitle
+    #starthtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="DE" lang="DE"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8" /><meta http-equiv="content-language" content="DE" /></head><body>'
+    #endhtml = '</body></html>'
     
-            for link in links:
-                dataurl =  link.xpath('@href')[0]
-                print dataurl
-                filefound = True
-                linkcount += 1
-                csv_file.write(dataurl + '\n')
-    
-            print u'Found ' + str(linkcount) + ' files'
-    
-    if not filefound:
-        #If no files, write out part of the path
-        print 'WARNING! No files found!!! Maybe Moers found another word for the same thing... please check'
-        csv_file.write(site.split('/')[-1] + '\n')
-    
-print 'Done.'
+    for datasetpart in datasetparts:
+        data = etree.HTML(datasetpart)
+        record = metautils.getBlankRow()
+        record[u'Stadt'] = 'bochum'
+        record['category'] = []
+        record['category'].append(category)
+        
+        datasets = get_datasets(data)
+        record[u'Dateibezeichnung'] = datasets[0]
+        
+        print 'Parsing dataset ' + record[u'Dateibezeichnung']
+        record[u'URL PARENT'] = rooturl + category_link + '#par' + str(count)
+        count += 1
+        datatables, filetables = findfilesanddata(data)
+
+        if len(datatables) == 0:
+            print 'This record contains no data... checking for link to another page...'
+            checkforsubpage = data.xpath('//span//a')
+            
+            for link in checkforsubpage:
+                print etree.tostring(link)
+                if len(link.xpath('text()')) > 0 and u'zu den Daten' in link.xpath('text()')[0]:
+                    testurl = link.xpath('@href')[0]
+                    print 'Following/updating URL: ' + rooturl + testurl
+                    record['url'] = rooturl + testurl
+                    datatables, filetables = findfilesanddata(html.parse(rooturl + testurl))
+
+        #get the data on the files, and get each link in it
+        record['files'] = []
+        for table in filetables:
+            record['files'].extend([(rooturl + x) for x in etree.HTML(table).xpath('//a/@href')])
+            
+        formats = []
+        for file in record['files']:
+            formats.append(file.split('/')[-1].split('.')[1].upper())
+        
+        [formattext, geo] = metautils.processListOfFormats(formats)
+        
+        record[u'Format'] = formattext
+        record[u'geo'] = geo
+
+        if len(datatables) > 1:
+            print 'ERROR: More than one data table'
+            exit()
+        elif len(datatables) == 0:
+            print 'ERROR: No data table'
+            exit()
+            
+        #parse the data table by row
+        print 'Reading datatable...'
+        rowelements = etree.HTML(datatables[0]).xpath('//tr')
+        for row in rowelements:
+            if len(row.xpath('td[1]/text()')) == 0: continue
+            key = row.xpath('td[1]/text()')[0]
+            print key
+            if len(row.xpath('td[2]/text()')) != 0:
+                val = row.xpath('td[2]/text()')[0]
+            elif len(row.xpath('td[2]//a')) != 0: 
+                val = row.xpath('td[2]//a/text()')[0]
+            else:
+                print 'ERROR: Missing value'
+                exit()
+            print 'Parsing key ' + key.replace(':', '') + ' with value ' + val
+            if u'veröffentlicht' in key:
+                record[u'Veröffentlichende Stelle'] = val
+            elif u'geändert' in key:
+                record[u'Zeitlicher Bezug'] = val.split(' ')[2]
+            elif u'Lizenz' in key:
+                record[u'Lizenz'] = metautils.long_license_to_short(val)
+            #elif u'Webseite' in key:
+                #record['website'] = row.xpath('td[2]//a/@href')[0] #keep, as 'original' metadata
+                #if 'http://' not in record['website']:
+                    #record['website'] = rooturl + record['website']
+            #elif u'Kontakt' in key:
+                #record['contact'] = rooturl + row.xpath('td[2]//a/@href')[0]
+
+        allrecords.append(record)
+                
+#Find things in multiple categories
+recordsdict = {}
+for record in allrecords:
+    if record[u'Dateibezeichnung'] not in recordsdict:
+        recordsdict[record[u'Dateibezeichnung']] = record
+    else:
+        print record[u'Dateibezeichnung']  + ' in ' + str(record['category']) + ' is already in ' + str(recordsdict[record[u'Dateibezeichnung']]['category']) + '. Transferring category.'
+        recordsdict[record[u'Dateibezeichnung'] ]['category'].extend(record['category'])
+
+allrecords = recordsdict.values()
+finalrecords = []
+
+#Expand categories
+for record in allrecords:
+    odm_cats = metautils.govDataLongToODM(metautils.arraytocsv(record['category']), checkAll=True)
+    if len(odm_cats) > 0:
+        for cat in odm_cats:
+            record[cat] = 'x'
+            record[u'Noch nicht kategorisiert'] = '' 
+    del record['category']
+    finalrecords.append(record)
+ 
+print 'Done. Adding to DB.'
+#Write data to the DB
+metautils.setsettings(settings)
+#Add data
+metautils.addDataToDB(datafordb=finalrecords, originating_portal='http://www.bochum.de/opendata', checked=True, accepted=True, remove_data=True)
