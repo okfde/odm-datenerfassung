@@ -8,6 +8,8 @@ from dbsettings import settings
 from lxml import html
 from lxml import etree
 
+verbose = False
+
 def findfilesanddata(html):
     #Start to get the data for each dataset
     tables = html.xpath('//table')
@@ -18,9 +20,9 @@ def findfilesanddata(html):
         #We append the text because for some reason the objects are weird and contain data from elsewhere in the page
         if len(table.xpath('caption')) == 1:
            datatables.append(etree.tostring(table))
-           print 'Found table of data'
+           if (verbose): print 'Found table of data'
         if len(table.xpath('caption')) == 0 and len(table.xpath('@border')) > 0 and table.xpath('@border')[0] == '0':
-           print 'Found table of files'
+           if (verbose): print 'Found table of files'
            filetables.append(etree.tostring(table))
     return datatables, filetables
     
@@ -35,7 +37,7 @@ def get_datasets(data):
 rooturl = u'http://www.bochum.de'
 url = u'/opendata/datensaetze/nav/75F9RD294BOLD'
 
-print u'Reading page of categories: ' + rooturl + url
+if (verbose): print u'Reading page of categories: ' + rooturl + url
 data = html.parse(rooturl + url)
 
 #Get the first spanned URL in each cell. There must be a way to do this all in one xpath query
@@ -45,7 +47,7 @@ for cat_site in cat_sites:
     cat_urls.append(cat_site.xpath('span[1]/a/@href')[0])
 cat_urls.remove('/opendata/datensaetze/neueste-datensaetze/nav/75F9RD294BOLD')
 
-print str(len(cat_urls))  + ' categories found'
+if (verbose): print str(len(cat_urls))  + ' categories found'
 
 allrecords = []
 
@@ -56,29 +58,29 @@ for category_link in cat_urls:
     #Get the category
     category = data.xpath('//body//h1/text()')[2].strip()
     #category = urllib.unquote(category).decode('utf8')
-    print 'Category: ' + category
+    if (verbose): print 'Category: ' + category
 
     datasets = get_datasets(data)
     numdatasets = len(datasets)
     
-    print 'There are ' + str(numdatasets) + ' datasets'
+    if (verbose): print 'There are ' + str(numdatasets) + ' datasets'
     
     #Now get the html for each one. This is painful.
     #The bit of html concerning the datasets:
     corehtml = data.xpath('//div[@id=\'ContentBlock\']')[0]
     #First try to split by the horizontal rules. This usually works, but not always
     datasetparts = etree.tostring(corehtml).split('<hr id="hr')
-    print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by hr elements with ids'
+    if (verbose): print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by hr elements with ids'
     if len(datasetparts) != numdatasets:
-        print 'This doesn\'t match. Trying with links to TOC'
+        if (verbose): print 'This doesn\'t match. Trying with links to TOC'
         #If there is TOC, this works. There isn\'t always one.
         datasetparts = etree.tostring(corehtml).split('nach oben')
         del datasetparts[len(datasetparts)-1]
         for index in range(0, len(datasetparts)):
             datasetparts[index] = datasetparts[index] + '</a>'   
-        print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by links to TOC'
+        if (verbose): print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by links to TOC'
         if len(datasetparts) != numdatasets:
-            print 'Well, that didn\'t work either. Giving up'
+            if (verbose): print 'Well, that didn\'t work either. Giving up'
             exit()
     else:
         if numdatasets>1:
@@ -101,20 +103,20 @@ for category_link in cat_urls:
         datasets = get_datasets(data)
         record[u'Dateibezeichnung'] = datasets[0]
         
-        print 'Parsing dataset ' + record[u'Dateibezeichnung']
+        if (verbose): print 'Parsing dataset ' + record[u'Dateibezeichnung']
         record[u'URL PARENT'] = rooturl + category_link + '#par' + str(count)
         count += 1
         datatables, filetables = findfilesanddata(data)
 
         if len(datatables) == 0:
-            print 'This record contains no data... checking for link to another page...'
+            if (verbose): print 'This record contains no data... checking for link to another page...'
             checkforsubpage = data.xpath('//span//a')
             
             for link in checkforsubpage:
-                print etree.tostring(link)
+                if (verbose): print etree.tostring(link)
                 if len(link.xpath('text()')) > 0 and u'zu den Daten' in link.xpath('text()')[0]:
                     testurl = link.xpath('@href')[0]
-                    print 'Following/updating URL: ' + rooturl + testurl
+                    if (verbose): print 'Following/updating URL: ' + rooturl + testurl
                     record['url'] = rooturl + testurl
                     datatables, filetables = findfilesanddata(html.parse(rooturl + testurl))
 
@@ -133,27 +135,27 @@ for category_link in cat_urls:
         record[u'geo'] = geo
 
         if len(datatables) > 1:
-            print 'ERROR: More than one data table'
+            if (verbose): print 'ERROR: More than one data table'
             exit()
         elif len(datatables) == 0:
-            print 'ERROR: No data table'
+            if (verbose): print 'ERROR: No data table'
             exit()
             
         #parse the data table by row
-        print 'Reading datatable...'
+        if (verbose): print 'Reading datatable...'
         rowelements = etree.HTML(datatables[0]).xpath('//tr')
         for row in rowelements:
             if len(row.xpath('td[1]/text()')) == 0: continue
             key = row.xpath('td[1]/text()')[0]
-            print key
+            if (verbose): print key
             if len(row.xpath('td[2]/text()')) != 0:
                 val = row.xpath('td[2]/text()')[0]
             elif len(row.xpath('td[2]//a')) != 0: 
                 val = row.xpath('td[2]//a/text()')[0]
             else:
-                print 'ERROR: Missing value'
+                if (verbose): print 'ERROR: Missing value'
                 exit()
-            print 'Parsing key ' + key.replace(':', '') + ' with value ' + val
+            if (verbose): print 'Parsing key ' + key.replace(':', '') + ' with value ' + val
             if u'veröffentlicht' in key:
                 record[u'Veröffentlichende Stelle'] = val
             elif u'geändert' in key:
@@ -175,7 +177,7 @@ for record in allrecords:
     if record[u'Dateibezeichnung'] not in recordsdict:
         recordsdict[record[u'Dateibezeichnung']] = record
     else:
-        print record[u'Dateibezeichnung']  + ' in ' + str(record['category']) + ' is already in ' + str(recordsdict[record[u'Dateibezeichnung']]['category']) + '. Transferring category.'
+        if (verbose): print record[u'Dateibezeichnung']  + ' in ' + str(record['category']) + ' is already in ' + str(recordsdict[record[u'Dateibezeichnung']]['category']) + '. Transferring category.'
         recordsdict[record[u'Dateibezeichnung'] ]['category'].extend(record['category'])
 
 allrecords = recordsdict.values()
@@ -191,7 +193,7 @@ for record in allrecords:
     del record['category']
     finalrecords.append(record)
  
-print 'Done. Adding to DB.'
+if (verbose): print 'Done. Adding to DB.'
 #Write data to the DB
 metautils.setsettings(settings)
 #Add data
