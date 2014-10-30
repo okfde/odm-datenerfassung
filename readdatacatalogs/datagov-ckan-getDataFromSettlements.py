@@ -25,8 +25,8 @@ if sys.argv[1] == 'all':
     if (len(sys.argv)>3):
         excludes = sys.argv[3].replace(' ', '').split(',')
         print 'Excluding following portals:'
-        for portal in excludes:
-            print portal
+        for excludeportal in excludes:
+            print excludeportal
         
     cities = metautils.getCities()
 
