@@ -10,6 +10,7 @@ from dbsettings import settings
 url = ""
 cityname = sys.argv[1]
 
+#TODO: get from DB
 if cityname == "koeln":
     url = "http://offenedaten-koeln.de"
 elif cityname == "bonn":
@@ -18,6 +19,8 @@ elif cityname == "hamburg":
     url = "http://suche.transparenz.hamburg.de"
 elif cityname == "frankfurt":
     url = "http://www.offenedaten.frankfurt.de"
+elif cityname == "aachen":
+    url = "http://daten.aachen.de"
 else:
     print 'First argument must be an city; unsupported city'
     exit()
@@ -63,7 +66,7 @@ else:
     print 'Downloading ' + url + "/api/3/action/current_package_list_with_resources..."
     jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     groups = json.loads(jsonurl.read())
-    if cityname == 'frankfurt':
+    if cityname == 'frankfurt' or cityname == 'aachen':
         groups = groups['result']
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
@@ -107,8 +110,8 @@ for package in groups:
     row[u'Dateibezeichnung'] = package['title']
     row[u'files'] = files
     
-    if cityname == 'hamburg' or cityname == 'koeln' or cityname == 'frankfurt':
-        if cityname == 'hamburg' or cityname == 'frankfurt':
+    if cityname == 'hamburg' or cityname == 'koeln' or cityname == 'frankfurt' or cityname == 'aachen':
+        if cityname == 'hamburg' or cityname == 'frankfurt' or cityname == 'aachen':
             licensekey = 'license_id'
             vstellekey = 'author'
             catskey = 'groups'
