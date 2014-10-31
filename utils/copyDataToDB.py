@@ -92,7 +92,7 @@ def reformatdata(cityname, multiCity = False):
                     else:
                         categories.append(key)
         checked = True #All of this data is 'open data'
-        accepted = False #Validation - inter source deduplification has NOT been performed
+        accepted = True #Inter source deduplification will be performed later
         
         #Note, we don't add any cities here as in general the data being added this way is data for 
         #the list of 100 'cities'. This might change in the future.
@@ -118,7 +118,7 @@ def reformatdata(cityname, multiCity = False):
 if len(sys.argv) > 2:
     print 'Processing sheet with key ' + sys.argv[1] + ' and gid ' + sys.argv[2]
     durl = "https://docs.google.com/spreadsheets/d/" + sys.argv[1] + "/export?gid=" + sys.argv[2] + "&format=csv"
-    print "Downloading data for using url " + durl + "..."
+    print "Downloading data using url " + durl + "..."
     urllib.urlretrieve (durl, "tempsheet.csv");
     reformatdata('tempsheet', multiCity = True)
                   
