@@ -14,8 +14,8 @@ print '\nRemoving search machine data that has been found with own crawler...'
 for city in cities:
     cur = metautils.getDBCursor(settings, dictCursor = True)
     
-    #Get all Google and Bing data to see if the files have also been found by crawling (and in the future, data catalogs)
-    cur.execute('SELECT source, url FROM data WHERE city LIKE %s AND source = %s OR source = %s', (city,'b','g'))
+    #Get all Google and Bing data to see if the files have also been found by crawling
+    cur.execute('SELECT source, url FROM data WHERE city LIKE %s AND (source = %s OR source = %s) AND accepted = %s', (city,'b','g', True))
     gbres = cur.fetchall()
     cur.execute('SELECT filelist FROM data WHERE city LIKE %s AND source = %s OR source = %s AND array_length(filelist,1)>0', (city,'c','d'))
     allfiles = [t[0].split('/')[-1].lower() for t in [f for f in [res['filelist'] for res in cur.fetchall()]]]

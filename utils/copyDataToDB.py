@@ -12,7 +12,10 @@ from dbsettings import settings
 
 validsources = ('m', 'd', 'c', 'g', 'b')
 
-def reformatdata(cityname, multiCity = False):    
+#Change if not importing from crawled data
+unknownsource = 'b'
+
+def reformatdata(cityname, accepted, multiCity = False):    
     mapping = dict()
     mapping['city'] = u'Stadt'
     mapping['source'] = u'Quelle'
@@ -28,6 +31,34 @@ def reformatdata(cityname, multiCity = False):
     with open(cityname + '.csv', 'rb') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
+            #Make Bing/Crawl data look a bit more like edited data
+            for key in row.keys():
+                if '_' in key:
+                    row[key.replace('_', ' ')] = row[key]
+            if 'Stadt_URL' in row.keys():
+                row['Stadt'] = row['Stadt_URL']
+            if 'URL_Text' in row:
+                row['Dateibezeichnung'] = row['URL_Text']
+            #Bing has a description and a file name    
+            if 'URL_Dateiname' in row.keys():
+                beschreibung = ''
+                #Crawls don't have description
+                if 'Beschreibung' in row.keys():
+                    beschreibung = row['Beschreibung']
+                beschreibung = row['URL_Dateiname'] + ' - ' + beschreibung
+            #Bing doesn't have parents
+            if 'URL_PARENT' not in row.keys():
+                row['URL PARENT'] = ''
+            #Crawls do, however, have the title of the parent page
+            if 'Title_PARENT' in row.keys():
+                beschreibung = row['Title_PARENT'] + ' - ' + beschreibung
+            if 'Quelle' not in row:
+                row['Quelle'] = unknownsource
+            #Only in edited data, and we may drop timepoint at some point
+            possiblymissing = [u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle']
+            for pm in possiblymissing:
+                if pm not in row:
+                    row[pm] = ''
             source = row['Quelle'].strip()
             if source not in validsources:
                 print 'Error: ' + cityname + '.csv has missing or unrecognised source(s): ' + source
@@ -92,7 +123,6 @@ def reformatdata(cityname, multiCity = False):
                     else:
                         categories.append(key)
         checked = True #All of this data is 'open data'
-        accepted = True #Inter source deduplification will be performed later
         
         #Note, we don't add any cities here as in general the data being added this way is data for 
         #the list of 100 'cities'. This might change in the future.
@@ -103,8 +133,8 @@ def reformatdata(cityname, multiCity = False):
             print 'Inserting a row for ' + cityname
         
         cur.execute("INSERT INTO data \
-            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, date_added) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() \
             WHERE NOT EXISTS ( \
                 SELECT url FROM data WHERE url = %s \
             )",
@@ -115,12 +145,18 @@ def reformatdata(cityname, multiCity = False):
             )
     metautils.dbCommit()
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 3:
     print 'Processing sheet with key ' + sys.argv[1] + ' and gid ' + sys.argv[2]
     durl = "https://docs.google.com/spreadsheets/d/" + sys.argv[1] + "/export?gid=" + sys.argv[2] + "&format=csv"
     print "Downloading data using url " + durl + "..."
     urllib.urlretrieve (durl, "tempsheet.csv");
-    reformatdata('tempsheet', multiCity = True)
+    if sys.argv[3] == 'accepted':
+        accepted = True
+    elif sys.argv[3] == 'rejected':
+        accepted = False
+    else:
+        print 'Please state a third argument accepted|rejected. Remember that data of existing URLs will NOT be overwritten, and that the value may be overwritten by DB checks for duplicates etc.'
+    reformatdata('tempsheet', accepted, multiCity = True)
                   
 elif len(sys.argv) == 1:
     print 'Downloading all data specified in index (DEPRECATED!)'
@@ -151,7 +187,7 @@ elif len(sys.argv) == 1:
               else:
                   print "No gid for this city, please check spreadsheet"
 else:
-    print 'Either use two arguments, GSheets key and gid for importing a sheet, or no arguments, setting the environment variables INDEXKEY and ERFASSUNGSKEY appropriately'
+    print 'Either use three arguments, GSheets key and gid for importing a sheet and \'accepted\' or \'rejected\', or no arguments, setting the environment variables INDEXKEY and ERFASSUNGSKEY appropriately'
  
 
 
