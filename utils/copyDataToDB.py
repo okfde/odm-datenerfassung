@@ -13,7 +13,7 @@ from dbsettings import settings
 validsources = ('m', 'd', 'c', 'g', 'b')
 
 #Change if not importing from crawled data
-unknownsource = 'b'
+unknownsource = 'c'
 
 def reformatdata(cityname, accepted, multiCity = False):    
     mapping = dict()
@@ -42,10 +42,10 @@ def reformatdata(cityname, accepted, multiCity = False):
             #Bing has a description and a file name    
             if 'URL_Dateiname' in row.keys():
                 beschreibung = ''
-                #Crawls don't have description
+                #Crawls and Google don't have description
                 if 'Beschreibung' in row.keys():
-                    beschreibung = row['Beschreibung']
-                beschreibung = row['URL_Dateiname'] + ' - ' + beschreibung
+                    beschreibung = ' - ' + row['Beschreibung']
+                row['Beschreibung'] = row['URL_Dateiname'] + beschreibung
             #Bing doesn't have parents
             if 'URL_PARENT' not in row.keys():
                 row['URL PARENT'] = ''
@@ -128,8 +128,8 @@ def reformatdata(cityname, accepted, multiCity = False):
         #the list of 100 'cities'. This might change in the future.
         
         if multiCity:
-            #We have .de at the end of every city
-            cityname = row[mapping['city']][0:len(row[mapping['city']])-3]
+            #We have .de etc. at the end of every city
+            cityname = row[mapping['city']][0:len(row[mapping['city']].split('.')[0])]
             print 'Inserting a row for ' + cityname
         
         cur.execute("INSERT INTO data \
