@@ -503,8 +503,9 @@ def processListOfFormats(formatArray):
     
 #Put anything where you think despite the best will in the world people will still put bad stuff in the database
 def perform_sanitizations(row):
-    row['licenseshort'] = row['licenseshort'].replace('/', '-')
-    
+    if 'licenseshort' in row:
+        row['licenseshort'] = row['licenseshort'].replace('/', '-')
+
     
 def convert_crawl_row(row, source):
     #Make Bing/Crawl data look a bit more like edited data
