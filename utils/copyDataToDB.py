@@ -13,7 +13,7 @@ from dbsettings import settings
 validsources = ('m', 'd', 'c', 'g', 'b')
 
 #Change if not importing from crawled data
-unknownsource = 'c'
+unknownsource = 'b'
 
 def reformatdata(cityname, accepted, multiCity = False):    
     mapping = dict()

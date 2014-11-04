@@ -95,16 +95,16 @@ for category_link in cat_urls:
     
     for datasetpart in datasetparts:
         data = etree.HTML(datasetpart)
-        record = metautils.getBlankRow()
-        record[u'Stadt'] = 'bochum'
-        record['category'] = []
-        record['category'].append(category)
+        record = {}
+        record['city'] = 'bochum'
+        record['categories'] = []
+        record['categories'].append(category)
         
         datasets = get_datasets(data)
-        record[u'Dateibezeichnung'] = datasets[0]
+        record['title'] = datasets[0]
         
-        if (verbose): print 'Parsing dataset ' + record[u'Dateibezeichnung']
-        record[u'URL PARENT'] = rooturl + category_link + '#par' + str(count)
+        if (verbose): print 'Parsing dataset ' + record['title']
+        record['url'] = rooturl + category_link + '#par' + str(count)
         count += 1
         datatables, filetables = findfilesanddata(data)
 
@@ -121,18 +121,18 @@ for category_link in cat_urls:
                     datatables, filetables = findfilesanddata(html.parse(rooturl + testurl))
 
         #get the data on the files, and get each link in it
-        record['files'] = []
+        record['filelist'] = []
         for table in filetables:
-            record['files'].extend([(rooturl + x) for x in etree.HTML(table).xpath('//a/@href')])
+            record['filelist'].extend([(rooturl + x) for x in etree.HTML(table).xpath('//a/@href')])
             
-        formats = []
-        for file in record['files']:
-            formats.append(file.split('/')[-1].split('.')[1].upper())
-        
-        [formattext, geo] = metautils.processListOfFormats(formats)
-        
-        record[u'Format'] = formattext
-        record[u'geo'] = geo
+        record['formats'] = set()
+        record['spatial'] = False
+        for file in record['filelist']:
+            format = file.split('/')[-1].split('.')[1].upper()
+            record['formats'].add(format)
+            if metautils.isgeo(format):
+                record['spatial'] = True
+        record['formats'] = list(record['formats'])
 
         if len(datatables) > 1:
             if (verbose): print 'ERROR: More than one data table'
@@ -157,44 +157,49 @@ for category_link in cat_urls:
                 exit()
             if (verbose): print 'Parsing key ' + key.replace(':', '') + ' with value ' + val
             if u'veröffentlicht' in key:
-                record[u'Veröffentlichende Stelle'] = val
+                record['publisher'] = val
             elif u'geändert' in key:
-                record[u'Zeitlicher Bezug'] = val.split(' ')[2]
+                record['temporalextent'] = val.split(' ')[2]
             elif u'Lizenz' in key:
-                record[u'Lizenz'] = metautils.long_license_to_short(val)
-            #elif u'Webseite' in key:
-                #record['website'] = row.xpath('td[2]//a/@href')[0] #keep, as 'original' metadata
-                #if 'http://' not in record['website']:
-                    #record['website'] = rooturl + record['website']
-            #elif u'Kontakt' in key:
-                #record['contact'] = rooturl + row.xpath('td[2]//a/@href')[0]
+                record['licenseshort'] = metautils.long_license_to_short(val)
+                record['open'] = metautils.isopen(record['licenseshort'])
+            elif u'Webseite' in key:
+                record['website'] = row.xpath('td[2]//a/@href')[0] #keep, as 'original' metadata
+                if 'http://' not in record['website']:
+                    record['website'] = rooturl + record['website']
+            elif u'Kontakt' in key:
+                record['contact'] = rooturl + row.xpath('td[2]//a/@href')[0]
 
         allrecords.append(record)
                 
 #Find things in multiple categories
 recordsdict = {}
 for record in allrecords:
-    if record[u'Dateibezeichnung'] not in recordsdict:
-        recordsdict[record[u'Dateibezeichnung']] = record
+    if record['title'] not in recordsdict:
+        recordsdict[record['title']] = record
     else:
-        if (verbose): print record[u'Dateibezeichnung']  + ' in ' + str(record['category']) + ' is already in ' + str(recordsdict[record[u'Dateibezeichnung']]['category']) + '. Transferring category.'
-        recordsdict[record[u'Dateibezeichnung'] ]['category'].extend(record['category'])
+        if (verbose): print record['title']  + ' in ' + str(record['categories']) + ' is already in ' + str(recordsdict[record['title']]['categories']) + '. Transferring category.'
+        recordsdict[record['title']]['categories'].extend(record['categories'])
 
 allrecords = recordsdict.values()
 finalrecords = []
 
 #Expand categories
 for record in allrecords:
-    odm_cats = metautils.govDataLongToODM(metautils.arraytocsv(record['category']), checkAll=True)
+    record['metadata'] = record.copy()
+    record['source'] = 'd'
+    record['description'] = None
+    record['costs'] = None
+    record['metadata_xml'] = None
+    odm_cats = metautils.govDataLongToODM(metautils.arraytocsv(record['categories']), checkAll=True)
     if len(odm_cats) > 0:
-        for cat in odm_cats:
-            record[cat] = 'x'
-            record[u'Noch nicht kategorisiert'] = '' 
-    del record['category']
+        record['categories'] = odm_cats
+    else:
+        record['categories'] = ['Noch nicht kategorisiert']
     finalrecords.append(record)
  
 if (verbose): print 'Done. Adding to DB.'
 #Write data to the DB
 metautils.setsettings(settings)
 #Add data
-metautils.addDataToDB(datafordb=finalrecords, originating_portal='http://www.bochum.de/opendata', checked=True, accepted=True, remove_data=True)
+metautils.addSimpleDataToDB(datafordb=finalrecords, originating_portal='http://www.bochum.de/opendata', checked=True, accepted=True, remove_data=True)

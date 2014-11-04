@@ -1,5 +1,7 @@
 import unicodecsv
 
+import metautils
+
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
@@ -25,9 +27,9 @@ class DataSpider(CrawlSpider):
         ]
         
         #File types to search for (non-geo); list so that we can extend
-        self.filetypes = ['.CSV', '.XLS', '.XLSX', '.JSON', '.RDF', '.ZIP']
+        self.filetypes = ['.' + ft for ft in metautils.fileformats]
         #Geographic file types
-        self.geofiletypes = ('.GEOJSON', '.GML', '.GPX', '.GJSON', '.TIFF', '.SHP', '.KML', '.KMZ', '.WMS', '.WFS')
+        self.geofiletypes = ['.' + ft for ft in metautils.geoformats]
         #Combined list to search for at first
         self.filetypes.extend(self.geofiletypes)
         #Better for searching later

@@ -1,0 +1,3 @@
+[submodule "searchengineresults/pyBingSearchAPI"]
+	path = searchengineresults/pyBingSearchAPI
+	url = https://github.com/xthepoet/pyBingSearchAPI.git

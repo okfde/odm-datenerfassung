@@ -23,7 +23,12 @@ from collections import OrderedDict
 ### Categories
 
 ### Interesting formats ###
-geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE', 'OVL', 'IKT', 'CRS', 'TCX')
+fileformats =  ('CSV', 'XLS', 'XLSX', 'JSON', 'RDF', 'ZIP')
+geoformats = ('GEOJSON', 'GML', 'GPX', 'GJSON', 'TIFF', 'SHP', 'KML', 'KMZ', 'WMS', 'WFS', 'GML2', 'GML3', 'SHAPE', 'OVL', 'IKT', 'CRS', 'TCX', 'DBF', 'SHX')
+allfiletypes = []
+allfiletypes.extend(fileformats)
+allfiletypes.extend(geoformats)
+allfiletypes = tuple(allfiletypes)
 
 #TODO: Define mime types also
 
@@ -171,6 +176,54 @@ def getCitiesWithData():
         cities.append(result[0])
     return cities
 
+#addSimpleDataToDB#
+
+#Add data to the DB that is already in the same structure/format. Requirements:
+#datafordb is a list of dicts, where each dict should have the following keys:
+#(None is allowed for almost everything url, city, source, url, title, categories)
+#(Everything is a string unless otherwise noted. Lists are lists of strings.
+#city: the shortname of the city found in the cities table (this function does NOT add it for you if it doesn't exist)
+#source: b for Bing, g for Google, c for crawl, m for manual, d for data catalog
+#url - UNIQUE url for the dataset
+#title - short title of the dataset
+#formats - a LIST of UNIQUE capitalized file extension style file formats, e.g. CSV or WMS
+#description - Description of the dataset
+#temporalextent - A description of what period of time this dataset relates to. E.g. 2015, 1975-1980. It is often hard to generate this reliably.
+#licenseshort - The license in abbreviated form
+#costs - A description of costs, if any
+#open - True or False or None, where None means we don't know but someone should find out. For data with licenses, there is a function isopen(licensetext) which can help.
+#publisher - Who published the data, preferably not who maintains it or makes it available, but rather who is the source
+#spatial - True/False, is it geodata or not
+#categories - A list of categories. These should be one of the govdata categories (see functions govDataLongToODM and govDataShortToODM for help). At present, you should include the category 'Noch nicht kategorisiert' if there are no categories.
+#filelist - A list of full URLs to files in the dataset. If this dataset is a direct link to a file (Google, Bing...), do NOT put the link in the list but rather leave it empty
+#metadata - Any kind of Python data structure that can be serialized as JSON. This should be used as often as possible to include the full metadata from the catalog entry.
+#metadata_xml - XML source for the dataset. Should only be used if the original catalog was using XML
+
+#Other arguments:
+#originating_portal - a description of the portal where the data has been taken from, like govdata.de (leave out http/www in most cases)
+#checked - Has the data been checked or can it be assumed it is good? Normally true.
+#accepted - Has the data been accepted, in principle, for display on the website (no need to worry about duplication across sources, that is taken care of automatically)
+#remove_data - Remove all data from this originating_portal before starting. Currently this is a good idea.
+
+def addSimpleDataToDB(datafordb = [], originating_portal=None, checked=False, accepted=False, remove_data=False):
+    if remove_data:
+        removeDataFromPortal(originating_portal)
+        
+    cur = getDBCursor(settings)
+    
+    for row in datafordb:
+        perform_sanitizations(row)
+    
+        cur.execute("INSERT INTO data (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s WHERE NOT EXISTS (SELECT url FROM data WHERE url = %s )",
+          (row['city'], originating_portal, row['source'], row['url'], row['title'],
+           row['formats'], row['description'], row['temporalextent'],
+           row['licenseshort'], row['costs'], row['open'], row['publisher'], row['spatial'], row['categories'], checked, accepted, row['filelist'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['url'])
+          )
+        #If the city doesn't exist yet, this gets done when the city gets added 
+        cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['city'],))
+            
+    dbCommit()    
+
 #General purpose addition of data in Google Spreadsheets format to the DB
 #If checked == True then this data is 'open data'
 #If accepted == True then inter source deduplification has been performed
@@ -274,16 +327,21 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
                     else:
                         categories.append(key)
 
+        if row['open'] == None and row[mapping['licenseshort']].strip() != '':
+            row['open'] = isopen(row[mapping['licenseshort']].strip())
+            
+        perform_sanitizations(row)
+            
         cur.execute("INSERT INTO data \
-            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
             WHERE NOT EXISTS ( \
                 SELECT url FROM data WHERE url = %s \
             )",
             (row['Stadt'], originating_portal, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
             formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['URL'])
+            row['open'], row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['URL'])
             )
         
         #If the city doesn't exist yet, this gets done when the city gets added 
@@ -374,6 +432,7 @@ def getBlankRow():
     
     #Extra things that need to be there but aren't part of the original plan
     row[u'files'] = []
+    row[u'open'] = None
     row[u'metadata'] = ''
     row[u'metadata_xml'] = None
     
@@ -390,12 +449,22 @@ def processListOfFormats(formatArray):
     for format in formatArray:
         if (format.upper() not in formats):
             formats.append(format.upper())
-            if (format.upper() in geoformats):
-                geo = 'x'
+            geo = isgeo(format)
     text = arraytocsv(formats)
     
     return [text, geo]
     
+#Put anything where you think despite the best will in the world people will still put bad stuff in the database
+def perform_sanitizations(row):
+    row['licenseshort'] = row['licenseshort'].replace('/', '-')
+
+def isgeo(format):
+    if (format.upper() in geoformats):
+        geo = 'x'
+    else:
+        geo = ''
+    return geo  
+          
 def long_license_to_short(licensetext):
     #Put badly named things here
     if licensetext == 'Creative Commons CCZero':
@@ -415,6 +484,14 @@ def long_license_to_short(licensetext):
     print 'Could not find a match for ' + licensetext
     return licensetext
     
+def isopen(licensetext):
+    if licensetext in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc"):
+        return True
+    elif licensetext in ("other-closed", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0", "Andere eingeschränkte Lizenzen"):
+        return False
+    else:
+        return None
+
 def unrenderhtml(html):
     soup = BeautifulSoup(html)
     return soup.getText('\n')

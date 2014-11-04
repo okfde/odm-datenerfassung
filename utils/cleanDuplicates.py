@@ -77,7 +77,11 @@ for city in cities.values():
                 headings = next(parentreader, None)
 
                 for inrow in parentreader:
-                    fileurl = inrow[1]
+                    try:
+                        fileurl = inrow[1]
+                    except:
+                        print inrow
+                        fileurl = ''
                     if missinglink in fileurl and 'ermittelt' not in inrow[6]:
                         print 'FOUND'
                         outputrow[2] = inrow[2]
