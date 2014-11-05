@@ -1,0 +1,1 @@
+﻿ SELECT checked as old, url from data where source = 'b'  and (SELECT formats   && '{"GEOJSON", "GML", "GPX", "GJSON", "TIFF","WMS", "WFS", "GML2", "GML3", "SHAPE", "OVL", "IKT", "CRS", "TCX", "DBF", "SHX"}'::text[]) 
