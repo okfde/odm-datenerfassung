@@ -1,0 +1,1 @@
+﻿ SELECT city, title, description, url, formats, spatial as geo  from data where source = 'b' and checked = False

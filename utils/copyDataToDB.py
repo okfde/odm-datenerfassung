@@ -13,55 +13,22 @@ from dbsettings import settings
 validsources = ('m', 'd', 'c', 'g', 'b')
 
 #Change if not importing from crawled data
-unknownsource = 'b'
+unknownsource = 'c'
 
 def reformatdata(cityname, accepted, multiCity = False):    
-    mapping = dict()
-    mapping['city'] = u'Stadt'
-    mapping['source'] = u'Quelle'
-    mapping['title'] = u'Dateibezeichnung'
-    mapping['description'] = u'Beschreibung'
-    mapping['temporalextent'] = u'Zeitlicher Bezug'
-    mapping['licenseshort'] = u'Lizenz'
-    mapping['costs'] = u'Kosten'
-    mapping['publisher'] = u'Veröffentlichende Stelle'
-
     dictsdata = dict()
 
     with open(cityname + '.csv', 'rb') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
-            #Make Bing/Crawl data look a bit more like edited data
-            for key in row.keys():
-                if '_' in key:
-                    row[key.replace('_', ' ')] = row[key]
-            if 'Stadt_URL' in row.keys():
-                row['Stadt'] = row['Stadt_URL']
-            if 'URL_Text' in row:
-                row['Dateibezeichnung'] = row['URL_Text']
-            #Bing has a description and a file name    
-            if 'URL_Dateiname' in row.keys():
-                beschreibung = ''
-                #Crawls and Google don't have description
-                if 'Beschreibung' in row.keys():
-                    beschreibung = ' - ' + row['Beschreibung']
-                row['Beschreibung'] = row['URL_Dateiname'] + beschreibung
-            #Bing doesn't have parents
-            if 'URL_PARENT' not in row.keys():
-                row['URL PARENT'] = ''
-            #Crawls do, however, have the title of the parent page
-            if 'Title_PARENT' in row.keys():
-                beschreibung = row['Title_PARENT'] + ' - ' + beschreibung
-            if 'Quelle' not in row:
-                row['Quelle'] = unknownsource
-            #Only in edited data, and we may drop timepoint at some point
-            possiblymissing = [u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle']
-            for pm in possiblymissing:
-                if pm not in row:
-                    row[pm] = ''
+            if not multiCity:
+                row['Stadt_URL'] = cityname + '.de'
+                
+            row = metautils.convert_crawl_row(row, unknownsource)
+            
             source = row['Quelle'].strip()
             if source not in validsources:
-                print 'Error: ' + cityname + '.csv has missing or unrecognised source(s): ' + source
+                print 'Error: data has missing or unrecognised source(s): ' + source
                 exit()
             else:
                 if source not in dictsdata:
@@ -108,42 +75,15 @@ def reformatdata(cityname, accepted, multiCity = False):
                         if row[key].strip().lower() == 'x':
                              takenrows[theurl][key] = 'x'
   
-    cur = metautils.getDBCursor(settings)
-    for row in takenrows.values():
-        formats = metautils.csvtoarray(row['Format'].upper())
+    dataForDB = []
+    checked = True #All of this data is 'open data'
+    
+    for row in takenrows.values():   
+        dataForDB.append(row)
         
-        categories = []
-        geo = False
-        
-        for key in row:
-            if not(type(row[key]) == list):
-                if row[key].strip().lower() == 'x':
-                    if key.strip().lower() == 'geo':
-                        geo = True
-                    else:
-                        categories.append(key)
-        checked = True #All of this data is 'open data'
-        
-        #Note, we don't add any cities here as in general the data being added this way is data for 
-        #the list of 100 'cities'. This might change in the future.
-        
-        if multiCity:
-            #We have .de etc. at the end of every city
-            cityname = row[mapping['city']][0:len(row[mapping['city']].split('.')[0])]
-            print 'Inserting a row for ' + cityname
-        
-        cur.execute("INSERT INTO data \
-            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, date_added) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() \
-            WHERE NOT EXISTS ( \
-                SELECT url FROM data WHERE url = %s \
-            )",
-            (cityname, row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
-            formats, row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
-            row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
-            )
-    metautils.dbCommit()
+    metautils.addCrawlDataToDB(datafordb=dataForDB, accepted=accepted, checked=checked)
+
+metautils.setsettings(settings)
 
 if len(sys.argv) > 3:
     print 'Processing sheet with key ' + sys.argv[1] + ' and gid ' + sys.argv[2]

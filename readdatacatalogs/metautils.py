@@ -222,7 +222,54 @@ def addSimpleDataToDB(datafordb = [], originating_portal=None, checked=False, ac
         #If the city doesn't exist yet, this gets done when the city gets added 
         cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['city'],))
             
-    dbCommit()    
+    dbCommit()   
+    
+#Add crawl (fewer fields) data to DB. Edited or unedited.
+def addCrawlDataToDB(datafordb = [], checked=False, accepted=False):
+    mapping = dict()
+    mapping['city'] = u'Stadt'
+    mapping['source'] = u'Quelle'
+    mapping['title'] = u'Dateibezeichnung'
+    mapping['description'] = u'Beschreibung'
+    mapping['temporalextent'] = u'Zeitlicher Bezug'
+    mapping['licenseshort'] = u'Lizenz'
+    mapping['costs'] = u'Kosten'
+    mapping['publisher'] = u'Veröffentlichende Stelle'
+    
+    cur = getDBCursor(settings)
+    
+    for row in datafordb:
+        row['formats'] = csvtoarray(row['Format'].upper())
+        
+        categories = []
+        geo = False
+        
+        for key in row:
+            if not(type(row[key]) == list):
+                if row[key].strip().lower() == 'x':
+                    if key.strip().lower() == 'geo':
+                        geo = True
+                    else:
+                        categories.append(key)
+
+        #Note, we don't add any cities here as in general the data being added this way is data for the list of 100 'cities'. This might change in the future.
+        
+        #We have .de etc. at the end of every city
+        row['cityname'] = row[mapping['city']][0:len(row[mapping['city']].split('.')[0])]
+
+        cur.execute("INSERT INTO data \
+            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, date_added) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() \
+            WHERE NOT EXISTS ( \
+                SELECT url FROM data WHERE url = %s \
+            )",
+            (row['cityname'], row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
+            row['formats'], row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
+            row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
+            )
+            
+    dbCommit()
 
 #General purpose addition of data in Google Spreadsheets format to the DB
 #If checked == True then this data is 'open data'
@@ -456,7 +503,40 @@ def processListOfFormats(formatArray):
     
 #Put anything where you think despite the best will in the world people will still put bad stuff in the database
 def perform_sanitizations(row):
-    row['licenseshort'] = row['licenseshort'].replace('/', '-')
+    if 'licenseshort' in row:
+        row['licenseshort'] = row['licenseshort'].replace('/', '-')
+
+    
+def convert_crawl_row(row, source):
+    #Make Bing/Crawl data look a bit more like edited data
+    for key in row.keys():
+        if '_' in key:
+            row[key.replace('_', ' ')] = row[key]
+    if 'Stadt_URL' in row.keys():
+        row['Stadt'] = row['Stadt_URL']
+    if 'URL_Text' in row:
+        row['Dateibezeichnung'] = row['URL_Text']
+    #Bing has a description and a file name    
+    if 'URL_Dateiname' in row.keys():
+        beschreibung = ''
+        #Crawls and Google don't have description
+        if 'Beschreibung' in row.keys():
+            beschreibung = ' - ' + row['Beschreibung']
+        row['Beschreibung'] = row['URL_Dateiname'] + beschreibung
+    #Bing doesn't have parents
+    if 'URL_PARENT' not in row.keys():
+        row['URL PARENT'] = ''
+    #Crawls do, however, have the title of the parent page
+    if 'Title_PARENT' in row.keys():
+        beschreibung = row['Title_PARENT'] + ' - ' + beschreibung
+    if 'Quelle' not in row:
+        row['Quelle'] = source
+    #Only in edited data, and we may drop timepoint at some point
+    possiblymissing = [u'Zeitlicher Bezug', u'Lizenz', u'Kosten', u'Veröffentlichende Stelle']
+    for pm in possiblymissing:
+        if pm not in row:
+            row[pm] = ''
+    return row
 
 def isgeo(format):
     if (format.upper() in geoformats):
