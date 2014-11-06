@@ -2674,7 +2674,7 @@ Zu den einzelnen B&#228;umen k&#246;nnen verschiedene Informationen wie Baumart,
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesch&#228;ft</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Einkaufsbummel</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Cityservice</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-07-31</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Serviceangebote f&#252;r einen unbeschwerten Einkaufsbummel.
 Wir lassen Sie nicht im Regen stehen - Sie k&#246;nnen in vielen Gesch&#228;ften ganz unkompliziert einen Regenschirm ausleihen. F&#252;r l&#228;ngere Wege leihen Sie sich ein Compactbike in der Innenstadt. Sperriges Gep&#228;ck laden Sie ganz einfach in den Schlie&#223;f&#228;chern an mehreren Stellen in der Stadt ab. Auch an Familien mit Kindern haben wir gedacht. G&#246;nnen Sie dem Nachwuchs eine Pause in den Kinderspielbereichen verschiedener Gesch&#228;fte.
 Auf unserer Karte im Internet finden Sie die entsprechenden Standorte.</dct:abstract>
@@ -2837,7 +2837,7 @@ Die Geodaten werden auch noch auf der Plattform des Bundes unter http://www.govd
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Erkundung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtbummel</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadt</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In Braunschweig finden Sie Tradition und Moderne vereint: Was die L&#246;wenstadt an Sehensw&#252;rdigkeiten zu bieten hat, reicht von Zeitzeugnissen aus ihren Gr&#252;ndungstagen &#252;ber das rekonstruierte Residenzschloss, wiedererrichtet unter Einbeziehung erhaltener Teile, bis zum jungen Happy RIZZI House, einer architektonisch extravaganten Bauskulptur. Der Zauber des Burgplatzes, ums&#228;umt von Dom, Burg Dankwarderode, Landesmuseum und jahrhundertealten Fachwerkbauten, sucht kulturhistorisch seinesgleichen.
 Auf dem Stadtplan finden Sie alle Sehensw&#252;rdigkeiten mit einem Kamerasymbol versehen vor. Durch Anfahren mit der Maus werden Ihnen die Sehensw&#252;rdigkeiten benannt und aus der unten angef&#252;gten Liste k&#246;nnen Sie weitere Informationen entnehmen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -2939,7 +2939,7 @@ Auf dem Stadtplan finden Sie alle Sehensw&#252;rdigkeiten mit einem Kamerasymbol
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Einkaufsbummel</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">shoppen</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Shopping</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Online-Einkaufsf&#252;hrer f&#252;r die Braunschweiger Innenstadt. W&#228;hlen Sie eine Kategorie, suchen Sie nach Unternehmen, Produkten und Dienstleistungen sowie Cityserviceangeboten der Unternehmen. Auf der Karte werden Ihnen die verschiedenen Unternehmen angezeigt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
@@ -3061,7 +3061,7 @@ Die Gel&#228;nderoberfl&#228;che wird anhand von H&#246;henlinien und ausgew&#22
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Reisen</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehr</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#214;ffentlicher Nahverkehr</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Anwendung Braunschweig-App der Braunschweig Stadtmarketing GmbH bietet Stadt- und Freizeitinformationen, touristische Angebote, Veranstaltungstipps, Tourenvorschl&#228;ge f&#252;r kurze und l&#228;ngere Stadtrundg&#228;nge auf eigene Faust sowie Adressen, Telefonnummern, weiterf&#252;hrende Links und viele Fotos.
 Mit einer Kartenanwendung in der App lassen sich Ziele in unmittelbarer Umgebung des aktuellen Standortes anzeigen und leicht auffinden. 
 Tipp: In der Touristeninfo befindet sich ein WLAN-Hotspot. Dort k&#246;nnen Sie sich die App schnell herunterladen.</dct:abstract>
@@ -3476,7 +3476,7 @@ Das sogenannte "BPlan-Kataster" richtet sich an Bauwillige, Architekten und alle
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtgebiet</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Museum</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Denkmal</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Ganz individuell und unabh&#228;ngig k&#246;nnen Sie Braunschweig kennen lernen, wenn Sie entlang der Rundg&#228;nge auf den ausgew&#228;hlten interessanten und sch&#246;nen Wegen durch die Stadt spazieren.
 Entlang dieses 2-st&#252;ndigen Rundgangs erleben Sie auf 5 km eine Vielzahl geschichtstr&#228;chtiger Bauwerke Braunschweigs. Ausgehend vom Burgplatz gelangen Sie &#252;ber den Dom, das Rathaus, den altehrw&#252;rdigen Kohlmarkt bis hin zur ehemaligen Klosterkirche der Franziskaner, der St. Ulrici-Br&#252;dern Kirche.  
 Den Rundgang k&#246;nnen Sie auch unterwegs &#252;ber die mobile Braunschweig-App abrufen.
@@ -3509,7 +3509,7 @@ In der Touristinfo erhalten Sie den Stadtrundgang als Brosch&#252;re "Braunschwe
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Parkanlage</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">B&#228;ume</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Natur</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Ganz individuell und unabh&#228;ngig k&#246;nnen Sie Braunschweig kennen lernen, wenn Sie entlang der Rundg&#228;nge auf den ausgew&#228;hlten interessanten und sch&#246;nen Wegen durch die Stadt spazieren. In 1 Stunde entdecken Sie auf 3 km die "gr&#252;ne Lunge" der L&#246;wenstadt. Dieser Rundgang f&#252;hrt Sie vom Residenzschloss &#252;ber verschiedene Parks und Museen bis hin zum Magniviertel, welches Sie zu einem Einkaufsbummel inmitten historischer Fachwerkbauten und vertr&#228;umter Stra&#223;en einl&#228;dt.
 Den Rundgang k&#246;nnen Sie auch unterwegs &#252;ber die mobile Braunschweig-App abrufen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -3771,7 +3771,7 @@ Auf der Karte sind die genauen Standorte der Schutzz&#228;une und der Amphibiens
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Adressen</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Telefonnummern</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">App</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-05</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die kostenlose App der Braunschweig Stadtmarketing GmbH erleichtert die Reise- und Freizeitplanung und ist ein hilfreicher Begleiter und Wegweiser f&#252;r B&#252;rger und Besucher, um die L&#246;wenstadt zu entdecken.
 Die App bietet Stadt- und Freizeitinformationen, touristische Angebote, Veranstaltungstipps, Tourenvorschl&#228;ge f&#252;r kurze und l&#228;ngere Stadtrundg&#228;nge auf eigene Faust sowie Adressen, Telefonnummern, weiterf&#252;hrende Links und viele Fotos.
 Mit einer Kartenanwendung in der App lassen sich Ziele in unmittelbarer Umgebung des aktuellen Standortes anzeigen und leicht auffinden. Ob zu Hause oder bei einem Aufenthalt in Braunschweig - wir w&#252;nschen Ihnen viel Spa&#223; dabei, die Stadt zu entdecken.

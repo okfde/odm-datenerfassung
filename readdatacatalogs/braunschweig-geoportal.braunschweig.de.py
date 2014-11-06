@@ -1,30 +1,30 @@
+# -*- coding: utf-8 -*-
 import urllib2
+import re
 from lxml import etree
 from lxml.builder import ElementMaker
-import braunschweig_utils
-import pprint
-import re
 import metautils
 from dbsettings import settings
 
-pp = pprint.PrettyPrinter(indent=4)
 
 portalname = 'geoportal.braunschweig.de'
-url = 'http://geoportal.braunschweig.de/soapServices/CSWStartup'
+apiUrl = 'http://geoportal.braunschweig.de/soapServices/CSWStartup'
 braunschweigMetaDataFile = '../metadata/braunschweig/catalog.xml'
-numRecordsPerRequest = 50  # max 100
 
 ns_csw = 'http://www.opengis.net/cat/csw/2.0.2'
 ns_ogc = 'http://www.opengis.net/ogc'
 ns_xsi = 'http://www.w3.org/2001/XMLSchema-instance'
 
-E = ElementMaker(namespace=ns_csw,
-                 nsmap={'csw': ns_csw,
-                        'ogc': ns_ogc,
-                        'xsi': ns_xsi})
 
+def getRecordsRequestXml(startPosition, numRecordsPerRequest):
+    """Returns the XML for the 'getRecords' post request
+    of the Catalogue Service Web (CSW)"""
 
-def getRecordsRequestXml(startPosition=1, maxRecords=10):
+    E = ElementMaker(namespace=ns_csw,
+                     nsmap={'csw': ns_csw,
+                            'ogc': ns_ogc,
+                            'xsi': ns_xsi})
+
     getR = E.GetRecords(
         E.Query(E.ElementSetName('full'),
                 {'typeNames': 'csw:Record'}),
@@ -32,13 +32,15 @@ def getRecordsRequestXml(startPosition=1, maxRecords=10):
          'version': '2.0.2',
          'resultType': 'results',
          'startPosition': str(startPosition),
-         'maxRecords': str(maxRecords),
+         'maxRecords': str(numRecordsPerRequest),
          'outputFormat': 'application/xml',
          'outputSchema': ns_csw})
     return etree.tostring(getR, pretty_print=True)
 
 
-def getRecordsRequest(url, startPos):
+def getRecordsRequest(url, startPos, numRecordsPerRequest):
+    """Returns the xml returned by the getRecords' request,
+    from number `startPos` to `startPos` + `numRecordsPerRequest`"""
     req = urllib2.Request(url=url,
                           data=getRecordsRequestXml(startPos,
                                                     numRecordsPerRequest),
@@ -56,16 +58,23 @@ def numberOfRecordsMatched(getRecordsResponseXml):
     return int(recs[0])
 
 
-def extractRecords(getRecordsResponseXml):
-    recs = getRecordsResponseXml.xpath(
+def extractRecords(getRecordsResponse):
+    """Returns a list of etrees of the individual
+    records of a getRecords response"""
+    recs = getRecordsResponse.xpath(
         '/csw:GetRecordsResponse/csw:SearchResults//csw:Record',
         namespaces={'csw': ns_csw})
     return recs
 
 
 def getRecords():
-    print 'Get Catalog Records'
-    req = getRecordsRequest(url, 1)
+    """Request all records in the Catalogue Service Web (CSW).
+    Puts together the requests for certain ranges of records
+    (since only maximal number of a 100 records per request is
+    premitted by the api) for later output as a single XML file."""
+
+    numRecordsPerRequest = 50  # maximum 100
+    req = getRecordsRequest(apiUrl, 1, numRecordsPerRequest)
     num = numberOfRecordsMatched(req)
 
     searchResults = req.xpath(
@@ -74,7 +83,7 @@ def getRecords():
 
     searchResults[0].set('numberOfRecordsReturned', str(num))
     for n in range(numRecordsPerRequest + 1, num + 1, numRecordsPerRequest):
-        nextReq = getRecordsRequest(url, n)
+        nextReq = getRecordsRequest(apiUrl, n, numRecordsPerRequest)
         rs = extractRecords(nextReq)
         for r in rs:
             searchResults[0].append(r)
@@ -82,9 +91,9 @@ def getRecords():
     return req
 
 
-
-
 def getRecordHtmlTree(idStr):
+    """Fetches the html page of the record with the identifier "idStr"
+    in the braunschweig metadata catalog"""
     htmlUrl = 'http://geoportal.braunschweig.de/terraCatalog/' \
               'Query/ShowCSWInfo.do;?fileIdentifier=' + idStr
     response = urllib2.urlopen(htmlUrl)
@@ -95,7 +104,7 @@ def getRecordHtmlTree(idStr):
 
 # first guess for mapping of categories, needs to be revised
 categorieToODMmap = {
-    'OGC Web Catalog Service'         : [],
+    'OGC Web Catalog Service'         : [],  # mark as 'nicht kategorisiert'?
     'INSPIRE Other Service'           : [],
     'INSPIRE Discovery Service'       : [],
     'geoscientificInformation'        : u'Geographie, Geologie und Geobasisdaten',
@@ -108,21 +117,24 @@ categorieToODMmap = {
     'health'                          : u'Gesundheit',
     'environment'                     : u'Umwelt und Klima',
     'biota'                           : u'Umwelt und Klima',
+    'climatologyMeteorologyAtmosphere': u'Umwelt und Klima',
     'transportation'                  : u'Transport und Verkehr',
     'structure'                       : u'Infrastruktur, Bauen und Wohnen',
     'society'                         : u'Bevölkerung',
-    'climatologyMeteorologyAtmosphere': u'Umwelt und Klima',
     'farming'                         : u'Wirtschaft und Arbeit',
     'economy'                         : u'Wirtschaft und Arbeit'}
 
-# only the ones used right now 
-allowedFormats = ['TIFF', 'DXF', 'Shape', 'ASCII', 'XLS',
-                  'CityGML', '3D-Shape', 'OBJ', 'MDB Multipatch',
-                  'DGM', 'DOM', 'PDF', 'JPG', 'AI',
-                  'Papierkarte', 'Karte', 'Faltblatt', u'Broschüre']
+
+braunschweigSpecificFormats = [
+    'DXF', 'ASCII', 'CityGML', '3D-Shape', 'OBJ',
+    'MDB Multipatch', 'DGM', 'DOM', 'PDF', 'JPG', 'AI',
+    'Papierkarte', 'Karte', 'Faltblatt', u'Broschüre']
+allowedFormats = list(metautils.allfiletypes) + braunschweigSpecificFormats
 
 
 def categoriesToODM(categorieList):
+    """Maps the braunschweig categories (the "topic categories" from the
+    catalog webpages) to the ODM categories"""
     allCats = []
     for categorieStr in categorieList:
         cats = categorieStr.split(',')
@@ -130,69 +142,100 @@ def categoriesToODM(categorieList):
         allCats.extend(cats)
     if allCats != [[]]:
         allCats = list(set(allCats))
-    return cats  
+    return allCats
+
 
 # Includes the weird cases of
 # 'digitales Geländemodell (DGM) oder digitales Oberflächenmodell (DOM)' and
 # 'Papierkarte (auf Anfrage)', while trying to avoid false positives
 def formatsToODM(formatList):
-    '''Returns the "allowedFormats" strings found in the argument,
-    that are sourrounded by either a whitespace, a comma, a slash or brackets'''
+    """Returns the "allowedFormats" strings found in the argument,
+    that are sourrounded by either a whitespace, a comma, a slash or brackets"""
     fs = []
     for formatsStr in formatList:
-        for f  in allowedFormats:
+        for f in allowedFormats:
             p = re.compile("[\s,/\(]" + f + "[\s,/\)]", re.IGNORECASE)
             if p.search(' ' + formatsStr + ' '):
                 fs.append(f)
     return fs
 
-def licenseToODM(licenceList):
-    if 'Datenlizenz Deutschland - Namensnennung - Version 1.0' in licenceList :
-        return 'dl-de-by-1.0'
-    elif u'unbeschränkt' in licenceList:
-        return "other-open"
-    elif u'keine' in licenceList: # Use limitations keine bedeutet offene lizenz?
-        return "other-open"
-    elif licenceList == []:
-        return "nicht bekannt"
-    else :
-        return 'other-closed'
-    
+
+def licenseToODM(licenseList):
+    odmLicense = None
+    if 'Datenlizenz Deutschland - Namensnennung - Version 1.0' in licenseList:
+        odmLicense = 'dl-de-by-1.0'
+    elif (u'keine' in licenseList) or (u'unbeschränkt' in licenseList):
+        odmLicense = 'other-open'
+    elif licenseList == []:
+        odmLicense = 'nicht bekannt'
+    else:
+        odmLicense = 'other-closed'
+    return odmLicense
 
 
-def getCategories(htmlTree): # unused
+# add other licenses and move to metautils ?
+def isOpenLicense(licenseStr):
+    licenseMap = {
+        'dl-de-by-1.0'  : True,
+        'other-open'    : True,
+        'other-closed'  : False,
+        'nicht bekannt' : None}
+    return licenseMap[licenseStr]
+
+
+# Braunschweig also uses other geodata formats e.g.
+# 'DXF', 'CityGML', '3D-Shape', 'OBJ', 'MDB Multipatch'
+# but is a 'Papierkarte' a geoformat? probably not
+# it represents geodata, but is no geoformat?
+# but than why is tiff a geoformat? questions upon questions :)
+def isSpatialFormat(formats):
+    return any([f in metautils.geoformats for f in formats])
+
+
+def scrapeCategories(htmlTree):
     cats = htmlTree.xpath('//div[@id="CategoryWrapper"]/table/tbody//td')[1]
     return [cats.text] + [t.tail for t in cats[0:-1]]
 
-def getTopicCategories(htmlTree):
-    cats = htmlTree.xpath('//div[@id="CategoryWrapper"]/table/tbody//td')[2]
-    return [cats.text]  + [t.tail for t in cats[0:-1]]
 
-def getOrganisation(htmlTree):
-    org = htmlTree.xpath('//div[@id="ResourceWrapper"]/table/tbody//td')[10]
-    return org.text
+def scrapeTopicCategories(htmlTree):
+    topicCategoriesCell = htmlTree.xpath('//div[@id="CategoryWrapper"]/table/tbody//td')[2]
+    return [topicCategoriesCell.text] + [t.tail for t in topicCategoriesCell[0:-1]]
 
 
-def extractRecordTag(rec, xpathStr, oneEntryExpectey=True):
+def scrapeOrganisation(htmlTree):
+    organisationCell = htmlTree.xpath('//div[@id="ResourceWrapper"]/table/tbody//td')[10]
+    return organisationCell.text
+
+
+# includes direct links to files, and links to stuff like maps which aren't really files
+# not good?
+def scrapeFilelist(htmlTree):
+    distTable = htmlTree.xpath('//div[@id="DistributionWrapper"]/table')[0]
+    onResRow = distTable.xpath("//tr[th//text()[contains(., 'Online Resource:')]]")[0]
+    onResCell = onResRow.xpath('./td')[0]
+    links = onResCell.xpath('./a')
+    fileList = [l.attrib['href'] for l in links]
+    return fileList
+
+
+def extractRecordTag(rec, tag, oneEntryExpected=True):
+    """Gets the value(s) for the specific tag.
+    Returns a list of all values if, if oneEntryExpected is set to False"""
     entry = rec.xpath(
-        './/' + xpathStr,
+        './/' + tag,
         namespaces={'csw': ns_csw,
                     'dc': 'http://purl.org/dc/elements/1.1/',
                     'dct': 'http://purl.org/dc/terms/'})
 
-    value = [e.text for e in entry]
-    value = list(set(value))
-    if oneEntryExpectey:
-        if value == []:
-            value = ''
-        else:
-            value = value[0]
-        
-    return value
+    values = [e.text for e in entry]
+    values = list(set(values))
+    if oneEntryExpected and len(values) > 0:
+        values = values[0]  # hopefully the first is the relevant one
+    return values
+
 
 def extractData(rec):
     d = dict()
-
     d['identifier']  = extractRecordTag(rec, 'dc:identifier')
     d['title']       = extractRecordTag(rec, 'dc:title')
     d['abstract']    = extractRecordTag(rec, 'dct:abstract')
@@ -200,94 +243,79 @@ def extractData(rec):
     d['rights']      = extractRecordTag(rec, 'dc:rights', False)
     d['accessRights']= extractRecordTag(rec, 'dct:accessRights', False)
     d['modified']    = extractRecordTag(rec, 'dct:modified')
-    d['spatial']     = extractRecordTag(rec, 'dct:spatial', False)
+    d['spatials']    = extractRecordTag(rec, 'dct:spatial', False)  # should probaly used for spatialextent?
     d['type']        = extractRecordTag(rec, 'dc:type')
-    d['format']      = extractRecordTag(rec, 'dc:format', False)
-    d['subject']     = extractRecordTag(rec, 'dc:subject', False)
+    d['formats']     = extractRecordTag(rec, 'dc:format', False)
+    d['subjects']    = extractRecordTag(rec, 'dc:subject', False)
 
-    
     d['xml'] = etree.tostring(rec, pretty_print=True, encoding='utf8')
     d['url'] = 'http://geoportal.braunschweig.de/terraCatalog/Query/' \
                'ShowCSWInfo.do;?fileIdentifier=' + d['identifier']
 
-    pageHtml = getRecordHtmlTree(d['identifier'])
-    d['categories'] = getCategories(pageHtml)
-    d['Topic category'] = getTopicCategories(pageHtml)
-    d['organisation'] = getOrganisation(pageHtml)
+    return d
 
+
+def scrapeData(d):
+    pageHtml = getRecordHtmlTree(d['identifier'])
+    d['categoriesB'] = scrapeCategories(pageHtml)
+    d['topic category'] = scrapeTopicCategories(pageHtml)
+    d['organisation'] = scrapeOrganisation(pageHtml)
+    d['filelist'] = scrapeFilelist(pageHtml)
     return d
 
 
 def recordToDB(rec):
-    db = {} 
+    db = {}
     db['city'] = 'braunschweig'
-    db['originating_portal'] = portalname
     db['source'] = 'd'
+    db['costs'] = None
 
     db['url'] = rec['url']
     db['title'] = rec['title']
     db['description'] = rec['abstract']
     db['temporalextent'] = rec['created']
     db['publisher'] = rec['organisation']
-    db['metadata_xml'] = rec['xml']
+    db['filelist'] = rec['filelist']
 
-    db['formats'] = formatsToODM(rec['format'])
+    db['formats'] = formatsToODM(rec['formats'])
+    print rec['topic category']
+    db['categories'] = categoriesToODM(rec['topic category'])
+    print db['categories']
     db['licenseshort'] = licenseToODM(rec['rights'])
-    db['categories'] = categoriesToODM(rec['Topic category'])
+    db['open'] = isOpenLicense(db['licenseshort'])
+    db['spatial'] = isSpatialFormat(db['formats'])
 
-    db['costs'] = ''
-    db['spatial'] = False
-    db['filenames'] = []
-    db['metadata_json'] = '{}'
-    
+    additionalMetadata = ['accessRights', 'modified', 'spatials',
+                          'type', 'subjects', 'categoriesB']
+    db['metadata'] = dict(db.items() +
+                          {key: rec[key] for key in
+                           additionalMetadata}.items())
+
+    # xml metadata only includes data from catalog api?!
+    db['metadata_xml'] = rec['xml']
     return db
 
 
-def writeRecToDB(rec, checked = False, accepted = False):
-    cur = metautils.getDBCursor(settings)
-    cur.execute("INSERT INTO data \
-    (city, originating_portal, source, url, title, formats, description, \
-    temporalextent, licenseshort, costs, publisher, spatial, categories, \
-    checked, accepted, filelist, metadata, metadata_xml) \
-    SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
-    WHERE NOT EXISTS ( \
-    SELECT url FROM data WHERE url = %s  )",
-    (rec['city'],
-     rec['originating_portal'],
-     rec['source'],
-     rec['url'],
-     rec['title'],
-     rec['formats'],
-     rec['description'],
-     rec['temporalextent'],
-     rec['licenseshort'],
-     rec['costs'],
-     rec['publisher'],
-     rec['spatial'],
-     rec['categories'],
-     checked,
-     accepted,
-     rec['filenames'],
-     rec[u'metadata_json'],
-     rec[u'metadata_xml'],
-     rec['url']))
-
-
 def braunschweigGeoportal():
-    recs = getRecords()
+    print 'Get catalog records'
+    catalog = getRecords()
 
-    xmlString = etree.tostring(recs, pretty_print=True)
+    xmlString = etree.tostring(catalog, pretty_print=True)
     with open(braunschweigMetaDataFile, 'w') as f:
         f.write(xmlString.encode('utf8'))
 
-    
-    recDict = map(extractData, (extractRecords(recs)))
-    datafordb = map(writeRecToDB, recDict)
-    
-    metautils.removeDataFromPortal(portalname)
-    map (recToDB, datafordb)
-    metautils.dbCommit()
+    print 'Scrape catalog record entries'
+    recsList = extractRecords(catalog)
+    recDicts = map(extractData, recsList)
+    recDicts = map(scrapeData, recDicts)
+    dataForDB = map(recordToDB, recDicts)
 
+    print 'Write to db'
+    metautils.setsettings(settings)
+    metautils.addSimpleDataToDB(dataForDB,
+                                portalname,
+                                checked=False,
+                                accepted=False,
+                                remove_data=True)
 
-braunschweigGeoportal()    
-
+braunschweigGeoportal()
