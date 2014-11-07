@@ -214,7 +214,7 @@ def addSimpleDataToDB(datafordb = [], originating_portal=None, checked=False, ac
     for row in datafordb:
         perform_sanitizations(row)
     
-        cur.execute("INSERT INTO data (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s WHERE NOT EXISTS (SELECT url FROM data WHERE url = %s )",
+        cur.execute("INSERT INTO data (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml, date_added) SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() WHERE NOT EXISTS (SELECT url FROM data WHERE url = %s )",
           (row['city'], originating_portal, row['source'], row['url'], row['title'],
            row['formats'], row['description'], row['temporalextent'],
            row['licenseshort'], row['costs'], row['open'], row['publisher'], row['spatial'], row['categories'], checked, accepted, row['filelist'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['url'])
@@ -268,6 +268,8 @@ def addCrawlDataToDB(datafordb = [], checked=False, accepted=False):
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
             row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
             )
+ 
+        cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['cityname'],))
             
     dbCommit()
 
@@ -380,8 +382,8 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
         perform_sanitizations(row)
             
         cur.execute("INSERT INTO data \
-            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s \
+            (city, originating_portal, source, url, title, formats, description, temporalextent, licenseshort, costs, open, publisher, spatial, categories, checked, accepted, filelist, metadata, metadata_xml, date_added) \
+            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() \
             WHERE NOT EXISTS ( \
                 SELECT url FROM data WHERE url = %s \
             )",
@@ -567,7 +569,7 @@ def long_license_to_short(licensetext):
 def isopen(licensetext):
     if licensetext in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0"):
         return True
-    elif licensetext in ("other-closed", "Andere eingeschränkte Lizenzen"):
+    elif licensetext in ("other-closed", u"Andere eingeschränkte Lizenzen"):
         return False
     else:
         return None
