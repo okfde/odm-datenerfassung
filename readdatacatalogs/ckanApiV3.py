@@ -25,22 +25,29 @@ else:
     print 'First argument must be an city; unsupported city'
     exit()
 
-if cityname == "hamburg" or cityname == "koeln":
-    jsonurl = urllib.urlopen(url + "/api/3/action/package_list")
+if cityname == "hamburg" or cityname == "koeln" or cityname == 'bonn':
+    if cityname == 'bonn':
+        jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
+    else:
+        jsonurl = urllib.urlopen(url + "/api/3/action/package_list")
     if len(sys.argv) > 2:
         print 'Loading from file...'
         jsonurl = open(sys.argv[2], 'rb')
     listpackages = json.loads(jsonurl.read())
     if len(sys.argv) < 3:
-        listpackages = listpackages['result']
+        if cityname != 'bonn':
+            listpackages = listpackages['result']
     if len(sys.argv) > 2:
         jsonurl.close()
     groups = []
     if len(sys.argv) < 3:
         print 'INFO: the names that follow have had special characters removed'
         for item in listpackages:
-            print 'Downloading dataset ' + metautils.findLcGermanCharsAndReplace(item)
-            urltoread = url + "/api/3/action/package_show?id=" + item
+            if cityname == 'bonn':
+                urltoread = item['webService']
+            else:
+                urltoread = url + "/api/3/action/package_show?id=" + item
+            print 'Downloading ' + metautils.findLcGermanCharsAndReplace(urltoread)
             trycount = 0
             try:
                 req = urllib2.Request(urltoread.encode('utf8'))
@@ -53,29 +60,31 @@ if cityname == "hamburg" or cityname == "koeln":
                 print 'Something went wrong, retrying...'
                 trycount += 1
             pdata = json.loads(urldata)
-            if 'success' in pdata and pdata['success']:
-                if cityname == "koeln":
-                    groups.append(pdata['result'][0])
+            if cityname != 'bonn':
+                if 'success' in pdata and pdata['success']:
+                    if cityname == "koeln":
+                        groups.append(pdata['result'][0])
+                    else:
+                        groups.append(pdata['result'])
                 else:
-                    groups.append(pdata['result'])
+                    print 'WARNING: No result - access denied?\n' + metautils.findLcGermanCharsAndReplace(item)
             else:
-                print 'WARNING: No result - access denied?\n' + metautils.findLcGermanCharsAndReplace(item)
+                #Now put all the missing/better data from the overview JSON into the DKAN JSON :'(
+                for better in ['accessURL', 'modified', 'license', 'keyword']:
+                    pdata[better] = item[better]
+                groups.append(pdata)
     else:
         groups = listpackages
 else:
     print 'Downloading ' + url + "/api/3/action/current_package_list_with_resources..."
     jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     groups = json.loads(jsonurl.read())
-    if cityname == 'frankfurt' or cityname == 'aachen':
-        groups = groups['result']
+    groups = groups['result']
 
 #It takes a long time to gather the Hamburg data... save it if we downloaded it
-#Also do this for Köln as the data is much better when using individual data sets
-if cityname == "hamburg" and len(sys.argv) < 3:
-    with open('../metadata/hamburg/catalog.json', 'wb') as outfile:
-        json.dump(groups, outfile)
-elif cityname == 'koeln':
-    with open('../metadata/koeln/catalog.json', 'wb') as outfile:
+#For Köln and Bonn the data is better than the single API call
+if cityname in ['hamburg', 'koeln', 'bonn'] and cityname != "hamburg" or (cityname == 'hamburg' and len(sys.argv) < 3):
+    with open('../metadata/' + cityname + '/catalog.json', 'wb') as outfile:
         json.dump(groups, outfile)
 
 datafordb = []
@@ -84,22 +93,26 @@ for package in groups:
     resources = []
     formats = set()
     files = []
-    urlkey = 'url'
+    #Key for the file link in the resource
+    urlkeys = ['url']
     formatkey = 'format'
     
     if cityname == "bonn":
-        fulljsonurl = urllib.urlopen(package['webService'])
-        fulldata = json.loads(fulljsonurl.read())
-        urlkey = 'file_url'
-        if ('resources' in fulldata):
-            resources = fulldata['resources']
-    else:
-        if ('resources' in package):
-            resources = package['resources']
+        urlkeys = ['file_url', 'link_to_api', 'url']
+        if 'file_link' in package and package['file_link']!= None and package['file_link'] != '':
+            print 'WARNING! file_link was actually used! Here it is: ' + package['file_link']
+    if ('resources' in package):
+        resources = package['resources']
 
     for file in resources:
-        if (file[urlkey] != ''):
-            files.append(file[urlkey])
+        for urlkey in urlkeys:
+            if (file[urlkey] not in [None, '']):
+                if '://' not in file[urlkey]:
+                    files.append(url + file[urlkey])
+                else:
+                    files.append(file[urlkey])
+                break
+        if formatkey in file and file[formatkey] not in [None, '']:
             format = file[formatkey]
             formats.add(format.upper())
 
@@ -149,13 +162,18 @@ for package in groups:
     #Bonn is just different enough to do it separately. TODO: Consider combining into above.
     elif cityname == 'bonn':
         row[u'URL PARENT'] = package['accessURL']
-        row[u'Beschreibung'] = fulldata['description']
-        row[u'Zeitlicher Bezug'] = package['granularity']
+        row[u'Beschreibung'] = package['description']
+        for timeattempt in ['temporal_coverage', 'granularity', 'modified']:
+            if timeattempt in package and package[timeattempt] not in [None, '']:
+                row[u'Zeitlicher Bezug'] = package[timeattempt]
+                break
         row[u'Lizenz'] = metautils.long_license_to_short(package['license'])
         row[u'Veröffentlichende Stelle'] = package['publisher']
         #Commas in categories cannot be distinguished from separation of categories :(
         odm_cats = metautils.govDataLongToODM(package['keyword'], checkAll=True)
         metautils.setcats(row, odm_cats)
+    #Take a copy of the metadata    
+    row['metadata'] = package
     datafordb.append(row)
 
 #Write data to the DB

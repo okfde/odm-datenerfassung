@@ -565,9 +565,9 @@ def long_license_to_short(licensetext):
     return licensetext
     
 def isopen(licensetext):
-    if licensetext in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc"):
+    if licensetext in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0"):
         return True
-    elif licensetext in ("other-closed", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0", "Andere eingeschränkte Lizenzen"):
+    elif licensetext in ("other-closed", "Andere eingeschränkte Lizenzen"):
         return False
     else:
         return None
@@ -676,7 +676,7 @@ def filterCitiesByLand(cities, land):
 
 #Things that are banned everywhere (except emails, different kind of search)
 #Used for tags
-banlevel1 = ('konstanz', 'boden', 'wald', 'nusse', 'fisch', 'berge', 'wiesen', 'heide', 'loehne', u'löhne', 'bruecken', u'brücken', 'lichtenberg')
+banlevel1 = ('konstanz', 'boden', 'wald', 'nusse', 'fisch', 'berge', 'wiesen', 'heide', 'loehne', u'löhne', 'bruecken', u'brücken', 'lichtenberg', 'pegelstand')
 
 #More things that are banned everywhere (except tags)
 #Used for titles
