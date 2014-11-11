@@ -656,7 +656,7 @@ def getCities(alternativeFile = ''):
             newname = findLcGermanCharsAndReplace(newname)
             cityToAdd = dict()
             cityToAdd['shortname'] = row[0].lower()
-            cityToAdd['shortnamePadded'] = ' ' + cityToAdd['shortname'].capitalize() + ' '
+            cityToAdd['shortnamePadded'] = ' ' + cityToAdd['shortname'].title() + ' '
             cityToAdd['originalname'] = row[1]
             if len(row) > 2:
                 cityToAdd['land'] = row[2]
@@ -678,12 +678,12 @@ def filterCitiesByLand(cities, land):
 
 #Things that are banned everywhere (except emails, different kind of search)
 #Used for tags
-banlevel1 = ('konstanz', 'boden', 'wald', 'nusse', 'fisch', 'berge', 'wiesen', 'heide', 'loehne', u'löhne', 'bruecken', u'brücken', 'lichtenberg', 'pegelstand')
+banlevel1 = ('konstanz', 'boden', 'wald', 'nusse', 'fisch', 'berge', 'wiesen', 'heide', 'loehne', u'löhne', 'bruecken', u'brücken', 'lichtenberg')
 
 #More things that are banned everywhere (except tags)
 #Used for titles
 banlevel2 = list(banlevel1)
-banlevel2.extend(['sylt', 'jade', 'erden', 'gering', 'balje', 'breit', 'auen', 'stelle', 'ohne', 'bescheid', 'lage', 'muessen', u'müssen', 'steinen', 'schutz', 'elbe', 'fahren', 'plate', 'wellen'])
+banlevel2.extend(['sylt', 'jade', 'erden', 'gering', 'balje', 'breit', 'auen', 'stelle', 'ohne', 'bescheid', 'lage', 'muessen', u'müssen', 'steinen', 'schutz', 'elbe', 'fahren', 'plate', 'wellen', 'bodensee'])
 banlevel2 = tuple(banlevel2)
 
 #More things that are banned everywhere (except titles)
@@ -755,9 +755,16 @@ def findOnlyCityData(data, cities, verbose=False):
                     foundcity = city
                     matchedon = 'author_email'
                     break
+        verbose = False
+        if 'Harz' in item['title']:
+            verbose = True
+        if verbose: print item['title']
         if ((not founditem) and 'title' in item and item['title'] != None):
             searchtext = createwholelcwords(item['title'])
+            if verbose: print searchtext
             for city in cities:
+                if verbose: print city['shortname']
+                if verbose: print city['shortnamePadded']
                 if city['shortname'] not in banlevel2 and city['shortnamePadded'] in searchtext:
                     if verbose: print 'Found in title: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True

@@ -28,7 +28,8 @@ if sys.argv[1] == 'all':
         for excludeportal in excludes:
             print excludeportal
         
-    cities = metautils.getCities()
+    cities = metautils.getCities(alternativeFile='notcitiesingovdata.csv')
+    cities.extend(metautils.getCities())
 
     #Only add data we don't have from somewhere else
     data = []
