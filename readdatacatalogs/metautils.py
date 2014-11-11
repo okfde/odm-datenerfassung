@@ -755,16 +755,9 @@ def findOnlyCityData(data, cities, verbose=False):
                     foundcity = city
                     matchedon = 'author_email'
                     break
-        verbose = False
-        if 'Harz' in item['title']:
-            verbose = True
-        if verbose: print item['title']
         if ((not founditem) and 'title' in item and item['title'] != None):
             searchtext = createwholelcwords(item['title'])
-            if verbose: print searchtext
             for city in cities:
-                if verbose: print city['shortname']
-                if verbose: print city['shortnamePadded']
                 if city['shortname'] not in banlevel2 and city['shortnamePadded'] in searchtext:
                     if verbose: print 'Found in title: ' + city['shortname'] + '\nin\n' + searchtext
                     founditem = True
