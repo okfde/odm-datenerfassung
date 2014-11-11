@@ -90,6 +90,10 @@ if cityname in ['hamburg', 'koeln', 'bonn'] and cityname != "hamburg" or (cityna
 datafordb = []
 
 for package in groups:
+    if cityname == 'hamburg':
+        #Only take 'open data'
+        if package['type'] != 'dataset':
+            continue
     resources = []
     formats = set()
     files = []
@@ -175,6 +179,8 @@ for package in groups:
     #Take a copy of the metadata    
     row['metadata'] = package
     datafordb.append(row)
+
+print 'Adding ' + str(len(datafordb)) + ' datasets'
 
 #Write data to the DB
 metautils.setsettings(settings)
