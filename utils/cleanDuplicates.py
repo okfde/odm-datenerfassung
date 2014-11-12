@@ -82,7 +82,7 @@ for city in cities.values():
         except:
             print outputrow
 
-if findparentsource:
+if findparentsource and len(missinglinks) > 0:
     #Unfortunately it won't work if the URL arguments get rearranged :(
     #If it becomes a problem we should parse the URLs
     with open(sys.argv[3], 'rb') as csvfile:

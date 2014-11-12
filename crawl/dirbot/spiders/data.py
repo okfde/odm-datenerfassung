@@ -36,9 +36,9 @@ class DataSpider(CrawlSpider):
         self.filetypes = tuple(self.filetypes)
 
         self.fields = ('Stadt_URL', 'URL_Datei', 'URL_Text', 'URL_Dateiname', 'Format', 'geo', 'URL_PARENT', 'Title_PARENT')
-        self.writer = unicodecsv.DictWriter(open(self.fileoutall, "wb"), self.fields)
+        self.writer = unicodecsv.DictWriter(open(self.fileoutall, "wb", encoding='utf-8'), self.fields)
         self.writer.writeheader()
-        self.writerdata = unicodecsv.DictWriter(open(self.fileoutdata, "wb"), self.fields)
+        self.writerdata = unicodecsv.DictWriter(open(self.fileoutdata, "wb", encoding='utf-8'), self.fields)
         self.writerdata.writeheader()
         print "Searching " + domain + "..."
 
@@ -54,7 +54,7 @@ class DataSpider(CrawlSpider):
                 #Not applicable
                 item['URL_Text'] = unicode('', 'utf-8')
                 if ('Content-Disposition' in response.headers):
-                    item['URL_Dateiname'] = response.headers['Content-Disposition']
+                    item['URL_Dateiname'] = unicode(response.headers['Content-Disposition'], 'utf-8')
                 else:
                     item['URL_Dateiname'] = unicode(item['URL_Datei']).split('/')[-1]
                 item['Format'] = ext[1:]
