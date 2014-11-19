@@ -163,8 +163,8 @@ def badenWuerttenberg():
     metautils.setsettings(settings)
     metautils.addSimpleDataToDB(dataForDB,
                                 portalname,
-                                checked=False,
-                                accepted=False,
+                                checked=True,
+                                accepted=True,
                                 remove_data=True)
 
 badenWuerttenberg()
