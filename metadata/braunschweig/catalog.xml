@@ -1,7 +1,7 @@
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
   <csw:RequestId/>
   <csw:SearchStatus/>
-  <csw:SearchResults numberOfRecordsMatched="144" numberOfRecordsReturned="144">
+  <csw:SearchResults numberOfRecordsMatched="145" numberOfRecordsReturned="145">
     <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">60167db3-c6e1-4cab-92ad-23cd365ba3ad</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bewertung bebauter Grundst&#252;cke im Stadtgebiet Braunschweig</dc:title>
@@ -1204,6 +1204,77 @@ Basisma&#223;stab ist 1:5000. Die Daten eignen sich zur Darstellung im Ma&#223;s
       </ows:BoundingBox>
     </csw:Record>
     <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">62479574-7804-4eb8-9f4f-e81b1c5a09bf</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtplan (Raumbezugsebene 3)</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Topographie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bodennutzung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtplanung und -entwicklung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bodennutzung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Boden</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bodenbedeckung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geb&#228;ude</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehrsnetze</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadt</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Braunschweig</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtplan</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtkarte</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Raumbezugsebene</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">RBE</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">RBE3</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stra&#223;e</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stra&#223;ennetz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Siedlung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Siedlung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Siedlungsfl&#228;che</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gew&#228;sser</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gew&#228;ssernetz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Eisenbahn</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Eisenbahnlinie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Boden</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bodennutzung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wald</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gr&#252;n</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gr&#252;nanlage</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Landwirtschaft</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Landwirtschaftsfl&#228;che</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wiese</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Berg</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Park</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Forst</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Industrie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stra&#223;e</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wasserweg</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Park</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bebauung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Oker</dc:subject>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">DXF, Shape, TIFF, AI</dc:format>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Plot, Print</dc:format>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-06</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der digitale Stadtplan, auch Raumbezugsebene 3 (RBE3), ist die Grundlage f&#252;r die Amtliche Stadtkarte 1:20.000. Sie ist das Hauptprodukt aus den Geodaten der Raumbezugsebene 3. Auch der Internet-Stadtplan der Stadt Braunschweig wird aus diesen Daten abgeleitet. Inhaltlich zeigt er das Stra&#223;ennetz Braunschweigs, die Siedlungsfl&#228;chen, das Gew&#228;ssernetz, die Eisenbahnlinien sowie die Bodennutzung durch Wald, Gr&#252;nanlagen und landwirtschaftliche Fl&#228;chen.
+
+Die Amtliche Stadtkarte 1:20000 Blattgr&#246;&#223;e:
+116 x 103 cm, gefaltet auf 11,6 x 25,7 cm,
+Kartenbild 90 x 100 cm
+
+Umfang:
+Stadtplan, Karten der Innenstadt und der Region, Stra&#223;enverzeichnis, Luftbild der gesamten Stadt.
+Ausschnitte aus dem digitalen Stadtplan werden je nach Verwendungszweck farblich und inhaltlich individuell angepasst herausgegeben. Dabei kann auf einen laufend fortgef&#252;hrten Datenbestand zur&#252;ckgegriffen werden.
+
+Die Generalisierung ist abgestimmt auf die Ausgabe in Ma&#223;st&#228;ben zwischen 1:15000 und 1:25000.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
+      <dc:coverage xmlns:dc="http://purl.org/dc/elements/1.1/"/>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">otherRestrictions</dct:accessRights>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">544b1263-01ea-4207-a9c6-b0e5c26e1093</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Infrarot-Luftbilder - Digitale CIR-Orthofotos der Stadt Braunschweig aus dem Bildflug 2011</dc:title>
       <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
@@ -1349,7 +1420,7 @@ Grundlage sind neben Luftbildern mit 10 cm Bodenaufl&#246;sung und Daten der dig
         <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
       </ows:BoundingBox>
     </csw:Record>
-    <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
+    <csw:Record>
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">305d85b9-fe8f-4858-8e92-5222b6e6d559</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Biotoptypen 2005</dc:title>
       <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
@@ -2208,10 +2279,10 @@ Die &#252;ber 200 Tabellen mit Braunschweiger Daten werden - sobald neue Zahlen 
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Park</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehrsnetz</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Planung</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-10-25</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Stadtweite Informationen lassen sich auf der Umgebungskarte auf einen Blick pr&#228;sentieren. Die Regionalkarte zeigt die Lage Braunschweigs in der Region sowie die Anbindung der Stadt an das &#252;berregionale Verkehrsnetz.
-
-</dct:abstract>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">AI, SHP, TIFF</dc:format>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Plot</dc:format>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-06</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Stadtweite Informationen lassen sich auf der Umgebungskarte auf einen Blick pr&#228;sentieren. Die Regionalkarte zeigt die Lage Braunschweigs in der Region sowie die Anbindung der Stadt an das &#252;berregionale Verkehrsnetz.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
@@ -2776,13 +2847,13 @@ Auf unserer Karte im Internet finden Sie die entsprechenden Standorte.</dct:abst
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Karte</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Topografie</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-27</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Zur Orientierung im Stadtgebiet und zum zweifelsfreien Auffinden von Grundst&#252;cken werden Stra&#223;en, Wege und Pl&#228;tze mit Namen benannt sowie f&#252;r Geb&#228;ude Hausnummern vergeben.
 Stra&#223;en, Wege und Pl&#228;tze werden durch den Rat der Stadt Braunschweig benannt. Die Grundlage f&#252;r das Beschlussrecht bildet die Nieders&#228;chsische Gemeindeordnung. An der Benennung von Stra&#223;en sind neben dem Rat auch die Stadtbezirksr&#228;te, die Heimatpfleger sowie verschiedene Aussch&#252;sse beteiligt. Die Benennungsvorschl&#228;ge werden von der Abteilung Geoinformation erarbeitet, mit den Beteiligten abgestimmt und bis zur Beschlussfassung federf&#252;hrend begleitet.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -2801,14 +2872,14 @@ Stra&#223;en, Wege und Pl&#228;tze werden durch den Rat der Stadt Braunschweig b
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">opengeodata</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Open Geodata</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-27</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadt Braunschweig stellt hier ausgew&#228;hltes Kartenmaterial als georeferenzierte Rasterdaten  zur freien Verf&#252;gung bereit. Die Daten k&#246;nnen von Jedermann f&#252;r die unterschiedlichsten Verwendungszwecke kostenfrei genutzt werden, z. B. als Unterrichtsmaterial, f&#252;r Anfahrtsskizzen auf Webseiten und Flyern, f&#252;r den Druck von bearbeiteten Kartenausschnitten oder f&#252;r die Verkn&#252;pfung mit anderem Kartenmaterial und weiteren Geodaten. Die Daten k&#246;nnen auch in Grafikprogrammen und Geografischen Informationssystemen verwendet werden. Die Nutzung ist auch in Kartenanwendungen oder Apps denkbar.
 Die Geodaten unterliegen grunds&#228;tzlich dem Urheberrecht und werden von derStadt Braunschweig als Rechteinhaber unter der bundesweit verwendeten &#191;Datenlizenz Deutschland - Namensnennung - Version 1.0&#191; bereitgestellt. Es sind sowohl private als auch kommerzielle Nutzungen erlaubt.
 Die Geodaten werden auch noch auf der Plattform des Bundes unter http://www.govdata.de eingestellt. Die Stadt Braunschweig ist sehr an Informationen zur Nutzung und Weiterverwendung der Daten interessiert. Diese k&#246;nnen unter opengeodata@braunschweig.de mitgeteilt werden.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -2993,14 +3064,14 @@ Auf dem Stadtplan finden Sie alle Sehensw&#252;rdigkeiten mit einem Kamerasymbol
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kartengrundlagen</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtkarten</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-27</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Stadtplan zeigt in generalisierter Darstellung alle Stra&#223;en Braunschweigs und des Umlands. Bebaute Fl&#228;chen, W&#228;lder, Parks, Gew&#228;sser, Kleing&#228;rten, Gr&#252;nland und landwirtschaftliche Fl&#228;chen sind durch Farben und Signaturen abgebildet.
 Symbole zeigen die Lage von Parkpl&#228;tzen und Parkh&#228;usern und stellen Einbahnstra&#223;en und Haltestellen dar.
 Die Gel&#228;nderoberfl&#228;che wird anhand von H&#246;henlinien und ausgew&#228;hlten H&#246;henpunkten abgebildet.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -3022,12 +3093,12 @@ Die Gel&#228;nderoberfl&#228;che wird anhand von H&#246;henlinien und ausgew&#22
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Karte</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Topografie</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-22</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Regionalkarte bildet das Braunschweiger Stadtgebiet und sein Umland in vereinfachter Darstellung ab. Stadtteile und Ortschaften sind als vereinfachte Fl&#228;chen abgebildet. Das Stra&#223;ennetz ist au&#223;erhalb der Braunschweiger Stadtgrenzen auf Autobahnen, Bundesstra&#223;en und Hauptstra&#223;en reduziert.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.09 51.80</ows:LowerCorner>
@@ -3637,12 +3708,12 @@ Der L&#228;rmaktionsplan umfasst eine Bestandserhebung zur L&#228;rmbelastungssi
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Open GeoData</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">GeoData</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-27</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadtkarte oder Raumbezugsebene 2 (RBE2) ist eine kommunale, kartografisch orientierte, generalisierte Darstellung des Stadtgebietes. Topografische Inhalte sind auf die die &#214;rtlichkeit pr&#228;genden Elemente reduziert. Basisma&#223;stab der Stadtkarte ist 1:5.000. Die Karte wird eingesetzt f&#252;r Darstellungen bis zum Ma&#223;stab 1:10.000. Zum vereinfachten Download sind die Rasterkacheln der Stadtkarte in vier Paketen zusammengefasst.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -3668,13 +3739,13 @@ Der L&#228;rmaktionsplan umfasst eine Bestandserhebung zur L&#228;rmbelastungssi
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Karte</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Topografie</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">GeoTIFF</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-27</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadt&#252;bersichtskarte zeigt in generalisierter Darstellung alle Stra&#223;en Braunschweigs und des Umlands. Bebaute Fl&#228;chen, W&#228;lder, Parks, Gew&#228;sser, Kleing&#228;rten, Gr&#252;nland und landwirtschaftliche Fl&#228;chen sind durch Farben und Signaturen abgebildet.
 Die Karte ist als verkleinerte Version des Stadtplans f&#252;r den Ma&#223;stab 1:40.000 optimiert. Die Beschriftung der Karte ist beschr&#228;nkt auf Stadtteile, Hauptverkehrsstra&#223;en und ausgew&#228;hlte Einzelobjekte.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -3700,12 +3771,12 @@ Die Karte ist als verkleinerte Version des Stadtplans f&#252;r den Ma&#223;stab 
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Information</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehrsnetze</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Freizeitbereich</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-30</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-10</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Auf den Internetseiten der Stadt Braunschweig finden Sie eine Reihe von Touren, Rundwegen und Spazierg&#228;ngen zu Sehensw&#252;rdigkeiten und durch die Naherholungsgebiete der Stadt. Diese Wege k&#246;nnen Sie hier als KML-Overlay f&#252;r GoogleEarth oder als GPX-Tracks f&#252;r Ihr Navigationsger&#228;t herunterladen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
-      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 1.0</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
@@ -3849,7 +3920,7 @@ Tipp: In der Touristinfo befindet sich ein WLAN-Hotspot. Dort k&#246;nnen Sie si
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Denkmal</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Denkmalerhaltung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Architektur</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-16</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-06</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Wer in die Innenstadt hinein oder aus ihr heraus m&#246;chte, ist bis heute zwingend auf Br&#252;cken angewiesen. Als allt&#228;gliche Selbstverst&#228;ndlichkeit wird diese Besonderheit unserer Stadt kaum wahrgenommen.
 &#191;Braunschweigs Br&#252;cken&#191; nimmt sich dieser Besonderheit an. Das Portal stellt mit Text und Abbildungen f&#252;r 22 Standorte nicht nur die heute vorhandenen Br&#252;cken dar, sondern bietet auch Materialien zu zahlreichen Vorg&#228;ngerbauten. F&#252;r jeden Br&#252;ckenstandort gibt es eine Zeitleiste mit geschichtlichen Informationen f&#252;r eine Reise in die Vergangenheit. Regelm&#228;&#223;ig besteht die M&#246;glichkeit, vertiefendes Material zus&#228;tzlich aufzurufen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>

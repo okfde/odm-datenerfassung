@@ -165,7 +165,7 @@ def licenseToODM(licenseList):
     if 'Datenlizenz Deutschland - Namensnennung - Version 1.0' in licenseList:
         odmLicense = 'dl-de-by-1.0'
     elif (u'keine' in licenseList) or (u'unbeschränkt' in licenseList):
-        odmLicense = 'other-open'
+        odmLicense = 'other-closed'
     elif licenseList == []:
         odmLicense = 'nicht bekannt'
     else:
@@ -218,6 +218,30 @@ def scrapeFilelist(htmlTree):
     return fileList
 
 
+def scrapeContentTypes(filelistUrls):  # unused
+    expectedTypes = ['JPEG', 'PDF', 'HTML', 'PLAIN', 'ZIP']
+    returnedTypes = []
+    for fileUrl in filelistUrls:
+        try:
+            request = urllib2.Request(fileUrl)
+            request.get_method = lambda: 'HEAD'
+            response = urllib2.urlopen(request)
+            contentType = response.info().getheader('Content-Type')
+            for t in expectedTypes:
+                p = re.compile(t, re.IGNORECASE)
+                if p.search(contentType):
+                    if t == 'PLAIN':
+                        returnedTypes.append('TXT')
+                    else:
+                        returnedTypes.append(t)
+        except:
+            None  # print "Dead url in filelist: ", fileUrl
+
+    if returnedTypes != []:
+        returnedTypes = list(set(returnedTypes))
+    return returnedTypes
+
+
 def extractRecordTag(rec, tag, oneEntryExpected=True):
     """Gets the value(s) for the specific tag.
     Returns a list of all values if, if oneEntryExpected is set to False"""
@@ -261,6 +285,7 @@ def scrapeData(d):
     d['topic category'] = scrapeTopicCategories(pageHtml)
     d['organisation'] = scrapeOrganisation(pageHtml)
     d['filelist'] = scrapeFilelist(pageHtml)
+    # d['filelist-content-types'] = scrapeContentTypes(d['filelist'])
     return d
 
 
@@ -278,9 +303,7 @@ def recordToDB(rec):
     db['filelist'] = rec['filelist']
 
     db['formats'] = formatsToODM(rec['formats'])
-    print rec['topic category']
     db['categories'] = categoriesToODM(rec['topic category'])
-    print db['categories']
     db['licenseshort'] = licenseToODM(rec['rights'])
     db['open'] = isOpenLicense(db['licenseshort'])
     db['spatial'] = isSpatialFormat(db['formats'])
@@ -314,8 +337,8 @@ def braunschweigGeoportal():
     metautils.setsettings(settings)
     metautils.addSimpleDataToDB(dataForDB,
                                 portalname,
-                                checked=False,
-                                accepted=False,
+                                checked=True,
+                                accepted=True,
                                 remove_data=True)
 
 braunschweigGeoportal()
