@@ -461,6 +461,17 @@ def findLcGermanCharsAndReplace(germanstring):
             germanstring = germanstring.replace(germanchars[x], englishreplacements[x])
     return germanstring
     
+#Useful for CKAN import
+def force_alphanumeric_short(title):
+    title = findLcGermanCharsAndReplace(title.lower())
+    retval = ''
+    for char in title:
+        if char == ' ':
+            retval += '-'
+        elif char.isalnum():
+            retval += char
+    return retval
+    
 def convertSettlementNameToNormalName(settlementName):
     return settlementName.split(',')[0]
     
