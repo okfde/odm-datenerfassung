@@ -124,7 +124,7 @@ def scrapeCatalogEntryPage(url):
 
 def toDB(rec):
     db = {}
-    db['city'] = ''  # Baden-Württenberg is not a city ?!
+    db['city'] = 'badenwuerttenberg'  # Baden-Württenberg is not a city ?!
     db['source'] = 'd'
     db['costs'] = None
     db['categories'] = [u'Noch nicht kategorisiert']
@@ -143,7 +143,7 @@ def toDB(rec):
     db['open'] = metautils.isopen(db['licenseshort'])
     db['spatial'] = False
 
-    db['metadata'] = db.copy()
+    db['metadata'] = ''#db.copy() - lohnt sich nicht
     db['metadata_xml'] = None
 
     return db
