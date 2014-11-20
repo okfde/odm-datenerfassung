@@ -17,6 +17,22 @@ def getRecordHtmlTree(htmlUrl):
     return htmlTree
 
 
+def categoryToODM(categorie):
+    categorieToODMmap = {
+        'Umwelt und Energie': 'Umwelt und Klima',
+        'Bildung und Wissenschaft': 'Bildung und Wissenschaft',
+        'Wirtschaft': 'Wirtschaft und Arbeit',
+        'Verkehr': 'Transport und Verkehr',
+        'Freizeit und Tourismus': 'Freizeit',  # oder Tourismus ? :)
+        'Arbeit': 'Wirtschaft und Arbeit',
+        u'Gebäude und Wohnen': 'Bauen und Wohnen',
+        u'Bevölkerung': u'Bevölkerung',
+        'Basisdaten und Geowissenschaften': 'Geologie und Geobasisdaten',
+        'Politik und Verwaltung': u'Öffentliche Verwaltung'
+    }
+    return [categorieToODMmap[categorie]]
+
+
 def licenseToODM(licenseEntry):
     if licenseEntry == u'Namensnennung':
         odmLicense = 'CC BY 3.0 DE'
@@ -75,14 +91,6 @@ def getCatalogPages():
     return pages
 
 
-def getCatalogEntryUrls(catalogPage):
-    entryListItems = catalogPage.xpath('//div[@class="OdpVList"]//div[@class="OdpVListElem"]')
-    domain = "http://" + portalname + "/Seiten/"
-    getRecordUrl = lambda listItem: domain + listItem.xpath('.//a/@href')[0]
-    entryPages = map(getRecordUrl, entryListItems)
-    return entryPages
-
-
 def scapeTableCell(table, cellName):
     try:
         row = table.xpath('.//tr[td//text()[contains(., "' + cellName + '")]]')[0]
@@ -91,6 +99,21 @@ def scapeTableCell(table, cellName):
     except:
         val = ""
     return val
+
+
+def scrapeCatalogPageItem(entry):
+    d = {}
+    d['page-url'] = "http://" + portalname + "/Seiten/" + entry.xpath('.//a/@href')[0]
+    d['category'] = entry.xpath('.//tr' +
+                                '[td//text()[contains(., "Kategorie:")]][1]' +
+                                '/td[2]/a')[0].text
+    return d
+
+
+def scrapeCatalogPageList(catalogPage):
+    entryListItems = catalogPage.xpath('//div[@class="OdpVList"]//div[@class="OdpVListElem"]')
+    entryPages = map(scrapeCatalogPageItem, entryListItems)
+    return entryPages
 
 
 def scrapeLicense(page):
@@ -102,12 +125,10 @@ def scrapeLicense(page):
         return cell
 
 
-def scrapeCatalogEntryPage(url):
-    page = getRecordHtmlTree(url)
+def scrapeCatalogEntryPage(d):
+    page = getRecordHtmlTree(d['page-url'])
     p = page.xpath('//div[@class="OdpVListElem details"]')[0]
 
-    d = dict()
-    d['page-url'] = url
     d['title']               = p.xpath('./div/h1/text()')[0]
     d['description']         = p.xpath('.//div[2]/p/text()')[0]
     d['format']              = scapeTableCell(p.xpath('.//div[4]/table')[0], 'Format')
@@ -127,8 +148,8 @@ def toDB(rec):
     db['city'] = 'badenwuerttenberg'  # Baden-Württenberg is not a city ?!
     db['source'] = 'd'
     db['costs'] = None
-    db['categories'] = [u'Noch nicht kategorisiert']
 
+    db['categories'] = categoryToODM(rec['category'])
     db['url'] = rec['page-url']
     db['title'] = rec['title']
     db['description'] = rec['description']
@@ -152,11 +173,11 @@ def toDB(rec):
 def badenWuerttenberg():
     print "Get Catalog Entries"
     catalogPages = getCatalogPages()
-    catalogEntryUrls = map(getCatalogEntryUrls, catalogPages)
-    catalogEntryUrls = list(itertools.chain(*catalogEntryUrls))
+    catalogItemDicts = map(scrapeCatalogPageList, catalogPages)
+    catalogItemDicts = list(itertools.chain(*catalogItemDicts))
 
     print "Scrape Catalog Entries"
-    catalogDicts = map(scrapeCatalogEntryPage, catalogEntryUrls)
+    catalogDicts = map(scrapeCatalogEntryPage, catalogItemDicts)
     dataForDB = map(toDB, catalogDicts)
 
     print "Write to db"
