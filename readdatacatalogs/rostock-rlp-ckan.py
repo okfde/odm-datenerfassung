@@ -7,7 +7,7 @@ import metautils
 
 from dbsettings import settings
 
-def mapData(data, overridecity=None):
+def mapData(data, nocity=False):
     returndata = []
     uniquecities = set()
     
@@ -32,7 +32,7 @@ def mapData(data, overridecity=None):
         row[u'files'] = files
 
         if cityimport == 'rlp':
-            if (overridecity != None):
+            if not nocity:
                 row[u'Stadt'] = metautils.getShortCityName(result['city']['originalname'])
                 uniquecities.add(result['city']['originalname'])
             else:
@@ -100,7 +100,7 @@ datafordb = []
 [returnData, uniquecities] = mapData(data)
 datafordb.extend(returnData)
 if cityimport == 'rlp':
-    [returnData, ignoreuniquecities] = mapData(notcitydata)
+    [returnData, ignoreuniquecities] = mapData(notcitydata, nocity=True)
     datafordb.extend(returnData)
 
 #Write data to the DB
