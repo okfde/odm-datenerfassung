@@ -23,12 +23,12 @@ def categoryToODM(categorie):
         'Bildung und Wissenschaft': 'Bildung und Wissenschaft',
         'Wirtschaft': 'Wirtschaft und Arbeit',
         'Verkehr': 'Transport und Verkehr',
-        'Freizeit und Tourismus': 'Freizeit',  # oder Tourismus ? :)
+        'Freizeit und Tourismus': 'Kultur, Freizeit, Sport, Tourismus',
         'Arbeit': 'Wirtschaft und Arbeit',
-        u'Gebäude und Wohnen': 'Bauen und Wohnen',
+        u'Gebäude und Wohnen': 'Infrastruktur, Bauen und Wohnen',
         u'Bevölkerung': u'Bevölkerung',
-        'Basisdaten und Geowissenschaften': 'Geologie und Geobasisdaten',
-        'Politik und Verwaltung': u'Öffentliche Verwaltung'
+        'Basisdaten und Geowissenschaften': 'Geographie, Geologie und Geobasisdaten',
+        'Politik und Verwaltung': u'Öffentliche Verwaltung, Haushalt und Steuern'
     }
     return [categorieToODMmap[categorie]]
 
@@ -145,7 +145,7 @@ def scrapeCatalogEntryPage(d):
 
 def toDB(rec):
     db = {}
-    db['city'] = 'badenwuerttenberg'  # Baden-Württenberg is not a city ?!
+    db['city'] = 'badenwuerttemberg'  # Baden-Württenberg is not a city ?!
     db['source'] = 'd'
     db['costs'] = None
 

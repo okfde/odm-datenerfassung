@@ -142,6 +142,8 @@ def categoriesToODM(categorieList):
         allCats.extend(cats)
     if allCats != [[]]:
         allCats = list(set(allCats))
+    else:
+	allCats = ['Noch nicht kategorisiert']
     return allCats
 
 
