@@ -67,7 +67,6 @@ row = metautils.getBlankRow()
 
 uniquecities = set()
 
-#Write data to the DB
 metautils.setsettings(settings)
 
 if sys.argv[1] == 'all':

@@ -713,14 +713,22 @@ baninemails = ('stein', 'au', 'bunde')
 def findOnlyPortalData(data, portal):
     foundItems = []
     foundcity = getCityWithOpenDataPortal(portal)
-    matchedon = 'portal' 
+    matchedon = 'portal'
+    simpledata = []
     for item in data:
         if 'metadata_original_portal' in item['extras'] and item['extras']['metadata_original_portal'] == portal:
             recordtoadd = dict()
             recordtoadd['item'] = item
+            simpledata.append(item)
             recordtoadd['city'] = foundcity
             recordtoadd['match'] = matchedon
-            foundItems.append(recordtoadd)          
+            foundItems.append(recordtoadd)
+    #The average user doen't want to write a script to get all the data. Try to create a file:
+    try:
+        with open('../metadata/' + foundcity['shortname'] + '/catalog.json', 'wb') as outfile:
+            json.dump(simpledata, outfile)
+    except Exception as e:
+        print 'Got exception while trying to write a record of the metadata: ' + str(e)
     return foundItems
 
 #Try to get data that relates to a 'city'

@@ -55,12 +55,13 @@ def mapData(data, nocity=False):
         if 'maintainer' in package:
             row[u'Veröffentlichende Stelle'] = package['maintainer']
         
-        for group in package['groups']:
-            odm_cats = metautils.govDataShortToODM(group)
-            if len(odm_cats) > 0:
-                for cat in odm_cats:
-                    row[cat] = 'x'
-                row[u'Noch nicht kategorisiert'] = ''       
+        if 'groups' in package:
+            for group in package['groups']:
+                odm_cats = metautils.govDataShortToODM(group)
+                if len(odm_cats) > 0:
+                    for cat in odm_cats:
+                        row[cat] = 'x'
+                    row[u'Noch nicht kategorisiert'] = ''       
 
         returndata.append(row)
     
@@ -71,7 +72,10 @@ cityimport = sys.argv[1]
 if cityimport == 'rostock':
     jsonurl = urllib.urlopen("http://www.opendata-hro.de/api/2/search/dataset?q=&limit=1000&all_fields=1")
 elif cityimport == 'rlp':
-    jsonurl = urllib.urlopen("http://www.daten.rlp.de/api/2/search/dataset?q=&limit=4000&all_fields=1")
+    #N.B. max limit is 1000
+    limit = 1000
+    urlbase = "http://www.daten.rlp.de/api/2/search/dataset?q=&limit=" + str(limit) + "&all_fields=1"
+    jsonurl = urllib.urlopen(urlbase)
 else:
     print 'Error: \'rostock\' or \'rlp\' must be specified as the first argument'
     exit()
@@ -79,7 +83,16 @@ else:
 data = json.loads(jsonurl.read())
 
 if cityimport == 'rlp':
-    #Only deal with communal data
+    #Get the rest of the data
+    gotdata = data
+    while len(gotdata['results']) > 0:
+        gotdata = json.loads(urllib.urlopen(urlbase + "&offset=" + str(limit)).read())
+        data['results'].extend(gotdata['results'])
+        limit += 1000
+    #The average user doen't want to write a script to get all the data. Create a file:
+    with open('../metadata/rheinlandpfalz/catalog.json', 'wb') as outfile:
+        json.dump(data['results'], outfile)
+    #Separate out communal data
     allcities = metautils.getCities()
     #First take the Verbandsgemeinde
     cities = metautils.getCities(alternativeFile='verbandsgemeinderlp.csv')
