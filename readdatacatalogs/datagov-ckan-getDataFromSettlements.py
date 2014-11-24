@@ -48,9 +48,9 @@ if sys.argv[1] == 'all':
     print 'List of remaining portals:'
     print uniqueportals
 
-    foundItems = metautils.findOnlyCityData(data, cities)
+    [foundItems, notfounditems] = metautils.findOnlyCityData(data, cities)
     print 'Out of ' + str(len(data)) + ' catalog entries, ' + str(len(foundItems)) + ' appear to be related to the input list of settlements'
-
+    #TODO: Assign not found to DE
 else:
     portal = sys.argv[1]
     if 'http://' in portal:

@@ -727,6 +727,7 @@ def findOnlyPortalData(data, portal):
 def findOnlyCityData(data, cities, verbose=False):
     
     foundItems = []
+    notfoundItems = []
 
     for item in data:
         founditem = False
@@ -802,8 +803,12 @@ def findOnlyCityData(data, cities, verbose=False):
             recordtoadd['city'] = foundcity
             recordtoadd['match'] = matchedon
             foundItems.append(recordtoadd)
+        else:
+            recordtoadd = dict()
+            recordtoadd['item'] = item
+            notfoundItems.append(recordtoadd)
             
-    return foundItems
+    return [foundItems, notfoundItems]
 
 #There are times when we need to test for city names without expecting whole words, like
 #email addresses. But then we really have to rule out a few things. Stein, Au and Bunde are always
