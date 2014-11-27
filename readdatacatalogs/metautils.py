@@ -472,6 +472,8 @@ def force_alphanumeric_short(title):
             retval += char
     return retval
     
+convert_source_dict = {'g': 'Google', 'b': 'Bing', 'm': 'Manual', 'c': 'Crawl', 'd': 'Data Catalog'}    
+
 def convertSettlementNameToNormalName(settlementName):
     return settlementName.split(',')[0]
     

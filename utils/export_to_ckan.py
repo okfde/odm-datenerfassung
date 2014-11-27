@@ -26,10 +26,9 @@ def category_to_group(groupname):
     # maybe some other id
     return {'name': metautils.force_alphanumeric_short(groupname)}
 
-
 def dBtoCKAN(rec):
     d = {}
-    d['owner_org'] = rec['originating_portal']
+    d['owner_org'] = rec['city']
     d['state'] = 'active' if rec['accepted'] else 'deleted'
     d['url'] = rec['url']
     d['title'] = rec['title']
@@ -37,8 +36,8 @@ def dBtoCKAN(rec):
     d['notes'] = rec['description']
     d['extras'] = []
     d['extras'].append({'key': 'temporalextent', 'value': rec['temporalextent']})
-    d['extras'].append({'key': 'location', 'value': rec['city']})
-    d['extras'].append({'key': 'source', 'value': rec['source']})
+    d['extras'].append({'key': 'metadata_source_type', 'value': metautils.convert_source_dict[rec['source']]})
+    d['extras'].append({'key': 'metadata_source_portal', 'value': rec['originating_portal']})
     d['extras'].append({'key': 'original_metadata_json', 'value': rec['metadata']})
     d['extras'].append({'key': 'original_metadata_xml', 'value': rec['metadata_xml']})
     d['license_id'] = rec['licenseshort']
