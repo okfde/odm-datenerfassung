@@ -35,3 +35,5 @@ for city in indcities:
         citresults.append(cur.fetchall()[0]['res'])
 
     csvwriter.writerow(citresults)
+
+csvfile.close()
