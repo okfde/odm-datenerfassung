@@ -64,7 +64,7 @@ Laserscandaten werden in verschiedenen Rasterweiten als Datensatz in diversen Da
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">inspireidentifiziert</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-08-06</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Fl&#228;chennutzungsplan als "Vorbereitender Bauleitplan" der Stadt Braunschweig stellt die beabsichtigte Bodennutzung f&#252;r das gesamte Stadtgebiet in Grundz&#252;gen dar. Mit seinen Inhalten bildet er die Grundlage f&#252;r detailliertere Festsetzungen in einzelnen Teilbereichen der Stadt, den "verbindlichen Bauleitpl&#228;nen" (Bebauungsplan). Der Fl&#228;chennutzungsplan hat die Aufgabe, im Hinblick auf die angestrebte st&#228;dtebauliche Entwicklung f&#252;r das gesamte Stadtgebiet die Art der Baufl&#228;chen, Freifl&#228;chen u.a. gesamtst&#228;dtisch wichtigen Nutzungen darzustellen. Er muss dabei die &#252;bergeordneten Ziele der Raumordnung und Regionalplanung ber&#252;cksichtigen, aber auch den Belangen von Natur und Landschaft und denen anderer Fachplanungen Rechnung tragen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -88,8 +88,8 @@ Laserscandaten werden in verschiedenen Rasterweiten als Datensatz in diversen Da
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kinderspielplatz</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bolzplatz</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-09-27</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dem Spielplatzplan der Stadt Braunschweig sind &#246;ffentliche Pl&#228;tze f&#252;r Kinder und Jugendliche und entsprechende Spielgelegenheiten dargestellt.
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dem Spielplatzplan der Stadt Braunschweig sind &#246;ffentliche Pl&#228;tze f&#252;r Kinder und Jugendliche und entsprechende Spielgelegenheiten sowie geplante Spielpl&#228;tze dargestellt.
 
 Die Stadt ist eingeteilt in Spielplatzbereiche, auf der Grundlage der statistischen Bezirke.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
@@ -640,8 +640,8 @@ Kartografische Basis dieser Radkarte ist der Stadtplan Braunschweig 1:20000 (=Ra
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geb&#228;ude</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-11-05</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden die aktuellen und geplanten Wohnbaugebiete der Stadt Braunschweig dargestellt incl. der in den einzelnen Baugebieten vorhandenen Baulandreserven.</dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden die aktuellen und geplanten Wohnbaugebiete der Stadt Braunschweig dargestellt inkl. der in den einzelnen Baugebieten vorhandenen Baulandreserven.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarung erforderlich</dc:rights>
@@ -1767,10 +1767,8 @@ Die Karten sind in Ma&#223;st&#228;ben von 1:2.500 bis 1:100.000 erh&#228;ltlich
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Produktions- und Industrieanlagen</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-11-14</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Karte &#132;Siedlungsentwicklung Gewerbe- und Industriegebiete/ Sondergebiet Forschungsflughafen &#150; Stand 06/2012&#147; gibt einen &#220;berblick &#252;ber die bestehenden und geplanten Gewerbe- und Industriegebiete im Stadtgebiet Braunschweig. Zudem werden die noch verf&#252;gbaren Reservefl&#228;chen in Hektar (ha) angezeigt.
-
-</dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Karte &#191;Siedlungsentwicklung Gewerbe- und Industriegebiete/ Sondergebiet Forschungsflughafen &#191; Stand 06/2012&#191; gibt einen &#220;berblick &#252;ber die bestehenden und geplanten Gewerbe- und Industriegebiete im Stadtgebiet Braunschweig. Zudem werden die noch verf&#252;gbaren Reservefl&#228;chen in Hektar (ha) angezeigt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
