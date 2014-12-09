@@ -34,7 +34,7 @@ for rec in dict_cur.fetchall():
 
 #Update step. We always want to be able to update.
 keys = ['city_shortname', 'city_fullname']
-extras = ['city_type', 'open_data_portal', 'api_get', 'api_post', 'api_link', 'api_post_content', 'latitude', 'longitude', 'contact_email', 'contact_person', 'url', 'ris_url']
+extras = ['city_type', 'open_data_portal', 'api_get', 'api_post', 'api_link', 'api_post_content', 'latitude', 'longitude', 'polygon', 'contact_email', 'contact_person', 'url', 'ris_url']
 query = 'SELECT '
 keys.extend(extras)
 for key in keys:
@@ -49,7 +49,8 @@ for rec in dict_cur.fetchall():
     dataset_dict['title'] = rec['city_fullname']
     dataset_dict['extras'] = []
     for key in extras:
-        dataset_dict['extras'].append({'key': key, 'value': rec[key]})
+        if rec[key] is not None:
+            dataset_dict['extras'].append({'key': key, 'value': rec[key]})
     data_string = urllib.quote(json.dumps(dataset_dict))
     request = urllib2.Request(url +'/api/3/action/organization_create')
     request.add_header('Authorization', apikey)

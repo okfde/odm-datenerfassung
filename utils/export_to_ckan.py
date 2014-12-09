@@ -40,16 +40,24 @@ def dBtoCKAN(rec):
     d['url'] = rec['url']
     d['title'] = rec['title']
     d['name'] = str(uuid.uuid4()) #Must be unique, our titles are not
-    d['notes'] = rec['description']
+    if rec['description'] is not None:
+        d['notes'] = rec['description']
     d['extras'] = []
+    if rec['temporalextent'] is not None:
     d['extras'].append({'key': 'temporalextent', 'value': rec['temporalextent']})
     d['extras'].append({'key': 'metadata_source_type', 'value': metautils.convert_source_dict[rec['source']]})
+    if rec['originating_portal'] is not None:
     d['extras'].append({'key': 'metadata_source_portal', 'value': rec['originating_portal']})
+    if rec['metadata'] is not None:
     d['extras'].append({'key': 'original_metadata_json', 'value': rec['metadata']})
+    if rec['metadata_xml'] is not None:
     d['extras'].append({'key': 'original_metadata_xml', 'value': rec['metadata_xml']})
     d['extras'].append({'key': 'openstatus', 'value': openmap(rec['open'])})
+    if rec['licenseshort'] is not None:
     d['license_id'] = rec['licenseshort']
+    if rec['open'] is not None:
     d['isopen'] = rec['open'] #Note that None gets mapped to False in CKAN
+    if rec['publisher'] is not None:
     d['maintainer'] = rec['publisher']
     #N.B. groups have to be created, before they can be assigned
     #Groups are dictionaries. We use them via title which is what we store
