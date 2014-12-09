@@ -21,10 +21,17 @@ apikey = ''
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
 dict_cur.execute("SELECT * FROM data")
 
-
 def category_to_group(groupname):
     # maybe some other id
     return {'name': metautils.force_alphanumeric_short(groupname)}
+
+def openmap(open):
+    if open is None:
+        return 'Unbekannt'
+    elif open:
+        return 'Offen'
+    else:
+        return 'Nicht offen'
 
 def dBtoCKAN(rec):
     d = {}
@@ -40,8 +47,9 @@ def dBtoCKAN(rec):
     d['extras'].append({'key': 'metadata_source_portal', 'value': rec['originating_portal']})
     d['extras'].append({'key': 'original_metadata_json', 'value': rec['metadata']})
     d['extras'].append({'key': 'original_metadata_xml', 'value': rec['metadata_xml']})
+    d['extras'].append({'key': 'openstatus', 'value': openmap(rec['open'])})
     d['license_id'] = rec['licenseshort']
-    d['isopen'] = rec['open']
+    d['isopen'] = rec['open'] #Note that None gets mapped to False in CKAN
     d['maintainer'] = rec['publisher']
     #N.B. groups have to be created, before they can be assigned
     #Groups are dictionaries. We use them via title which is what we store
@@ -65,13 +73,10 @@ def ckanCreate(url, apikey, rec):
     try:
         response = urllib2.urlopen(request, data_string)
     except:
-        print 'ERROR: \n' + dataset_dict['title'] + ', ' + dataset_dict['url']
-        return
-    response_dict = json.loads(response.read())
+        print 'ERROR Failed to create: \n' + dataset_dict['title'] + ', ' + dataset_dict['url']
+    #response_dict = json.loads(response.read())
     #created_package = response_dict['result']
     #pprint.pprint(created_package)
 
-
 for rec in dict_cur.fetchall():
     ckanCreate(url, apikey, rec)
-
