@@ -6,6 +6,19 @@ from dbsettings import settings
 
 metautils.setsettings(settings)
 
+print '\nSetting open where not set...'
+cur = metautils.getDBCursor(settings, dictCursor = True)
+cur.execute('select url, licenseshort from data where open isnull and licenseshort not like %s', ('nicht bekannt',))
+for ores in cur.fetchall():
+    if ores['licenseshort'].strip() == '':
+        license = 'nicht bekannt'
+        open = None
+    else:
+        open = metautils.isopen(ores['licenseshort'].strip())
+        license = ores['licenseshort'].strip()
+    cur.execute('update data set licenseshort = %s, open = %s where url = %s', (license, open, ores['url']))
+metautils.dbCommit()
+
 print 'Finding cities with data...'
 cities = metautils.getCitiesWithData()
 print cities

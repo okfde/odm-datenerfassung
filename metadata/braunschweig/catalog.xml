@@ -1,7 +1,7 @@
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
   <csw:RequestId/>
   <csw:SearchStatus/>
-  <csw:SearchResults numberOfRecordsMatched="145" numberOfRecordsReturned="145">
+  <csw:SearchResults numberOfRecordsMatched="150" numberOfRecordsReturned="150">
     <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">60167db3-c6e1-4cab-92ad-23cd365ba3ad</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bewertung bebauter Grundst&#252;cke im Stadtgebiet Braunschweig</dc:title>
@@ -64,7 +64,7 @@ Laserscandaten werden in verschiedenen Rasterweiten als Datensatz in diversen Da
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">inspireidentifiziert</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-08-06</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Fl&#228;chennutzungsplan als "Vorbereitender Bauleitplan" der Stadt Braunschweig stellt die beabsichtigte Bodennutzung f&#252;r das gesamte Stadtgebiet in Grundz&#252;gen dar. Mit seinen Inhalten bildet er die Grundlage f&#252;r detailliertere Festsetzungen in einzelnen Teilbereichen der Stadt, den "verbindlichen Bauleitpl&#228;nen" (Bebauungsplan). Der Fl&#228;chennutzungsplan hat die Aufgabe, im Hinblick auf die angestrebte st&#228;dtebauliche Entwicklung f&#252;r das gesamte Stadtgebiet die Art der Baufl&#228;chen, Freifl&#228;chen u.a. gesamtst&#228;dtisch wichtigen Nutzungen darzustellen. Er muss dabei die &#252;bergeordneten Ziele der Raumordnung und Regionalplanung ber&#252;cksichtigen, aber auch den Belangen von Natur und Landschaft und denen anderer Fachplanungen Rechnung tragen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -88,8 +88,8 @@ Laserscandaten werden in verschiedenen Rasterweiten als Datensatz in diversen Da
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kinderspielplatz</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bolzplatz</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-09-27</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dem Spielplatzplan der Stadt Braunschweig sind &#246;ffentliche Pl&#228;tze f&#252;r Kinder und Jugendliche und entsprechende Spielgelegenheiten dargestellt.
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dem Spielplatzplan der Stadt Braunschweig sind &#246;ffentliche Pl&#228;tze f&#252;r Kinder und Jugendliche und entsprechende Spielgelegenheiten sowie geplante Spielpl&#228;tze dargestellt.
 
 Die Stadt ist eingeteilt in Spielplatzbereiche, auf der Grundlage der statistischen Bezirke.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
@@ -107,11 +107,17 @@ Die Stadt ist eingeteilt in Spielplatzbereiche, auf der Grundlage der statistisc
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Schulen in Braunschweig</dc:title>
       <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Statistische Einheiten</dc:subject>
-      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Ausbildungsst&#228;tte</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Ausbildungsst&#228;ttel</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Hauptschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Realschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gymnasium</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Fachgymnasium</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">berufsbildende Schule</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schule</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bildung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gymnasium</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-08-08</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden alle Schulen im Stadtgebiet angezeigt. Durch Anklicken der Markierung werden weitere Informationen &#252;ber die jeweilige Schule eingeblendet. Suchen Sie Schulen in der N&#228;he Ihres Wohnortes, werden Ihnen durch einen Eintrag der Adresse in der Suchfunktion die in der N&#228;he dieser Adresse gelegenen Schulen gezeigt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -634,8 +640,8 @@ Kartografische Basis dieser Radkarte ist der Stadtplan Braunschweig 1:20000 (=Ra
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geb&#228;ude</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-11-05</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden die aktuellen und geplanten Wohnbaugebiete der Stadt Braunschweig dargestellt incl. der in den einzelnen Baugebieten vorhandenen Baulandreserven.</dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden die aktuellen und geplanten Wohnbaugebiete der Stadt Braunschweig dargestellt inkl. der in den einzelnen Baugebieten vorhandenen Baulandreserven.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarung erforderlich</dc:rights>
@@ -1485,9 +1491,16 @@ Die Ergebnisse der Kartierung sind in einem Fl&#228;chen-, einem Linien- und ein
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Statistische Einheiten</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schule</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schulunterricht</dc:subject>
-      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verwaltungseinheiten</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bildung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Ausbildungsst&#228;tte</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-06-18</dct:modified>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Hauptschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Realschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gymnasium</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Fachschule</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verwaltungseinheiten</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In der Karte werden die Bereiche der Schulbezirke der Stadt Braunschweig farbig dargestellt. Zus&#228;tzlich gibt es eine Liste, in der die Stra&#223;en den jeweiligen Grundschulen zugeordnet sind.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -1754,10 +1767,8 @@ Die Karten sind in Ma&#223;st&#228;ben von 1:2.500 bis 1:100.000 erh&#228;ltlich
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Produktions- und Industrieanlagen</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">Papierkarte</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-11-14</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Karte &#132;Siedlungsentwicklung Gewerbe- und Industriegebiete/ Sondergebiet Forschungsflughafen &#150; Stand 06/2012&#147; gibt einen &#220;berblick &#252;ber die bestehenden und geplanten Gewerbe- und Industriegebiete im Stadtgebiet Braunschweig. Zudem werden die noch verf&#252;gbaren Reservefl&#228;chen in Hektar (ha) angezeigt.
-
-</dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-03</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Karte &#191;Siedlungsentwicklung Gewerbe- und Industriegebiete/ Sondergebiet Forschungsflughafen &#191; Stand 06/2012&#191; gibt einen &#220;berblick &#252;ber die bestehenden und geplanten Gewerbe- und Industriegebiete im Stadtgebiet Braunschweig. Zudem werden die noch verf&#252;gbaren Reservefl&#228;chen in Hektar (ha) angezeigt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
@@ -2053,7 +2064,7 @@ Aufgrund der Neuausweisung von Schutzgebieten im europ&#228;ischen Netzwerk Natu
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Seniorenwohnung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wohngruppe</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">gemeinschaftliches Wohnen</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2013-12-18</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-01</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die meisten &#228;lteren Menschen m&#246;chten so lange wie m&#246;glich in ihrer vertrauten Wohnung oder in ihrem Haus leben. Jedoch werden viele Wohnungen den Anforderungen im Alter nicht mehr gerecht. Sollte ein Umzug n&#246;tig sein, kann man sich hier informieren wo es in Braunschweig "Betreutes Wohnen", "Gemeinschaftliches Wohnen", "Betreute Wohngruppen" und
 "Seniorenwohnungen" gibt. Die jeweiligen Einrichtungen sind auf dem Stadtplan verzeichnet.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -2083,7 +2094,7 @@ Aufgrund der Neuausweisung von Schutzgebieten im europ&#228;ischen Netzwerk Natu
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Denkmal</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Informationssystem</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Leitsystem</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-10-25</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-25</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Damit Sie sich in Braunschweig gut zurechtfinden, helfen Ihnen die Orientierungssysteme in der Innenstadt. Die Stelen des Fu&#223;g&#228;nger-Leitsystems weisen Ihnen den Weg zu Sehensw&#252;rdigkeiten, Kulturdenkm&#228;lern, kulturellen Einrichtungen und wichtigen Pl&#228;tzen in der Innenstadt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
@@ -2101,8 +2112,8 @@ Aufgrund der Neuausweisung von Schutzgebieten im europ&#228;ischen Netzwerk Natu
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehrsnetze</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Parkm&#246;glichkeit</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Parkplatz</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-07-25</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Karte ist zu entnehmen, wo sich im Innenstadtbereich Parkh&#228;user und Parkpl&#228;tze befinden. Zus&#228;tzlich wird die Auslastung der Parkh&#228;user und Parkpl&#228;tze minutenaktuell aufgef&#252;hrt. Wahlweise kann man die Informationen auch per WAP auf das Handy bekommen. </dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Der Karte ist zu entnehmen, wo sich im Innenstadtbereich Parkh&#228;user und Parkpl&#228;tze befinden. Zus&#228;tzlich wird die Auslastung der Parkh&#228;user und Parkpl&#228;tze minutenaktuell aufgef&#252;hrt. Wahlweise kann man die Informationen auch per WAP auf das Handy bekommen.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
@@ -2135,7 +2146,7 @@ Aufgrund der Neuausweisung von Schutzgebieten im europ&#228;ischen Netzwerk Natu
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stau</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verkehrsstau</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Baustelle</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-09-15</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Ob kurzfristige Sperrung, langfristige Bauma&#223;nahme oder einspurige Verkehrsf&#252;hrung: lassen Sie sich von St&#246;rungen im Stra&#223;enverkehr nicht behindern. Informieren Sie sich hier &#252;ber die aktuelle Verkehrslage in Braunschweig, Staumeldungen und langfristigen Behinderungen im Stra&#223;enverkehr.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
@@ -2473,9 +2484,8 @@ Dieses Orientierungsangebot gibt es f&#252;r alle Innenstadtbesucher seit 2007.<
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtverkehr</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Parkplatz</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Behinderter</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2012-07-31</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In ihrer Mobilit&#228;t eingeschr&#228;nkte B&#252;rgerinnen und B&#252;rger, die mit ihrem Auto Behindertenparkpl&#228;tze nutzen, k&#246;nnen sich vor Fahrtantritt informieren, wo sich im Bereich ihres Ziels solche Parkpl&#228;tze befinden. Bei den Detailinformationen wird angegeben, um wie viele Pl&#228;tze es sich handelt.
-</dct:abstract>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In ihrer Mobilit&#228;t eingeschr&#228;nkte B&#252;rgerinnen und B&#252;rger, die mit ihrem Auto Behindertenparkpl&#228;tze nutzen, k&#246;nnen sich vor Fahrtantritt informieren, wo sich im Bereich ihres Ziels solche Parkpl&#228;tze befinden. Bei den Detailinformationen wird angegeben, um wie viele Pl&#228;tze es sich handelt.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
@@ -2649,8 +2659,8 @@ Hier treffen sich verschiedene Gruppen, Seniorenkreise und Initiativen mit ihren
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Spiel</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Freizeitbereich</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Jugendzentrum</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2013-11-21</dct:modified>
-      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In 12 st&#228;dtischen Kinder- und Jugendfreizeiteinrichtungen und 16 Einrichtungen freier Tr&#228;ger finden offene Angebote in Form von spielp&#228;dagogischen und kulturellen Veranstaltungen, Jugendcaf&#233;s, Gruppenangeboten, Seminaren, Freizeiten, Sportveranstaltungen, Computerangeboten, Stadtteilarbeit usw. statt. 
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-24</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In 13 st&#228;dtischen Kinder- und Jugendfreizeiteinrichtungen und 18 Einrichtungen freier Tr&#228;ger finden offene Angebote in Form von spielp&#228;dagogischen und kulturellen Veranstaltungen, Jugendcaf&#233;s, Gruppenangeboten, Seminaren, Freizeiten, Sportveranstaltungen, Computerangeboten, Stadtteilarbeit usw. statt. 
 Aus der Karte kann man die Lage der jeweiligen Einrichtung entnehmen, die unten aufgef&#252;hrte Liste aller Einrichtungen gibt weitere Informationen. Au&#223;erdem steht eine Karte mit den Kinder- und Jugendzentren zum Download bereit.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
@@ -2881,6 +2891,62 @@ Die Geodaten werden auch noch auf der Plattform des Bundes unter http://www.govd
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">license</dc:rights>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Datenlizenz Deutschland - Namensnennung - Version 2.0</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">license</dct:accessRights>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">21402275-2440-4a5a-9e9c-0a5336b17126</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Ambulante Dienste im Bereich der Stadt Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Adressen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheit und Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Dienstleistungen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitsdienst</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitszustand</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Krankheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Sozialdienst</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Sozialeinrichtung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">ambulanter Dienst</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Sozialstation</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Nachbarschaftshilfe</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-01</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Ambulante Dienste vermeiden, dass bei Hilfebed&#252;rftigkeit die Wohnung aufgegeben werden muss. Eine rechtzeitige und ausreichende Betreuung in der Wohnung kann m&#246;glicherweise der Entstehung von Pflegebed&#252;rftigkeit entgegen wirken oder sie sogar verhindern.
+In dieser Karte finden Sie alle ambulanten Pflegedienste, Sozialstationen und Nachbarschaftshilfen verzeichnet. Durch einen Klick auf das Symbol erhalten Sie die Adresse der Einrichtung sowie weitere Informationen.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-01-03</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">26e32b24-6101-464f-9a43-57e497c60240</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Beratungsangebote f&#252;r Senioren</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Adressen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheit und Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Dienstleistungen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitsdienst</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#214;ffentliche Dienste</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schuldnerberatung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">h&#228;usliche Pflege</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Unterst&#252;tzung im Haushalt</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Hilfestellung bei Antr&#228;gen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Beh&#246;rdeng&#228;nge</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-01</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Mit dem &#196;lterwerden k&#246;nnen verschiedene Fragen, Probleme bzw. Lebenskrisen auftauchen. Es ist oftmals hilfreich sich Hilfe von "au&#223;en"  zu holen, um sie erfolgreich zu bew&#228;ltigen. Verschiedene Beratungs- und Unterst&#252;tzungsangebote sind daf&#252;r da. Eine Auswahl (in Themenfeldern gegliedert)  m&#246;chten wir Ihnen aufzeigen.
+In der Karte finden Sie verschiedene Beratungsstellen aufgezeigt. Durch einen Klick auf das Symbol erhalten Sie weitere Informationen zu der jeweiligen Einrichtung.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-01-09</dct:created>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
         <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
@@ -3443,7 +3509,7 @@ Die Karten sind in den Ma&#223;st&#228;ben 1:20.000, 1:40.000 und 1:2.500 erh&#2
     </csw:Record>
     <csw:Record>
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">82ea095a-fefa-49ea-a051-c1d916d3ac7a</dc:identifier>
-      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Lage der Wertstoffcontainer im Stadtgebiet Braunschweig</dc:title>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Lage der Wertstoffcontainer im Stadtgebiet Braunschweig (Anwendung)</dc:title>
       <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">application</dc:type>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Versorgungswirtschaft und staatliche Dienste</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Abfall</dc:subject>
@@ -3458,7 +3524,7 @@ Die Karten sind in den Ma&#223;st&#228;ben 1:20.000, 1:40.000 und 1:2.500 erh&#2
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wertstoff</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Glas</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wertstoffcontainer</dc:subject>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-10-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-02</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Sie sind auf der Suche nach einem Wertstoffcontainer in Ihrer N&#228;he? Oder m&#246;chten gerne wissen, wo sie die n&#228;chste Schadstoffmobilstation finden? Auf unserem Stadtplan haben wir die Standorte eingetragen. Mit einem Klick auf das Symbol erhalten Sie die genaue Adresse.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
@@ -3588,6 +3654,90 @@ Den Rundgang k&#246;nnen Sie auch unterwegs &#252;ber die mobile Braunschweig-Ap
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
       <dct:created xmlns:dct="http://purl.org/dc/terms/">2010-01-01</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">dc77c1be-c808-45c1-b8c5-6b2ab6567f8a</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Video&#252;berwachung in der Stadt Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheit und Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geb&#228;ude</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Adressen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gefahren</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitsgef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#220;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kamera</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Videokamera</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schutz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#246;ffentliche Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Objektschutz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Video</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kamera</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-26</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dieser Karte finden Sie die Standorte aller Video&#252;berwachungskameras von der Stadt Braunschweig, der Polizei und den st&#228;dtischen Gesellschaften. Durch einfachen Klick auf den Standort &#246;ffnet sich ein Fenster mit weiteren Informationen &#252;ber Betreiber und &#220;berwachungsgrund, sowie die genaue Adresse.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-11-19</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>-30.0 4.00</ows:LowerCorner>
+        <ows:UpperCorner>50.0 35.0</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">25a9b40e-2d79-4d7d-af75-719e734ce158</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Video&#252;berwachung in der Stadt Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">application</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheit und Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geb&#228;ude</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Adressen</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gefahren</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#220;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">&#246;ffentliche Sicherheit</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kamera</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Videokamera</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schutz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Video</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Kamera</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-11-26</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In dieser Anwendung finden Sie die Standorte aller Video&#252;berwachungskameras von der Stadt Braunschweig, der Polizei und den st&#228;dtischen Gesellschaften. Durch einfachen Klick auf den Standort &#246;ffnet sich ein Fenster mit weiteren Informationen &#252;ber Betreiber und &#220;berwachungsgrund, sowie die genaue Adresse.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-11-19</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>-30.0 4.00</ows:LowerCorner>
+        <ows:UpperCorner>50.0 35.0</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">2c4cd159-470f-47e9-af9d-e116f8740124</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Grundwasserverunreinigungen in Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umwelt&#252;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Betriebe</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gefahren</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltgef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitsgef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoff</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verunreinigung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltverschmutzung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wasserverunreinigung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundwassergef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundwasserverunreinigung</dc:subject>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-04</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Wo ist das Grundwasser durch fr&#252;here gewerbliche Nutzungen (Altstandorte) oder durch alte "M&#252;llkippen" (Altablagerungen) verunreinigt?
+Die Karte gibt Ihnen hierzu eine &#220;bersicht f&#252;r das gesamte Stadtgebiet.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-11-11</dct:created>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
         <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
