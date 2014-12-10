@@ -13,8 +13,8 @@ metautils.setsettings(settings)
 #Run prior to importing data
 
 #Change these as appropriate
-url = ''
-apikey = ''
+url = 'http://46.128.43.69:5050'
+apikey = '6798b059-4383-48db-900b-ed95f6a1effe'
 
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
 
@@ -50,7 +50,11 @@ for rec in dict_cur.fetchall():
     dataset_dict['extras'] = []
     for key in extras:
         if rec[key] is not None:
-            dataset_dict['extras'].append({'key': key, 'value': rec[key]})
+            if type(rec[key]) is dict:
+                value = json.dumps(rec[key])
+            else:
+                value = rec[key]
+            dataset_dict['extras'].append({'key': key, 'value': value})
     data_string = urllib.quote(json.dumps(dataset_dict))
     request = urllib2.Request(url +'/api/3/action/organization_create')
     request.add_header('Authorization', apikey)
