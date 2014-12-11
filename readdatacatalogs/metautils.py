@@ -539,7 +539,7 @@ def convert_crawl_row(row, source):
             beschreibung = ' - ' + row['Beschreibung']
         row['Beschreibung'] = row['URL_Dateiname'] + beschreibung
     #Bing doesn't have parents
-    if 'URL_PARENT' not in row.keys():
+    if not any ('PARENT' in t.upper() for t in row.keys()):
         row['URL PARENT'] = ''
     #Crawls do, however, have the title of the parent page
     if 'Title_PARENT' in row.keys():

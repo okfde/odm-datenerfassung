@@ -12,7 +12,7 @@ from dbsettings import settings
 
 validsources = ('m', 'd', 'c', 'g', 'b')
 
-#Change if not importing from crawled data
+#Change if not importing from crawled data and data does not have a 'Quelle' column
 unknownsource = 'c'
 
 def reformatdata(cityname, accepted, multiCity = False):    
@@ -123,7 +123,7 @@ elif len(sys.argv) == 1:
                   durl = "https://docs.google.com/spreadsheets/d/" + erfassungkey + "/export?gid=" + row[gidcolumn] + "&format=csv"
                   print "Downloading data for " + row[kurznamecolumn] + " using url " + durl + "..."
                   urllib.urlretrieve (durl, row[kurznamecolumn] + ".csv");
-                  reformatdata(row[kurznamecolumn])
+                  reformatdata(row[kurznamecolumn], True)
               else:
                   print "No gid for this city, please check spreadsheet"
 else:
