@@ -106,7 +106,7 @@ metautils.setsettings(settings)
 #Remove this catalog's data
 metautils.removeDataFromPortal(portalname)
 #Add data
-metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True)
+metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True, remove_data=True)
 
 
 

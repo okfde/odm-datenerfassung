@@ -129,4 +129,4 @@ elif cityimport == 'rostock':
     #Remove this catalog's data
     metautils.removeDataFromPortal('opendata-hro.de')
     #Add data, checking that used cities are in RLP
-    metautils.addDataToDB(datafordb=datafordb, originating_portal='opendata-hro.de', checked=True, accepted=True)
+    metautils.addDataToDB(datafordb=datafordb, originating_portal='opendata-hro.de', checked=True, accepted=True, remove_data=True)
