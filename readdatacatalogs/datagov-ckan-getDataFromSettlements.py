@@ -130,6 +130,6 @@ metautils.addCities(uniquecities, None)
 #Remove this catalog's data
 metautils.removeDataFromPortal(portal)
 #Add data
-metautils.addDataToDB(datafordb=datafordb, originating_portal=portal, checked=True, accepted=True)
+metautils.addDataToDB(datafordb=datafordb, originating_portal=portal, checked=True, accepted=True, remove_data=True)
 
 

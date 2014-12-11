@@ -320,7 +320,7 @@ metautils.setsettings(settings)
 #Remove this catalog's data
 metautils.removeDataFromPortal('daten.ulm.de')
 #Add data
-metautils.addDataToDB(datafordb=datafordb, originating_portal='daten.ulm.de', checked=True, accepted=True)
+metautils.addDataToDB(datafordb=datafordb, originating_portal='daten.ulm.de', checked=True, accepted=True, remove_data=True)
 
 
                     
