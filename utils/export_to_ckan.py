@@ -81,7 +81,9 @@ def ckanCreate(url, apikey, rec):
     try:
         response = urllib2.urlopen(request, data_string)
     except:
-        print 'ERROR Failed to create: \n' + dataset_dict['title'] + ', ' + dataset_dict['url']
+        print 'ERROR Failed to create:'
+        pprint.pprint(dataset_dict)
+        raw_input("Press Enter to continue...")
     #response_dict = json.loads(response.read())
     #created_package = response_dict['result']
     #pprint.pprint(created_package)

@@ -13,13 +13,13 @@ metautils.setsettings(settings)
 #Run prior to importing data
 
 #Change these as appropriate
-url = 'http://46.128.43.69:5050'
-apikey = '6798b059-4383-48db-900b-ed95f6a1effe'
+url = ''
+apikey = ''
 
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
 
 #Create step. Failures are OK if the city already exists
-dict_cur.execute("SELECT city_shortname FROM cities")
+dict_cur.execute("SELECT DISTINCT city_shortname FROM cities INNER JOIN data ON data.city = cities.city_shortname WHERE data.accepted=%s", (True, ))
 
 for rec in dict_cur.fetchall():
     dataset_dict = {}
