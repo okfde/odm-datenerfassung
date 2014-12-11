@@ -92,7 +92,7 @@ datafordb = []
 for package in groups:
     if cityname == 'hamburg':
         #Only take 'open data'
-        if package['type'] != 'dataset':
+        if package['type'] != 'dataset' or 'forward-reference' in package['title']:
             continue
     resources = []
     formats = set()
@@ -126,7 +126,6 @@ for package in groups:
     row[u'Stadt'] = cityname
     row[u'Dateibezeichnung'] = package['title']
     row[u'files'] = files
-    
     if cityname == 'hamburg' or cityname == 'koeln' or cityname == 'frankfurt' or cityname == 'aachen':
         if cityname == 'hamburg' or cityname == 'frankfurt' or cityname == 'aachen':
             licensekey = 'license_id'
@@ -160,9 +159,11 @@ for package in groups:
                 for extra in package['extras']:
                     if extra['key'] == 'contacts':
                         print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
-        for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
+	for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
             odm_cats = metautils.govDataLongToODM(group)
-            metautils.setcats(row, odm_cats)    
+	    metautils.setcats(row, odm_cats)    
+	    if row['Noch nicht kategorisiert'] == 'x':
+                print 'WARNING! A data catalog entry is not categorised, this shouldn\'t be possible'
     #Bonn is just different enough to do it separately. TODO: Consider combining into above.
     elif cityname == 'bonn':
         row[u'URL PARENT'] = package['accessURL']
@@ -188,5 +189,5 @@ metautils.setsettings(settings)
 portalname = metautils.getCityOpenDataPortal(cityname)
 metautils.removeDataFromPortal(portalname)
 #Add data
-metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True)
+metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True, remove_data=True)
 

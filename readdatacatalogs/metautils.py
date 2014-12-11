@@ -278,6 +278,7 @@ def addCrawlDataToDB(datafordb = [], checked=False, accepted=False):
 #If accepted == True then inter source deduplification has been performed
 def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checked=False, accepted=False, remove_data=False):
     if remove_data:
+        print 'Removing data for ' + originating_portal
         removeDataFromPortal(originating_portal)
         
     cur = getDBCursor(settings)
@@ -392,7 +393,6 @@ def addDataToDB(datafordb = [], bundesland=None, originating_portal=None, checke
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
             row['open'], row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], json.dumps(row[u'metadata']), row[u'metadata_xml'], row['URL'])
             )
-        
         #If the city doesn't exist yet, this gets done when the city gets added 
         cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['Stadt'],))
             
@@ -580,7 +580,7 @@ def long_license_to_short(licensetext):
     return licensetext
     
 def isopen(licensetext):
-    if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0", "CC BY-NC-SA 3.0 DE") for licensetexttest in (licensetext.lower(), licensetext.upper())):
+    if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0", "CC BY-NC-SA 3.0 DE", u"gnu-lizenz für freie dokumentation") for licensetexttest in (licensetext.lower(), licensetext.upper())):
         return True
     elif licensetext.lower() in ("other-closed", u"andere eingeschränkte lizenzen"):
         return False
