@@ -24,7 +24,19 @@ for cat in categories:
 
 csvwriter.writerow(genresults)
 
-indcities = ('bremen', 'hamburg', 'berlin', 'badenwuerttemberg')
+sources = ('m', 'd', 'c', 'b', 'g')
+for source in sources:
+    sourcerow = ['Source: ' + source]
+    csvwriter.writerow(sourcerow)
+    
+    srcresults = []
+    for cat in categories:
+        cur.execute('select count(url) as res from data where categories@>ARRAY[%s] and accepted = %s and source = %s', (cat, True, source))
+        srcresults.append(cur.fetchall()[0]['res'])
+        
+    csvwriter.writerow(srcresults)
+
+indcities = ('bremen', 'hamburg', 'berlin', 'badenwuerttemberg', 'rheinlandpfalz')
 
 for city in indcities:
     citrow = [city]
