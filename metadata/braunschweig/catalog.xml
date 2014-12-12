@@ -1,7 +1,7 @@
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
   <csw:RequestId/>
   <csw:SearchStatus/>
-  <csw:SearchResults numberOfRecordsMatched="150" numberOfRecordsReturned="150">
+  <csw:SearchResults numberOfRecordsMatched="151" numberOfRecordsReturned="151">
     <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">60167db3-c6e1-4cab-92ad-23cd365ba3ad</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bewertung bebauter Grundst&#252;cke im Stadtgebiet Braunschweig</dc:title>
@@ -3411,6 +3411,37 @@ Bei der &#220;bersicht handelt es sich um eine Anwendung, die f&#252;r den inter
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
       <dct:created xmlns:dct="http://purl.org/dc/terms/">2010-02-03</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">5ee9f608-c40e-469d-b394-a56daca21687</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Luftbilder - Digitale Orthofotos der Stadt Braunschweig aus dem Bildflug 2014</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Topographie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Stadtplanung und -entwicklung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Geographie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Bodenbedeckung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Orthofotografie</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umwelt&#252;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Luftbild</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Luftbildfotographie</dc:subject>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">TIFF</dc:format>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-12-11</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">In einer digitalen Befliegung am 30. M&#228;rz 2014 wurden aus einem Flugzeug hunderte von Einzelbildern senkrecht aufgenommen. Die hochaufl&#246;senden Aufnahmen wurden digital entzerrt und anhand von GPS-Daten passgenau zusammengef&#252;gt.
+Dieses Luftbildmosaik des Stadtgebietes kann mit Karten &#252;berlagert werden. Es ist m&#246;glich darauf Strecken zu messen und Fl&#228;chen zu berechnen.
+
+
+In einer geringeren Aufl&#246;sung pr&#228;sentiert die Abteilung Geoinformation diese Luftbilder am Braunschweiger Internetstadtplan.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:coverage xmlns:dc="http://purl.org/dc/elements/1.1/"/>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Nutzungsvereinbarungen erforderlich</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">otherRestrictions</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-03-30</dct:created>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
         <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
