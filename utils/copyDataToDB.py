@@ -10,13 +10,17 @@ import metautils
 
 from dbsettings import settings
 
-validsources = ('m', 'd', 'c', 'g', 'b')
+generalvalidsources = ('m', 'd', 'c', 'g', 'b')
 
 #Change if not importing from crawled data and data does not have a 'Quelle' column
 unknownsource = 'c'
 
-def reformatdata(cityname, accepted, multiCity = False):    
+def reformatdata(cityname, accepted, overridevalidsources, multiCity = False):    
     dictsdata = dict()
+    if overridevalidsources is not None:
+        validsources = overridevalidsources
+    else:
+        validsources = generalvalidsources
 
     with open(cityname + '.csv', 'rb') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
@@ -27,9 +31,12 @@ def reformatdata(cityname, accepted, multiCity = False):
             row = metautils.convert_crawl_row(row, unknownsource)
             
             source = row['Quelle'].strip()
-            if source not in validsources:
+            if source not in generalvalidsources:
                 print 'Error: data has missing or unrecognised source(s): ' + source
                 exit()
+            elif source not in validsources:
+                print 'Ignoring row with source: ' + source
+                continue
             else:
                 if source not in dictsdata:
                     dictsdata[source] = []
@@ -99,7 +106,7 @@ if len(sys.argv) > 3:
     reformatdata('tempsheet', accepted, multiCity = True)
                   
 elif len(sys.argv) == 1:
-    print 'Downloading all data specified in index (DEPRECATED!)'
+    print 'Downloading all CRAWL and MANUAL data specified in index'
     kurznamecolumn = 'kurzname'
     gidcolumn = 'GID in Datenerfassung'
 
@@ -123,7 +130,7 @@ elif len(sys.argv) == 1:
                   durl = "https://docs.google.com/spreadsheets/d/" + erfassungkey + "/export?gid=" + row[gidcolumn] + "&format=csv"
                   print "Downloading data for " + row[kurznamecolumn] + " using url " + durl + "..."
                   urllib.urlretrieve (durl, row[kurznamecolumn] + ".csv");
-                  reformatdata(row[kurznamecolumn], True)
+                  reformatdata(row[kurznamecolumn], True, ('c', 'm'))
               else:
                   print "No gid for this city, please check spreadsheet"
 else:
