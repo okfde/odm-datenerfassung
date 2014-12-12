@@ -2,6 +2,7 @@ import urllib2
 import urllib
 import json
 import pprint
+import os
 
 import metautils
 
@@ -12,9 +13,8 @@ metautils.setsettings(settings)
 #This is a one time operation to create organisations based on the originating portal in ODM DB
 #Run prior to importing data
 
-#Change these as appropriate
-url = ''
-apikey = ''
+url = os.environ['CKANURL']
+apikey = os.environ['CKANAPIKEY']
 
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
 

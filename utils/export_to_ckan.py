@@ -5,6 +5,7 @@ import urllib
 import json
 import pprint
 import uuid
+import os
 
 import metautils
 
@@ -15,11 +16,12 @@ metautils.setsettings(settings)
 #This is a one time operation to create data based on the ODM DB
 #Updates should be done using harvesters
 
-url = ''
-apikey = ''
+url = os.environ['CKANURL']
+apikey = os.environ['CKANAPIKEY']
 
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
-dict_cur.execute("SELECT * FROM data")
+#TEMPORARY! EXCLUDE BW TO TEST HARVESTER
+dict_cur.execute("SELECT * FROM data WHERE originating_portal NOT LIKE %s", ('opendata.service-bw.de',))
 
 def category_to_group(groupname):
     # maybe some other id
