@@ -87,7 +87,7 @@ def reformatdata(cityname, accepted, overridevalidsources, multiCity = False):
     
     for row in takenrows.values():   
         dataForDB.append(row)
-        
+    print 'Adding ' + str(len(dataForDB)) + ' rows to DB'    
     metautils.addCrawlDataToDB(datafordb=dataForDB, accepted=accepted, checked=checked)
 
 metautils.setsettings(settings)

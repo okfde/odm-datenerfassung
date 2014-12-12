@@ -251,7 +251,8 @@ def addCrawlDataToDB(datafordb = [], checked=False, accepted=False):
     mapping['publisher'] = u'Veröffentlichende Stelle'
     
     cur = getDBCursor(settings)
-    
+    cur.execute("UPDATE data set fresh = %s where fresh is %s", (False,True))
+
     for row in datafordb:
         row['formats'] = csvtoarray(row['Format'].upper())
         
@@ -270,21 +271,21 @@ def addCrawlDataToDB(datafordb = [], checked=False, accepted=False):
         
         #We have .de etc. at the end of every city
         row['cityname'] = row[mapping['city']][0:len(row[mapping['city']].split('.')[0])]
-
-        cur.execute("INSERT INTO data \
-            (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, date_added) \
-            SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW() \
-            WHERE NOT EXISTS ( \
-                SELECT url FROM data WHERE url = %s \
-            )",
-            (row['cityname'], row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
+        cur.execute("SELECT url FROM data WHERE url = %s", (row['URL'],))
+	num = len(cur.fetchall())
+	if num == 0:
+	    cur.execute("INSERT INTO data \
+                (city, source, url, title, formats, description, temporalextent, licenseshort, costs, publisher, spatial, categories, checked, accepted, filelist, date_added, fresh) \
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), %s)",
+                (row['cityname'], row[mapping['source']].strip(), row['URL'], row[mapping['title']].strip(),
             row['formats'], row[mapping['description']].strip(), row[mapping['temporalextent']].strip(),
             row[mapping['licenseshort']].strip(), row[mapping['costs']].strip(),
-            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], row['URL'])
+            row[mapping['publisher']].strip(), geo, categories, checked, accepted, row['filenames'], True)
             )
- 
-        cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['cityname'],))
-            
+         
+            cur.execute("UPDATE cities SET last_updated = current_date WHERE city_shortname = %s", (row['cityname'],))
+        else:
+	    print 'WARNING: ' + row['URL'] + ' already exists in DB'
     dbCommit()
 
 #General purpose addition of data in Google Spreadsheets format to the DB

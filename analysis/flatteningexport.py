@@ -11,7 +11,7 @@ csvwriter = unicodecsv.writer(csvfile)
 
 cur = metautils.getDBCursor(settings, dictCursor = True)
 cur.execute('select distinct unnest(categories) as cat from data')
-columns = ['city', 'source', 'formats', 'license']
+columns = ['city', 'source', 'formats', 'license', 'filelist', 'num. files']
 categories = []
 for catrow in cur.fetchall():
     categories.append(catrow['cat'])
@@ -20,9 +20,9 @@ columns.extend(categories)
 
 csvwriter.writerow(columns)
 
-cur.execute('select city, source, formats, licenseshort, categories from data where accepted = %s', (True,))
+cur.execute('select city, source, formats, licenseshort, filelist, categories from data where accepted = %s', (True,))
 for res in cur.fetchall():
-    row = [res['city'], res['source'], metautils.arraytocsv(res['formats']), res['licenseshort']]
+    row = [res['city'], res['source'], metautils.arraytocsv(res['formats']), res['licenseshort'], metautils.arraytocsv(res['filelist']), str(len(res['filelist']))]
     for el in categories:
         if el in res['categories']:
             row.append('x')
