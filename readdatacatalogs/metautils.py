@@ -94,6 +94,20 @@ def markCityAsUpdated(city_shortname):
     cur.execute("UPDATE cities SET last_update = current_date WHERE city_shortname = %s)", (city_shortname,))
     dbCommit()
     
+def convertOldCategories():
+    #This is a simple copy of the queries in TransferCategories.sql
+    #It should be followed by a removal of the old categories (see below)
+    cur = getDBCursor(settings)
+    cur.execute("UPDATE data set categories = array_append(categories, 'Geographie, Geologie und Geobasisdaten') WHERE categories @> ARRAY['Stadtentwicklung und Bebauung']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Infrastruktur, Bauen und Wohnen') WHERE categories @> ARRAY['Stadtentwicklung und Bebauung'] or categories @> ARRAY['Wohnen und Immobilien'] or categories @> ARRAY['Energie, Ver- und Entsorgung']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Kultur, Freizeit, Sport, Tourismus') WHERE categories @> ARRAY['Kunst und Kultur'] or categories @> ARRAY['Sport und Freizeit'] or categories @> ARRAY['Tourismus']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Soziales') WHERE categories @> ARRAY['Sozialleistungen']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Umwelt und Klima') WHERE categories @> ARRAY['Umwelt']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Öffentliche Verwaltung, Haushalt und Steuern') WHERE categories @> ARRAY['Haushalt und Steuern'] or categories @> ARRAY['Öffentl. Sicherheit']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Wirtschaft und Arbeit') WHERE categories @> ARRAY['Arbeitsmarkt'] or categories @> ARRAY['Land- und Forstwirtschaft'] or categories @> ARRAY['Wirtschaft und Wirtschaftsförderung']")
+    cur.execute("UPDATE data set categories = array_append(categories, 'Verbraucherschutz') WHERE categories @> ARRAY['Verbraucher']")
+    dbCommit()
+    
 def removeUnknownCategories():
     cur = getDBCursor(settings)
     cur.execute("SELECT url, categories FROM data")

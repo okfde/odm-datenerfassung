@@ -81,6 +81,9 @@ for result in citieswithportals:
 print '\nChecking if all cities with data have coordinates...'
 metautils.updateCitiesWithLatLong()
 
+print '\nTransferring old categories...'
+metautils.convertOldCategories()
+
 print '\nRemoving unknown categories...'
 metautils.removeUnknownCategories()
         
