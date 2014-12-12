@@ -31,10 +31,6 @@ def processfile(url):
             
     return results
 
-#Key for the sheet with 'final' results, although they are still allowed to include overlaps...
-vkey = '1dRTL0fuXYxHDx6R7uW6l6ys1_Hw3s4yYFZD_3TjP2Fk'
-#Key for the sheet with lists of files from data catalogs
-kkey = '1tkKGeQqlx9YTLlwGiGhkYEG-kswTkQlSp7Kcj6J0Eh4'
 removeparameters = False
 
 googleurl = urllib.urlopen('https://docs.google.com/spreadsheets/d/' + '1AdzjwLPuSXQg3Wg7DB1F-syuCGddPoy6ay6NfbVjWws' + '/export?single=true&gid=' + '879531375' + '&format=csv')

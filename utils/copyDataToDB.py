@@ -103,10 +103,10 @@ if len(sys.argv) > 3:
         accepted = False
     else:
         print 'Please state a third argument accepted|rejected. Remember that data of existing URLs will NOT be overwritten, and that the value may be overwritten by DB checks for duplicates etc.'
-    reformatdata('tempsheet', accepted, multiCity = True)
+    reformatdata('tempsheet', accepted, None, multiCity = True)
                   
 elif len(sys.argv) == 1:
-    print 'Downloading all CRAWL and MANUAL data specified in index'
+    print 'Importing all data specified in index'
     kurznamecolumn = 'kurzname'
     gidcolumn = 'GID in Datenerfassung'
 
@@ -130,7 +130,7 @@ elif len(sys.argv) == 1:
                   durl = "https://docs.google.com/spreadsheets/d/" + erfassungkey + "/export?gid=" + row[gidcolumn] + "&format=csv"
                   print "Downloading data for " + row[kurznamecolumn] + " using url " + durl + "..."
                   urllib.urlretrieve (durl, row[kurznamecolumn] + ".csv");
-                  reformatdata(row[kurznamecolumn], True, ('c', 'm'))
+                  reformatdata(row[kurznamecolumn], True, None)
               else:
                   print "No gid for this city, please check spreadsheet"
 else:
