@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
 import re
+import itertools
 from lxml import html
 import metautils
 from dbsettings import settings
 
+
 portalname = u'opendata.bayern.de'
 
 category_to_odm_map = {
-    u'Öffentliche Verwaltung, Haushalt und Steuern'  : u'Öffentliche Verwaltung, Haushalt und Steuern',
-    'Bildung und Wissenschaft'                       : u'Bildung und Wissenschaft',
-    'Verkehr'                                        : u'Transport und Verkehr',
-    'Handwerk, Gewerbe, Industrie und Landwirtschaft': u'Wirtschaft und Arbeit',
-    'Klima, Umwelt und Natur '                       : u'Umwelt und Klima',
-    'Politik, Medien und Gesellschaft'               : u'Politik und Wahlen',
-    'Menschen, Familie und Soziales'                 : u'Soziales',
-    'Freizeit, Kultur und Tourismus'                 : u'Kultur, Freizeit, Sport, Tourismus',
-    u'Wohnen, Grundstück und Flächennutzung'         : u'Infrastruktur, Bauen und Wohnen'}
+    u'Öffentliche Verwaltung, Haushalt und Steuern'  : [u'Öffentliche Verwaltung, Haushalt und Steuern'],
+    'Bildung und Wissenschaft'                       : [u'Bildung und Wissenschaft'],
+    'Verkehr'                                        : [u'Transport und Verkehr'],
+    'Handwerk, Gewerbe, Industrie und Landwirtschaft': [u'Wirtschaft und Arbeit'],
+    'Klima, Umwelt und Natur '                       : [u'Umwelt und Klima'],
+    'Politik, Medien und Gesellschaft'               : [u'Politik und Wahlen'],
+    'Menschen, Familie und Soziales'                 : [u'Soziales', u'Bevölkerung'],
+    'Freizeit, Kultur und Tourismus'                 : [u'Kultur, Freizeit, Sport, Tourismus'],
+    u'Wohnen, Grundstück und Flächennutzung'         : [u'Infrastruktur, Bauen und Wohnen']}
 
 
 def search_results_urls(n):
@@ -82,7 +84,8 @@ def import_data(d):
     d['formats'] = []
     d['metadata'] = ''
     d['metadata_xml'] = None
-    d['categories'] = map(lambda c: category_to_odm_map[c], d['categories'])
+    d['categories'] = list(itertools.chain(* map(lambda c: category_to_odm_map[c], d['categories'])))
+    print d['categories']
     d['open'] = d['nutzungsbedingungen'] == \
                 'Die Weiterverwendung der Daten ist frei.'
     d['licenseshort'] = get_license(d['lizenzhinweise'], d['nutzungsbedingungen'])
