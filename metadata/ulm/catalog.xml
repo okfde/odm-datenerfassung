@@ -24929,7 +24929,7 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>895633c7ad9105b2fce0d3124eaa92dc34abdc51</gco:CharacterString>
+		<gco:CharacterString>ba61ad2bf378180d7df668786c80e63f2724cf59</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -24988,7 +24988,471 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2013-12-16</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-12-16</gco:DateTime>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>1.2</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>EPSG:31467</gco:CharacterString>
+					 </gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:identificationInfo><gmd:MD_DataIdentification>		<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>Biotopkartierung der Stadt Ulm</gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:DateTime>2002-12-18T00:00:00</gco:DateTime>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeListValue="publication" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"/>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<gmd:identifier>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>http://daten.ulm.de/datenkatalog/metadaten/stadtbiotopkartierung</gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:identifier>
+					<gmd:presentationForm>
+						<gmd:CI_PresentationFormCode codeListValue="mapDigital" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_PresentationFormCode"/>
+					</gmd:presentationForm>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<gmd:abstract>
+				<gco:CharacterString>In der Stadtbiotopkartierung der Stadt Ulm wurde ein eigenes Kartierungskonzept mit botanischem und zoologischem Teil erstellt und danach die Kartierung durchgeführt. Bei der Kartierung wurde nicht das gesamte Stadtgebiet erfasst. Die Stadtbiotopkartierung enthält: flächige Biotope (mit Bewertung (ökologische Bedeutung) von "sanierungsbedürftig" bis "sehr hoch"),  Baumreihen (ohne Bewertung, als Linien), Einzelbäume (ohne Bewertung, als Punkte). Einzelbäume und Baumreihen haben selbst keinen Biotopstatus, wurden aber im Rahmen der ökologischen Fragestellungen als wichtig eingestuft und somit in die Kartierung einbezogen. Die Erstellung einer Stadtbiotopkartierung ist vom Gesetzgeber nicht verpflichtend vorgesehen </gco:CharacterString>
+			</gmd:abstract>
+			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Steffen Layer</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>SUB II: Strategische Planung</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311616112</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161806112</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Münchner Straße 2</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>s.layer@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:pointOfContact>
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeListValue="notPlanned" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode"/>
+					</gmd:maintenanceAndUpdateFrequency>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<gmd:graphicOverview>
+				<gmd:MD_BrowseGraphic>
+					<gmd:fileName>
+						<gco:CharacterString>http://daten.ulm.de/sites/default/files/data_stadtbiotopkartierung_0.jpg</gco:CharacterString>
+					</gmd:fileName>
+					<gmd:fileDescription>
+						<gco:CharacterString>data_stadtbiotopkartierung.jpg</gco:CharacterString>
+					</gmd:fileDescription>
+				</gmd:MD_BrowseGraphic>
+			</gmd:graphicOverview><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Umwelt und Klima</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GOV-Data Kategorien</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Lebensräume und Biotope</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Landschaftsplanung</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Naturschutz</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Obstbau</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>Klassifikation GDI BW</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:resourceConstraints>
+				<gmd:MD_Constraints>
+					<gmd:useLimitation>
+						<gco:CharacterString>keine</gco:CharacterString>
+					</gmd:useLimitation>
+				</gmd:MD_Constraints>
+			</gmd:resourceConstraints>
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<gmd:accessConstraints>
+						<gmd:MD_RestrictionCode codeListValue="restricted" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">Daten derzeit nur stadtintern zugänglich</gmd:MD_RestrictionCode>
+					</gmd:accessConstraints>
+					<gmd:useConstraints>
+						<gmd:MD_RestrictionCode codeListValue="license" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">license</gmd:MD_RestrictionCode>
+					</gmd:useConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>	<gmd:spatialRepresentationType>
+				  <gmd:MD_SpatialRepresentationTypeCode codeListValue="vector" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_SpatialRepresentationTypeCode"/>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialResolution>
+				<gmd:MD_Resolution>
+					<gmd:equivalentScale>
+						<gmd:MD_RepresentativeFraction>
+							<gmd:denominator>
+								<gco:Integer>2500</gco:Integer>
+							</gmd:denominator>
+						</gmd:MD_RepresentativeFraction>
+					</gmd:equivalentScale>
+				</gmd:MD_Resolution>
+			</gmd:spatialResolution>
+			<gmd:language>
+				<gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+			</gmd:language>
+			<gmd:characterSet>
+				<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+			</gmd:characterSet>
+			<gmd:topicCategory>
+				<gmd:MD_TopicCategoryCode>environment</gmd:MD_TopicCategoryCode>
+			</gmd:topicCategory>		<gmd:extent>			<gmd:EX_Extent>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicDescription>
+							<gmd:extentTypeCode>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:extentTypeCode>
+						</gmd:EX_GeographicDescription>
+					</gmd:geographicElement>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox>
+							<gmd:westBoundLongitude>
+								<gco:Decimal>9.8150453</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>10.06272113</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>48.46755175</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>48.29694458</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>		</gmd:extent></gmd:MD_DataIdentification></gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>Shape</gco:CharacterString>
+					</gmd:name></gmd:MD_Format>
+			</gmd:distributionFormat>
+			<gmd:distributor>
+				<gmd:MD_Distributor>
+					<gmd:distributorContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Steffen Layer</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>SUB II: Strategische Planung</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311616112</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161806112</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Münchner Straße 2</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>s.layer@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:distributorContact>
+					<gmd:distributionOrderProcess>
+						<gmd:MD_StandardOrderProcess>
+							<gmd:fees>
+								<gco:CharacterString>-</gco:CharacterString>
+							</gmd:fees>
+						</gmd:MD_StandardOrderProcess>
+					</gmd:distributionOrderProcess>
+				</gmd:MD_Distributor>
+			</gmd:distributor>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeListValue="dataset" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<gmd:statement gco:nilReason="missing">
+						<gco:CharacterString/>
+					</gmd:statement>
+					<gmd:processStep>
+						<gmd:LI_ProcessStep>
+							<gmd:description>
+								<gco:CharacterString>In der Stadtbiotopkartierung der Stadt Ulm wurde ein eigenes Kartierungskonzept mit botanischem und zoologischem Teil erstellt und danach die Kartierung durchgeführt. Die Karten wurden auf einer Flurkarte 1:2500 digitalisiert.</gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_ProcessStep>
+					</gmd:processStep>
+					<gmd:source>
+						<gmd:LI_Source>
+							<gmd:description>
+								<gco:CharacterString>Büro AGL ("Arbeitsgemeinschaft Landschaftsökologie Ulm"), http://www.agl-ulm.de/</gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_Source>
+					</gmd:source>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"
+                                    codeListValue="dataset"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gco:CharacterString>COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata</gco:CharacterString>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2008-12-04</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                         codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gco:CharacterString>not evaluated</gco:CharacterString>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>false</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:metadataMaintenance>
+		<gmd:MD_MaintenanceInformation>
+			<gmd:maintenanceAndUpdateFrequency>
+				<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode" codeListValue="notPlanned"/>
+			</gmd:maintenanceAndUpdateFrequency>
+		</gmd:MD_MaintenanceInformation>
+	</gmd:metadataMaintenance>
+</gmd:MD_Metadata>
+<!--**********************************************************
+*** ISO 19139 geospatial dataset/service metadata record 
+*** based on the GDI-BW v1.2 Profile for ISO 19139
+*** geoinformation+planung - tuebingen
+**********************************************************--><gmd:MD_Metadata
+   xmlns:srv="http://www.isotc211.org/2005/srv"
+   xmlns:gml="http://www.opengis.net/gml/3.2"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:gco="http://www.isotc211.org/2005/gco"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:gmd="http://www.isotc211.org/2005/gmd"
+   xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
+	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
+		<gco:CharacterString>27daed2371873aed9ee7c32b1f9cbf8b43ef0eab</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:language>
+	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+	</gmd:language>
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+	</gmd:characterSet>
+	<gmd:hierarchyLevel>
+	<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+	</gmd:hierarchyLevel><gmd:contact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Lucia Erdt</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>ZS/T: Team IT</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611037</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161808777</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>l.erdt@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<gmd:dateStamp>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-12-16</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -25015,7 +25479,7 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
 					<gmd:date>
 						<gmd:CI_Date>
 							<gmd:date>
-								<gco:DateTime>2013-12-15T00:00:00</gco:DateTime>
+								<gco:DateTime>2014-12-11T00:00:00</gco:DateTime>
 							</gmd:date>
 							<gmd:dateType>
 								<gmd:CI_DateTypeCode codeListValue="publication" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"/>
@@ -25112,7 +25576,7 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2013-12-16</gco:Date>
+										<gco:Date>2014-12-16</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -25133,7 +25597,7 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2013-12-16</gco:Date>
+										<gco:Date>2014-12-16</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -25154,7 +25618,7 @@ Keine Gewähr auf Vollständigkeit und Richtigkeit für die Daten von November 2
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2013-12-16</gco:Date>
+										<gco:Date>2014-12-16</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -51588,6 +52052,936 @@ Aus den Tabellen können die einzelnen ordentlichen Erträge und Aufwendungen bz
 		<gmd:MD_MaintenanceInformation>
 			<gmd:maintenanceAndUpdateFrequency>
 				<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode" codeListValue="annually"/>
+			</gmd:maintenanceAndUpdateFrequency>
+		</gmd:MD_MaintenanceInformation>
+	</gmd:metadataMaintenance>
+</gmd:MD_Metadata>
+<!--**********************************************************
+*** ISO 19139 geospatial dataset/service metadata record 
+*** based on the GDI-BW v1.2 Profile for ISO 19139
+*** geoinformation+planung - tuebingen
+**********************************************************--><gmd:MD_Metadata
+   xmlns:srv="http://www.isotc211.org/2005/srv"
+   xmlns:gml="http://www.opengis.net/gml/3.2"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:gco="http://www.isotc211.org/2005/gco"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:gmd="http://www.isotc211.org/2005/gmd"
+   xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
+	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
+		<gco:CharacterString>3baa2e434c90a8bd2d72ac34b1a6598a0f82693a</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:language>
+	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+	</gmd:language>
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+	</gmd:characterSet>
+	<gmd:hierarchyLevel>
+	<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+	</gmd:hierarchyLevel><gmd:contact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Lucia Erdt</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>ZS/T: Team IT</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611037</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161808777</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>l.erdt@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<gmd:dateStamp>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-12-16</gco:DateTime>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>1.2</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>EPSG:31467</gco:CharacterString>
+					 </gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:identificationInfo><gmd:MD_DataIdentification>		<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>Kindergärten/Kindertagesstätten in Ulm</gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:DateTime>2014-11-3T00:00:00</gco:DateTime>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeListValue="publication" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"/>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<gmd:identifier>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>http://daten.ulm.de/datenkatalog/metadaten/kitas</gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:identifier>
+					<gmd:presentationForm>
+						<gmd:CI_PresentationFormCode codeListValue="mapDigital" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_PresentationFormCode"/>
+					</gmd:presentationForm>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<gmd:abstract>
+				<gco:CharacterString>Dieser Geodatensatz enthält die Kindergärten/Kindertageseinrichtungen von Ulm. Die Geodaten enthalten in den Sachdaten die Straße und Hausnummer, Trägerschaft (katholisch, evangelisch, städtisch, Freier Träger), einen Link zu weiterführenden Informationen aus dem Kita-Portal. Für die Weiternutzung der Geodaten wurden WGS-84-Koordinaten der Kitas in die Sachdaten integriert. 
+</gco:CharacterString>
+			</gmd:abstract>
+			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Lucia Erdt</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>ZS/T: Team IT</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611037</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161808777</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>l.erdt@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:pointOfContact>
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeListValue="irregular" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode"/>
+					</gmd:maintenanceAndUpdateFrequency>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<gmd:graphicOverview>
+				<gmd:MD_BrowseGraphic>
+					<gmd:fileName>
+						<gco:CharacterString>http://daten.ulm.de/sites/default/files/data_kitas.jpg</gco:CharacterString>
+					</gmd:fileName>
+					<gmd:fileDescription>
+						<gco:CharacterString>data_kitas.jpg</gco:CharacterString>
+					</gmd:fileDescription>
+				</gmd:MD_BrowseGraphic>
+			</gmd:graphicOverview><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Bildung und Wissenschaft</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Soziales</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GOV-Data Kategorien</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Bodennutzung</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Raumordnung Landesplanung, Regionalplanung</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>Klassifikation GDI BW</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:resourceConstraints>
+				<gmd:MD_Constraints>
+					<gmd:useLimitation>
+						<gco:CharacterString>keine</gco:CharacterString>
+					</gmd:useLimitation>
+				</gmd:MD_Constraints>
+			</gmd:resourceConstraints>
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<gmd:accessConstraints>
+						<gmd:MD_RestrictionCode codeListValue="restricted" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">keine</gmd:MD_RestrictionCode>
+					</gmd:accessConstraints>
+					<gmd:useConstraints>
+						<gmd:MD_RestrictionCode codeListValue="license" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">license</gmd:MD_RestrictionCode>
+					</gmd:useConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>	<gmd:spatialRepresentationType>
+				  <gmd:MD_SpatialRepresentationTypeCode codeListValue="vector" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_SpatialRepresentationTypeCode"/>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialResolution>
+				<gmd:MD_Resolution>
+					<gmd:equivalentScale>
+						<gmd:MD_RepresentativeFraction>
+							<gmd:denominator>
+								<gco:Integer>1000</gco:Integer>
+							</gmd:denominator>
+						</gmd:MD_RepresentativeFraction>
+					</gmd:equivalentScale>
+				</gmd:MD_Resolution>
+			</gmd:spatialResolution>
+			<gmd:language>
+				<gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+			</gmd:language>
+			<gmd:characterSet>
+				<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+			</gmd:characterSet>
+			<gmd:topicCategory>
+				<gmd:MD_TopicCategoryCode>society</gmd:MD_TopicCategoryCode>
+			</gmd:topicCategory>		<gmd:extent>			<gmd:EX_Extent>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicDescription>
+							<gmd:extentTypeCode>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:extentTypeCode>
+						</gmd:EX_GeographicDescription>
+					</gmd:geographicElement>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox>
+							<gmd:westBoundLongitude>
+								<gco:Decimal>9.8150453</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>10.06272113</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>48.46755175</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>48.29694458</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>		</gmd:extent></gmd:MD_DataIdentification></gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>Shape</gco:CharacterString>
+					</gmd:name></gmd:MD_Format>
+			</gmd:distributionFormat>
+			<gmd:distributor>
+				<gmd:MD_Distributor>
+					<gmd:distributorContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Lucia Erdt</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>ZS/T: Team IT</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611037</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>0731161808777</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>l.erdt@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:distributorContact>
+					<gmd:distributionOrderProcess>
+						<gmd:MD_StandardOrderProcess>
+							<gmd:fees>
+								<gco:CharacterString>-</gco:CharacterString>
+							</gmd:fees>
+						</gmd:MD_StandardOrderProcess>
+					</gmd:distributionOrderProcess>
+				</gmd:MD_Distributor>
+			</gmd:distributor>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeListValue="dataset" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<gmd:statement gco:nilReason="missing">
+						<gco:CharacterString/>
+					</gmd:statement>
+					<gmd:processStep>
+						<gmd:LI_ProcessStep>
+							<gmd:description>
+								<gco:CharacterString>Händische Nachbearbeitung der Adressen, damit Georeferenzierung möglich ist. Manuelles Setzen von Kitas, die keine amtliche Adresse haben (z.B. Waldkindergarten)</gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_ProcessStep>
+					</gmd:processStep>
+					<gmd:source>
+						<gmd:LI_Source>
+							<gmd:description>
+								<gco:CharacterString>Export der Adressen aus dem Kitaportal der Stadt Ulm. </gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_Source>
+					</gmd:source>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"
+                                    codeListValue="dataset"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gco:CharacterString>COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata</gco:CharacterString>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2008-12-04</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                         codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gco:CharacterString>not evaluated</gco:CharacterString>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>false</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:metadataMaintenance>
+		<gmd:MD_MaintenanceInformation>
+			<gmd:maintenanceAndUpdateFrequency>
+				<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode" codeListValue="irregular"/>
+			</gmd:maintenanceAndUpdateFrequency>
+		</gmd:MD_MaintenanceInformation>
+	</gmd:metadataMaintenance>
+</gmd:MD_Metadata>
+<!--**********************************************************
+*** ISO 19139 geospatial dataset/service metadata record 
+*** based on the GDI-BW v1.2 Profile for ISO 19139
+*** geoinformation+planung - tuebingen
+**********************************************************--><gmd:MD_Metadata
+   xmlns:srv="http://www.isotc211.org/2005/srv"
+   xmlns:gml="http://www.opengis.net/gml/3.2"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:gco="http://www.isotc211.org/2005/gco"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:gmd="http://www.isotc211.org/2005/gmd"
+   xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
+	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
+		<gco:CharacterString>8d9ba90c868439de441401d7b8c5626bf5189f52</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:language>
+	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+	</gmd:language>
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+	</gmd:characterSet>
+	<gmd:hierarchyLevel>
+	<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+	</gmd:hierarchyLevel><gmd:contact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Birte Schwenkenbecher</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>ZS/T: Team IT</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611037</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString></gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>b.schwenkenbecher@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<gmd:dateStamp>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2014-12-16</gco:DateTime>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>1.2</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>EPSG:31467</gco:CharacterString>
+					 </gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:identificationInfo><gmd:MD_DataIdentification>		<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>Ulmer Spazierwege</gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:DateTime>2010-06-30T00:00:00</gco:DateTime>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeListValue="publication" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"/>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<gmd:identifier>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>http://daten.ulm.de/datenkatalog/metadaten/ulmer-spazierwege</gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:identifier>
+					<gmd:presentationForm>
+						<gmd:CI_PresentationFormCode codeListValue="mapDigital" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_PresentationFormCode"/>
+					</gmd:presentationForm>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<gmd:abstract>
+				<gco:CharacterString>Im Stadtgebiet Ulm gibt es eine Vielzahl an Spazier- und Wanderwegen. Hier finden Sie einige Routenvorschläge. Mit enthalten sind die 60 Spazierwege aus dem Spazierwegeführer Unterwegs in Ulm, der von der Stadt Ulm - Lokale Agenda Ulm 21 - heraus gegeben wurde. Über die Infoabfrage können weitere Informationen zur Lage und weiterführenden Links abgerufen werden.
+Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gco:CharacterString>
+			</gmd:abstract>
+			<gmd:pointOfContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Petra Schmitz</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>Bereich OB</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611015</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString></gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>p.schmitz@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:pointOfContact>
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeListValue="notPlanned" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode"/>
+					</gmd:maintenanceAndUpdateFrequency>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<gmd:graphicOverview>
+				<gmd:MD_BrowseGraphic>
+					<gmd:fileName>
+						<gco:CharacterString>http://daten.ulm.de/sites/default/files/UIU_Wege.jpg</gco:CharacterString>
+					</gmd:fileName>
+					<gmd:fileDescription>
+						<gco:CharacterString>UIU_Wege.jpg</gco:CharacterString>
+					</gmd:fileDescription>
+				</gmd:MD_BrowseGraphic>
+			</gmd:graphicOverview><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Kultur, Freizeit, Sport und Tourismus</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Transport und Verkehr</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GOV-Data Kategorien</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Bodennutzung</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:descriptiveKeywords><gmd:MD_Keywords><gmd:keyword><gco:CharacterString>Kartographie</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Tourismus und Freizeit</gco:CharacterString></gmd:keyword><gmd:keyword><gco:CharacterString>Verkehr</gco:CharacterString></gmd:keyword><gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="theme" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"/>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>Klassifikation GDI BW</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2014-12-16</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords><gmd:resourceConstraints>
+				<gmd:MD_Constraints>
+					<gmd:useLimitation>
+						<gco:CharacterString>Unterliegt lizenzrechtlichen Bestimmungen</gco:CharacterString>
+					</gmd:useLimitation>
+				</gmd:MD_Constraints>
+			</gmd:resourceConstraints>
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<gmd:accessConstraints>
+						<gmd:MD_RestrictionCode codeListValue="restricted" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">keine</gmd:MD_RestrictionCode>
+					</gmd:accessConstraints>
+					<gmd:useConstraints>
+						<gmd:MD_RestrictionCode codeListValue="license" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode">license</gmd:MD_RestrictionCode>
+					</gmd:useConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>	<gmd:spatialRepresentationType>
+				  <gmd:MD_SpatialRepresentationTypeCode codeListValue="vector" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_SpatialRepresentationTypeCode"/>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialResolution>
+				<gmd:MD_Resolution>
+					<gmd:equivalentScale>
+						<gmd:MD_RepresentativeFraction>
+							<gmd:denominator>
+								<gco:Integer>10000</gco:Integer>
+							</gmd:denominator>
+						</gmd:MD_RepresentativeFraction>
+					</gmd:equivalentScale>
+				</gmd:MD_Resolution>
+			</gmd:spatialResolution>
+			<gmd:language>
+				<gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
+			</gmd:language>
+			<gmd:characterSet>
+				<gmd:MD_CharacterSetCode codeListValue="utf-8" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode">utf-8</gmd:MD_CharacterSetCode>
+			</gmd:characterSet>
+			<gmd:topicCategory>
+				<gmd:MD_TopicCategoryCode>imageryBaseMapsEarthCover</gmd:MD_TopicCategoryCode>
+			</gmd:topicCategory>		<gmd:extent>			<gmd:EX_Extent>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicDescription>
+							<gmd:extentTypeCode>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:extentTypeCode>
+						</gmd:EX_GeographicDescription>
+					</gmd:geographicElement>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox>
+							<gmd:westBoundLongitude>
+								<gco:Decimal>9.8150453</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>10.06272113</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>48.46755175</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>48.29694458</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>		</gmd:extent></gmd:MD_DataIdentification></gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>AI</gco:CharacterString>
+					</gmd:name></gmd:MD_Format>
+			</gmd:distributionFormat>
+			<gmd:distributor>
+				<gmd:MD_Distributor>
+					<gmd:distributorContact>	<gmd:CI_ResponsibleParty>
+			<gmd:individualName>
+				<gco:CharacterString>Petra Schmitz</gco:CharacterString>
+			</gmd:individualName>
+			<gmd:organisationName>
+				<gco:CharacterString>Stadt Ulm</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>Bereich OB</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>07311611015</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString></gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Frauenstraße 19</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Ulm</gco:CharacterString>
+							</gmd:city>
+							<gmd:postalCode>
+								<gco:CharacterString>89073</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>Germany</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>p.schmitz@ulm.de</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeListValue="pointOfContact" codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:distributorContact>
+					<gmd:distributionOrderProcess>
+						<gmd:MD_StandardOrderProcess>
+							<gmd:fees>
+								<gco:CharacterString></gco:CharacterString>
+							</gmd:fees>
+						</gmd:MD_StandardOrderProcess>
+					</gmd:distributionOrderProcess>
+				</gmd:MD_Distributor>
+			</gmd:distributor>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeListValue="dataset" codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<gmd:statement gco:nilReason="missing">
+						<gco:CharacterString/>
+					</gmd:statement>
+					<gmd:processStep>
+						<gmd:LI_ProcessStep>
+							<gmd:description>
+								<gco:CharacterString>In den Sachdaten wurde auf die textlichen Beschreibungen der Wanderwege in unterwegs-in-ulm.de verwiesen. Sich überlagernde Wegestrecken wurden entfernt. Dadurch ist die Zugehörigkeit von Teilstrecken von mehreren Wegen in den Sachdaten auf Basis der Wegenummer nicht mehr eindeutig. </gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_ProcessStep>
+					</gmd:processStep>
+					<gmd:source>
+						<gmd:LI_Source>
+							<gmd:description>
+								<gco:CharacterString>Eigendigitalisierung auf Basis Orthofotos und Vorortbegehung</gco:CharacterString>
+							</gmd:description>
+						</gmd:LI_Source>
+					</gmd:source>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"
+                                    codeListValue="dataset"/>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gco:CharacterString>COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata</gco:CharacterString>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2008-12-04</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                         codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gco:CharacterString>not evaluated</gco:CharacterString>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>false</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:metadataMaintenance>
+		<gmd:MD_MaintenanceInformation>
+			<gmd:maintenanceAndUpdateFrequency>
+				<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_MaintenanceFrequencyCode" codeListValue="notPlanned"/>
 			</gmd:maintenanceAndUpdateFrequency>
 		</gmd:MD_MaintenanceInformation>
 	</gmd:metadataMaintenance>
