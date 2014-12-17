@@ -579,25 +579,35 @@ def long_license_to_short(licensetext):
     #Put badly named things here
     if licensetext == 'Creative Commons CCZero':
         licensetext = 'CC0 1.0'  
-    #The action   
     jsonurl = urllib.urlopen('http://licenses.opendefinition.org/licenses/groups/all.json')
     licenses = json.loads(jsonurl.read())
     for key in (licenses):
         lic = licenses[key]
         if licensetext.lower().strip() == lic['title'].lower():
             return lic['id']
-    #Not open licenses
+    #Badly named that we can't correct to something that will be found in the list (ambiguous, in particular missing version numbers)
+    if licensetext == 'Creative Commons Namensnennung (CC-BY)':
+        return 'cc-by'
+    if licensetext == 'GNU Free Documentation License':
+        return 'gfdl'
+    if licensetext == 'Open Data Commons Open Database License (ODbL)':
+        return 'odbl'
+    if licensetext == 'Creative Commons Attribution Weitergabe unter gleichen Bedingungen (CC-BY-SA)':
+        return 'cc-by-sa'
+    #Not open licenses, although this does not preclude reference in the file above
+    if licensetext == 'Creative Commons Nicht-Kommerziell (CC-NC)':
+        return 'cc-nc'
     if licensetext == 'Datenlizenz Deutschland Namensnennung - nicht kommerziell':
         return 'dl-de-by-nc-1.0'
-    elif licensetext == 'Datenlizenz Deutschland Namensnennung':
+    if licensetext == 'Datenlizenz Deutschland Namensnennung':
         return 'dl-de-by-1.0'
-    print 'Could not find a match for ' + licensetext
+    print 'Could not shorten ' + licensetext + '. This may be OK if there is no sensible short form.'
     return licensetext
     
 def isopen(licensetext):
-    if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "CC BY 3.0 DE", "cc-nc", "dl-de-by-1.0", "dl-de-by 1.0", "dl-de-by-nc-1.0", "CC BY-NC-SA 3.0 DE", u"gnu-lizenz für freie dokumentation") for licensetexttest in (licensetext.lower(), licensetext.upper())):
+    if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "Andere offene Lizenzen", "CC BY 3.0 DE", "dl-de-by-1.0", "dl-de-by 1.0", "gfdl", "odbl", "cc-by-sa") for licensetexttest in (licensetext.lower(), licensetext.upper())):
         return True
-    elif licensetext.lower() in ("other-closed", u"andere eingeschränkte lizenzen"):
+    elif licensetext.lower() in ("other-closed", u"andere eingeschränkte lizenzen", u"andere eingeschränkte lizenz", "cc-nc", "CC-BY-ND 3.0", "CC BY-NC-ND 3.0 DE", "dl-de-by-nc-1.0", "CC BY-NC-SA 3.0 DE"):
         return False
     else:
         print 'Unrecognized license: ' + licensetext
@@ -975,3 +985,4 @@ def govDataShortToODM(group):
         print 'Warning: could not return a category for ' + group
         return []
 ### End Categories ###          
+
