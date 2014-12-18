@@ -105,7 +105,7 @@ for foundItem in foundItems:
             row[u'Beschreibung'] = item['notes']
 	if 'license' in item:
 	    row[u'Lizenz'] = item['license']
-        if 'extras' in item and 'terms_of_use' in item['extras'] and 'license_id' in item['extras']['terms_of_use']:
+        elif 'extras' in item and 'terms_of_use' in item['extras'] and 'license_id' in item['extras']['terms_of_use']:
             #Really?
             if type(item['extras']['terms_of_use']) != dict:
                 row[u'Lizenz'] = json.loads(item['extras']['terms_of_use'])['license_id']
