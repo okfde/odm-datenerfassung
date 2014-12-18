@@ -103,13 +103,18 @@ for foundItem in foundItems:
             row[u'URL PARENT'] = item['url']
         if 'notes' in item:
             row[u'Beschreibung'] = item['notes']
+	if 'license' in item:
+	    row[u'Lizenz'] = item['license']
         if 'extras' in item and 'terms_of_use' in item['extras'] and 'license_id' in item['extras']['terms_of_use']:
             #Really?
             if type(item['extras']['terms_of_use']) != dict:
                 row[u'Lizenz'] = json.loads(item['extras']['terms_of_use'])['license_id']
             else:
                 row[u'Lizenz'] = item['extras']['terms_of_use']['license_id']
-        if 'maintainer' in item and item['maintainer'] != None:
+	else:
+		print 'WARNING: Could not find license in license or extras/terms of use/license id fields'
+	row[u'Lizenz'] = metautils.long_license_to_short(row[u'Lizenz'])
+	if 'maintainer' in item and item['maintainer'] != None:
             row[u'Veröffentlichende Stelle'] = item['maintainer']
         for group in item['groups']:
             odm_cats = metautils.govDataShortToODM(group)
@@ -117,7 +122,7 @@ for foundItem in foundItems:
                 for cat in odm_cats:
                     row[cat] = 'x'
                 row[u'Noch nicht kategorisiert'] = ''       
-        row['metadata'] = item
+	row['metadata'] = item
         datafordb.append(row) 
     else:
         excludecount += 1
