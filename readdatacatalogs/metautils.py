@@ -591,33 +591,38 @@ def long_license_to_short(licensetext):
     if licensetext == u'Nutzungsbestimmungen für die Bereitstellung von Geodaten des Bundes':
         return 'GeoNutzV'
     #Badly named that we can't correct to something that will be found in the list (ambiguous, in particular missing version numbers)
+    if licensetext == 'Creative Commons Attribution':
+        return 'cc-by'
     if licensetext == 'Creative Commons Namensnennung (CC-BY)':
         return 'cc-by'
     if licensetext == 'GNU Free Documentation License':
         return 'gfdl'
     if licensetext == 'Open Data Commons Open Database License (ODbL)':
         return 'odbl'
-    if licensetext == 'Creative Commons Attribution Weitergabe unter gleichen Bedingungen (CC-BY-SA)':
+    if licensetext in ('Creative Commons Attribution Weitergabe unter gleichen Bedingungen (CC-BY-SA)', 'Creative Commons Attribution Share-Alike'):
         return 'cc-by-sa'
     #Not open licenses, although this does not preclude reference in the file above
-    if licensetext == 'Creative Commons Nicht-Kommerziell (CC-NC)':
+    if licensetext in ('Creative Commons Nicht-Kommerziell (CC-NC)', 'Creative Commons Non-Commercial (Any)'):
         return 'cc-nc'
     if licensetext == 'Datenlizenz Deutschland Namensnennung - nicht kommerziell':
         return 'dl-de-by-nc-1.0'
     if licensetext == 'Datenlizenz Deutschland Namensnennung':
         return 'dl-de-by-1.0'
-    print 'Could not shorten ' + licensetext + '. This may be OK if there is no sensible short form.'
+    print 'Could not shorten ' + findLcGermanCharsAndReplace(licensetext.lower()) + ' (lower cased, dspec. chars removed). This may be OK if there is no sensible short form.'
     return licensetext
     
-def isopen(licensetext):
+#Get openness. Can also be used to test if license is already in a recognised short form,
+#in which case set quiet to True
+def isopen(licensetext, quiet=False):
     if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "andere offene lizenzen", "andere freie lizenz", "geonutzv", "CC BY 3.0 DE", "gfdl", "odbl", "cc-by-sa") for licensetexttest in (licensetext.lower(), licensetext.upper())):
         return True
     elif licensetext.lower() in ("dl-de-by-1.0", "dl-de-by 1.0", "other-closed", u"andere eingeschränkte lizenzen", u"andere eingeschränkte lizenz", "cc-nc", "cc-by-nd 3.0", "dl-de-by-nc-1.0", "cc by-nc-sa 3.0 de", "cc by-nc-nd 3.0 de"):
         return False
-    elif licensetext.lower() == 'nicht bekannt':
+    elif licensetext.lower() in ('nicht bekannt', 'siehe website des datensatzes'):
         return None
     else:
-        print 'Unrecognized license: ' + licensetext
+        if not quiet:
+            print 'Unrecognized license: ' +  findLcGermanCharsAndReplace(licensetext.lower()) + '(lower cased, dspec. chars removed)' 
         return None
 
 def unrenderhtml(html):

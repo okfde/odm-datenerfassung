@@ -2,10 +2,49 @@
 import urllib, urllib2, json
 import unicodecsv as csv
 import sys
+import os
 
 import metautils
 
 from dbsettings import settings
+
+def berlin_to_odm(group):
+    #One dataset about WLAN locations...
+    if group == 'oeffentlich':
+        return [u'Infrastruktur, Bauen und Wohnen']
+    if group in (u'demographie', u'jugend'):
+        return [u'Bevölkerung']
+    if group == u'bildung':
+        return [u'Bildung und Wissenschaft']
+    if group == u'gesundheit':
+        return [u'Gesundheit']
+    if group in (u'transport', u'verkehr'):
+        return [u'Transport und Verkehr']
+    if group == u'wahl':
+        return [u'Politik und Wahlen']
+    if group == u'justiz':
+        return [u'Gesetze und Justiz']
+    if group == u'geo':
+        return [u'Infrastruktur, Bauen und Wohnen', u'Geographie, Geologie und Geobasisdaten']
+    if group in (u'wohnen', u'verentsorgung'):
+        return [u'Infrastruktur, Bauen und Wohnen']
+    if group in (u'kultur', u'tourismus', u'erholung'):
+        return [u'Kultur, Freizeit, Sport, Tourismus']
+    if group == u'sozial':
+        return [u'Soziales']
+    if group == u'umwelt':
+        return [u'Umwelt und Klima']
+    if group == u'verbraucher':
+        return [u'Verbraucherschutz']
+    if group in (u'verwaltung', u'sicherheit'):
+        return [u'Öffentliche Verwaltung, Haushalt und Steuern']
+    if group in (u'wirtschaft', u'arbeit'):
+        return [u'Wirtschaft und Arbeit']
+    if group in (u'sonstiges', u'protokolle'):
+        return [u'Sonstiges']
+    else:
+        print 'WARNING: Found no category or categories for ' + group
+        return []
 
 url = ""
 cityname = sys.argv[1]
@@ -21,11 +60,14 @@ elif cityname == "frankfurt":
     url = "http://www.offenedaten.frankfurt.de"
 elif cityname == "aachen":
     url = "http://daten.aachen.de"
+elif cityname == "berlin":
+    url = "http://datenregister.berlin.de"
+    apikey = os.environ['BERLINCKANAPIKEY']
 else:
     print 'First argument must be an city; unsupported city'
     exit()
 
-if cityname == "hamburg" or cityname == "koeln" or cityname == 'bonn':
+if cityname in ("hamburg", "koeln", "bonn"):
     if cityname == 'bonn':
         jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     else:
@@ -77,7 +119,13 @@ if cityname == "hamburg" or cityname == "koeln" or cityname == 'bonn':
         groups = listpackages
 else:
     print 'Downloading ' + url + "/api/3/action/current_package_list_with_resources..."
-    jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
+    if cityname == "berlin":
+        #Berlin is special, it is CKAN 1.8 with V3 API in beta. We have to *post* with an empty dict. And we have to authenticate!
+        request = urllib2.Request(url +'/api/3/action/current_package_list_with_resources')
+        request.add_header('Authorization', apikey)
+        jsonurl = urllib2.urlopen(request, "{}")
+    else:
+        jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
     groups = json.loads(jsonurl.read())
     groups = groups['result']
 
@@ -126,16 +174,19 @@ for package in groups:
     row[u'Stadt'] = cityname
     row[u'Dateibezeichnung'] = package['title']
     row[u'files'] = files
-    if cityname == 'hamburg' or cityname == 'koeln' or cityname == 'frankfurt' or cityname == 'aachen':
-        if cityname == 'hamburg' or cityname == 'frankfurt' or cityname == 'aachen':
+    if cityname in ('hamburg', 'koeln', 'frankfurt', 'aachen', 'berlin'):
+        if cityname in ('hamburg', 'frankfurt', 'aachen'):
             licensekey = 'license_id'
             vstellekey = 'author'
             catskey = 'groups'
             catssubkey = 'title'
-        if cityname == 'koeln':
+        elif cityname in ('koeln', 'berlin'):
             licensekey = 'license_title'
             vstellekey = 'maintainer' 
-            catskey = 'tags'
+            if cityname == 'koeln':
+                catskey = 'tags'
+            elif cityname == 'berlin':
+                catskey = 'groups'
             catssubkey = 'name'
         #Generate URL for the catalog page
         row[u'URL PARENT'] = url + '/dataset/' + package['name']
@@ -148,6 +199,9 @@ for package in groups:
         row[u'Zeitlicher Bezug'] = ''
         if licensekey in package and package[licensekey] != None:
             row[u'Lizenz'] = package[licensekey]
+            #if not already short, try to convert
+            if metautils.isopen(row[u'Lizenz'], quiet=True) is None:
+                row[u'Lizenz'] = metautils.long_license_to_short(row[u'Lizenz'])
         else:
             row[u'Lizenz'] = 'nicht bekannt'
         if vstellekey in package and package[vstellekey] != None:
@@ -159,11 +213,14 @@ for package in groups:
                 for extra in package['extras']:
                     if extra['key'] == 'contacts':
                         print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
-	for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
-            odm_cats = metautils.govDataLongToODM(group)
-	    metautils.setcats(row, odm_cats)    
-	    if row['Noch nicht kategorisiert'] == 'x':
-                print 'WARNING! A data catalog entry is not categorised, this shouldn\'t be possible'
+        for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
+            if cityname != 'berlin':
+                odm_cats = metautils.govDataLongToODM(group)
+            else:
+                odm_cats = berlin_to_odm(group)
+            metautils.setcats(row, odm_cats)    
+            if row['Noch nicht kategorisiert'] == 'x':
+                print 'WARNING! A data catalog entry\'s group is not successfully categorized, this shouldn\'t be possible and can lead to an inconsistency in the categorization'
     #Bonn is just different enough to do it separately. TODO: Consider combining into above.
     elif cityname == 'bonn':
         row[u'URL PARENT'] = package['accessURL']
@@ -190,4 +247,6 @@ portalname = metautils.getCityOpenDataPortal(cityname)
 metautils.removeDataFromPortal(portalname)
 #Add data
 metautils.addDataToDB(datafordb=datafordb, originating_portal=portalname, checked=True, accepted=True, remove_data=True)
+
+
 

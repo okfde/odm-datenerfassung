@@ -85,7 +85,6 @@ def import_data(d):
     d['metadata'] = ''
     d['metadata_xml'] = None
     d['categories'] = list(itertools.chain(* map(lambda c: category_to_odm_map[c], d['categories'])))
-    print d['categories']
     d['open'] = d['nutzungsbedingungen'] == \
                 'Die Weiterverwendung der Daten ist frei.'
     d['licenseshort'] = get_license(d['lizenzhinweise'], d['nutzungsbedingungen'])
