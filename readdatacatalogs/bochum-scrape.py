@@ -44,8 +44,9 @@ data = html.parse(rooturl + url)
 cat_sites = data.xpath('//body//table//td')
 cat_urls = []
 for cat_site in cat_sites:
-    cat_urls.append(cat_site.xpath('span[1]/a/@href')[0])
-cat_urls.remove('/opendata/datensaetze/neueste-datensaetze/nav/75F9RD294BOLD')
+    cat_site_url = cat_site.xpath('span[1]/a/@href')[0]
+    if 'neueste-datensaetze' not in cat_site_url:
+        cat_urls.append(cat_site_url)
 
 if (verbose): print str(len(cat_urls))  + ' categories found'
 
