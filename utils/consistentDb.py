@@ -6,9 +6,9 @@ from dbsettings import settings
 
 metautils.setsettings(settings)
 
-print '\nSetting open where not set...'
+print '\nResetting open...'
 cur = metautils.getDBCursor(settings, dictCursor = True)
-cur.execute('select url, licenseshort from data where open isnull and licenseshort not like %s', ('nicht bekannt',))
+cur.execute('select url, licenseshort from data')
 for ores in cur.fetchall():
     if ores['licenseshort'].strip() == '':
         license = 'nicht bekannt'

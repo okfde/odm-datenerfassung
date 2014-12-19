@@ -11,7 +11,7 @@ csvwriter = unicodecsv.writer(csvfile)
 
 cur = metautils.getDBCursor(settings, dictCursor = True)
 cur.execute('select distinct unnest(categories) as cat from data')
-headings = ['city', 'source/total', 'open']
+headings = ['city', 'source/city total', 'open', 'total datasets']
 categories = []
 for catrow in cur.fetchall():
     categories.append(catrow['cat'])
@@ -54,7 +54,9 @@ for city in indcities:
     csvwriter.writerow(heading)
     for source in sources:
 	for opentype in [True, False, None]:    
-	    citresults = [city, source, str(opentype)]
+	    cur.execute('select count(url) as res from data where city like %s and source = %s and open is %s and accepted = %s', (city, source, opentype, True))
+	    stotal = (cur.fetchall()[0]['res'])
+	    citresults = [city, source, str(opentype), stotal]
 	    #Percent results don't make that much sense to me
 	    #percentres = [city, source, str(opentype), 'percent']
 	    for cat in categories:
