@@ -7,6 +7,7 @@ from dbsettings import settings
 metautils.setsettings(settings)
 
 print '\nMarking all Bonn Google data as rejected (needs to be changed if Google searches are ever resumed!'
+cur = metautils.getDBCursor(settings, dictCursor = True)
 cur.execute('update data set accepted = %s where city = %s and source = %s', (False,'bonn','g'))
 metautils.dbCommit()
 
