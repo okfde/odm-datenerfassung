@@ -7,18 +7,11 @@ import os
 
 import metautils
 
-from dbsettings import settings
-
-metautils.setsettings(settings)
-
 #This is a one time operation to create organisations based on the originating portal in ODM DB
 #Run prior to importing data
 
 url = os.environ['CKANURL']
 apikey = os.environ['CKANAPIKEY']
-
-dict_cur = metautils.getDBCursor(settings, dictCursor = True)
-dict_cur.execute("SELECT distinct originating_portal FROM data")
 
 categories = [
 {"name": u"Noch nicht kategorisiert"},
@@ -69,10 +62,11 @@ categories = [
 for cat in categories:
     dataset_dict = {}
     dataset_dict['name'] = metautils.force_alphanumeric_short(cat['name'])
+    dataset_dict['id'] = dataset_dict['name']
     dataset_dict['title'] = cat['name']
     dataset_dict['image_url'] = cat['image'] if 'image' in cat else None
     data_string = urllib.quote(json.dumps(dataset_dict))
-    request = urllib2.Request(url +'/api/3/action/group_create')
+    request = urllib2.Request(url +'/api/3/action/group_update')
     request.add_header('Authorization', apikey)
     response = urllib2.urlopen(request, data_string)
     response_dict = json.loads(response.read())

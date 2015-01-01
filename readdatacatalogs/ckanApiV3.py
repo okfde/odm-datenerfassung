@@ -69,7 +69,7 @@ else:
 
 if cityname in ("hamburg", "koeln", "bonn"):
     if cityname == 'bonn':
-        jsonurl = urllib.urlopen(url + "/api/3/action/current_package_list_with_resources")
+        jsonurl = urllib.urlopen(url + "/data.json")
     else:
         jsonurl = urllib.urlopen(url + "/api/3/action/package_list")
     if len(sys.argv) > 2:
@@ -79,6 +79,8 @@ if cityname in ("hamburg", "koeln", "bonn"):
     if len(sys.argv) < 3:
         if cityname != 'bonn':
             listpackages = listpackages['result']
+        else:
+            listpackages = listpackages[1:len(listpackages)]
     if len(sys.argv) > 2:
         jsonurl.close()
     groups = []
@@ -86,7 +88,7 @@ if cityname in ("hamburg", "koeln", "bonn"):
         print 'INFO: the names that follow have had special characters removed'
         for item in listpackages:
             if cityname == 'bonn':
-                urltoread = item['webService']
+                urltoread = url + "/api/3/action/package_show?id=" + item['identifier']
             else:
                 urltoread = url + "/api/3/action/package_show?id=" + item
             print 'Downloading ' + metautils.findLcGermanCharsAndReplace(urltoread)
@@ -102,19 +104,13 @@ if cityname in ("hamburg", "koeln", "bonn"):
                 print 'Something went wrong, retrying...'
                 trycount += 1
             pdata = json.loads(urldata)
-            if cityname != 'bonn':
-                if 'success' in pdata and pdata['success']:
-                    if cityname == "koeln":
-                        groups.append(pdata['result'][0])
-                    else:
-                        groups.append(pdata['result'])
+            if 'success' in pdata and pdata['success']:
+                if cityname == "koeln":
+                    groups.append(pdata['result'][0])
                 else:
-                    print 'WARNING: No result - access denied?\n' + metautils.findLcGermanCharsAndReplace(item)
+                    groups.append(pdata['result'])
             else:
-                #Now put all the missing/better data from the overview JSON into the DKAN JSON :'(
-                for better in ['accessURL', 'modified', 'license', 'keyword']:
-                    pdata[better] = item[better]
-                groups.append(pdata)
+                print 'WARNING: No result - access denied?\n' + metautils.findLcGermanCharsAndReplace(item)
     else:
         groups = listpackages
 else:
@@ -174,66 +170,61 @@ for package in groups:
     row[u'Stadt'] = cityname
     row[u'Dateibezeichnung'] = package['title']
     row[u'files'] = files
-    if cityname in ('hamburg', 'koeln', 'frankfurt', 'aachen', 'berlin'):
-        if cityname in ('hamburg', 'frankfurt', 'aachen'):
-            licensekey = 'license_id'
-            vstellekey = 'author'
-            catskey = 'groups'
-            catssubkey = 'title'
-        elif cityname in ('koeln', 'berlin'):
-            licensekey = 'license_title'
-            vstellekey = 'maintainer' 
-            if cityname == 'koeln':
-                catskey = 'tags'
-            elif cityname == 'berlin':
-                catskey = 'groups'
-            catssubkey = 'name'
-        #Generate URL for the catalog page
-        row[u'URL PARENT'] = url + '/dataset/' + package['name']
-        if 'notes' in package and package['notes'] != None:
-            row[u'Beschreibung'] = package['notes']
-            if cityname == 'koeln':
-                row[u'Beschreibung'] = metautils.unrenderhtml(row[u'Beschreibung'])
-        else:
-            row[u'Beschreibung'] = ''
-        row[u'Zeitlicher Bezug'] = ''
-        if licensekey in package and package[licensekey] != None:
-            row[u'Lizenz'] = package[licensekey]
-            #if not already short, try to convert
-            if metautils.isopen(row[u'Lizenz'], quiet=True) is None:
-                row[u'Lizenz'] = metautils.long_license_to_short(row[u'Lizenz'])
-        else:
-            row[u'Lizenz'] = 'nicht bekannt'
-        if vstellekey in package and package[vstellekey] != None:
-            row[u'Veröffentlichende Stelle'] = package[vstellekey]
-        else:
-            row[u'Veröffentlichende Stelle'] = ''
-            if 'extras' in package:
-                print 'WARNING: No author/maintainer/publisher, checking extras'
-                for extra in package['extras']:
-                    if extra['key'] == 'contacts':
-                        print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
-        for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
-            if cityname != 'berlin':
-                odm_cats = metautils.govDataLongToODM(group)
-            else:
-                odm_cats = berlin_to_odm(group)
-            metautils.setcats(row, odm_cats)    
-            if row['Noch nicht kategorisiert'] == 'x':
-                print 'WARNING! A data catalog entry\'s group is not successfully categorized, this shouldn\'t be possible and can lead to an inconsistency in the categorization'
-    #Bonn is just different enough to do it separately. TODO: Consider combining into above.
+
+    if cityname in ('hamburg', 'frankfurt', 'aachen'):
+        licensekey = 'license_id'
+        vstellekey = 'author'
+        catskey = 'groups'
+        catssubkey = 'title'
+    elif cityname == 'koeln':
+        licensekey = 'license_title'
+        vstellekey = 'maintainer' 
+        catskey = 'tags'
+        catssubkey = 'name'
+    elif cityname == 'berlin':
+        licensekey = 'license_title'
+        vstellekey = 'maintainer'
+        catskey = 'groups'
+        catssubkey = 'name'
     elif cityname == 'bonn':
-        row[u'URL PARENT'] = package['accessURL']
-        row[u'Beschreibung'] = package['description']
-        for timeattempt in ['temporal_coverage', 'granularity', 'modified']:
-            if timeattempt in package and package[timeattempt] not in [None, '']:
-                row[u'Zeitlicher Bezug'] = package[timeattempt]
-                break
-        row[u'Lizenz'] = metautils.long_license_to_short(package['license'])
-        row[u'Veröffentlichende Stelle'] = package['publisher']
-        #Commas in categories cannot be distinguished from separation of categories :(
-        odm_cats = metautils.govDataLongToODM(package['keyword'], checkAll=True)
-        metautils.setcats(row, odm_cats)
+        licensekey = 'license_title'
+        vstellekey = 'author'
+        catskey = 'tags'
+        catssubkey = 'name'
+    #Generate URL for the catalog page
+    row[u'URL PARENT'] = url + '/dataset/' + package['name']
+    if 'notes' in package and package['notes'] != None:
+        row[u'Beschreibung'] = package['notes']
+        if cityname == 'koeln':
+            row[u'Beschreibung'] = metautils.unrenderhtml(row[u'Beschreibung'])
+    else:
+        row[u'Beschreibung'] = ''
+    row[u'Zeitlicher Bezug'] = ''
+    if licensekey in package and package[licensekey] != None:
+        row[u'Lizenz'] = package[licensekey]
+        #if not already short, try to convert
+        if metautils.isopen(row[u'Lizenz'], quiet=True) is None:
+            row[u'Lizenz'] = metautils.long_license_to_short(row[u'Lizenz'])
+    else:
+        row[u'Lizenz'] = 'nicht bekannt'
+    if vstellekey in package and package[vstellekey] != None:
+        row[u'Veröffentlichende Stelle'] = package[vstellekey]
+        print row[u'Veröffentlichende Stelle']
+    else:
+        row[u'Veröffentlichende Stelle'] = ''
+        if 'extras' in package:
+            print 'WARNING: No author/maintainer/publisher, checking extras'
+            for extra in package['extras']:
+                if extra['key'] == 'contacts':
+                    print 'WARNING: No author, but amazingly there is possibly data in the contacts: ' + extra['value']
+    for group in metautils.setofvaluesasarray(package[catskey], catssubkey):
+        if cityname != 'berlin':
+            odm_cats = metautils.govDataLongToODM(group)
+        else:
+            odm_cats = berlin_to_odm(group)
+        metautils.setcats(row, odm_cats)    
+        if row['Noch nicht kategorisiert'] == 'x':
+            print 'WARNING! A data catalog entry\'s group is not successfully categorized, this shouldn\'t be possible and can lead to an inconsistency in the categorization'
     #Take a copy of the metadata    
     row['metadata'] = package
     datafordb.append(row)
