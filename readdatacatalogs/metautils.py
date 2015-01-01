@@ -608,7 +608,7 @@ def long_license_to_short(licensetext):
         return 'dl-de-by-nc-1.0'
     if licensetext == 'Datenlizenz Deutschland Namensnennung':
         return 'dl-de-by-1.0'
-    print 'Could not shorten ' + findLcGermanCharsAndReplace(licensetext.lower()) + ' (lower cased, dspec. chars removed). This may be OK if there is no sensible short form.'
+    print 'Could not shorten ' + findLcGermanCharsAndReplace(licensetext.lower()) + ' (lower cased, dspec. chars removed). This may be OK if there is no sensible short form or the license is already in short form.'
     return licensetext
     
 #Get openness. Can also be used to test if license is already in a recognised short form,
@@ -616,7 +616,7 @@ def long_license_to_short(licensetext):
 def isopen(licensetext, quiet=False):
     if any(licensetexttest in ("cc-by", "odc-by", "CC-BY 3.0", "dl-de-by-2.0", "dl-de/by-2-0", "CC-BY-SA 3.0", "other-open", "CC0-1.0", "cc-zero", "dl-de-zero-2.0", "andere offene lizenzen", "andere freie lizenz", "geonutzv", "CC BY 3.0 DE", "gfdl", "odbl", "cc-by-sa") for licensetexttest in (licensetext.lower(), licensetext.upper())):
         return True
-    elif licensetext.lower() in ("dl-de-by-1.0", "dl-de-by 1.0", "other-closed", u"andere eingeschränkte lizenzen", u"andere eingeschränkte lizenz", "cc-nc", "cc-by-nd 3.0", "dl-de-by-nc-1.0", "cc by-nc-sa 3.0 de", "cc by-nc-nd 3.0 de"):
+    elif licensetext.lower() in ("dl-de-by", "dl-de-by-1.0", "dl-de-by 1.0", "other-closed", u"andere eingeschränkte lizenzen", u"andere eingeschränkte lizenz", "cc-nc", "cc-by-nd 3.0", "dl-de-by-nc", "dl-de-by-nc-1.0", "cc by-nc-sa 3.0 de", "cc by-nc-nd 3.0 de"):
         return False
     elif licensetext.lower() in ('nicht bekannt', 'siehe website des datensatzes'):
         return None

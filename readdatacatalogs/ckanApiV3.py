@@ -105,7 +105,7 @@ if cityname in ("hamburg", "koeln", "bonn"):
                 trycount += 1
             pdata = json.loads(urldata)
             if 'success' in pdata and pdata['success']:
-                if cityname == "koeln":
+                if cityname in ("koeln", "bonn"):
                     groups.append(pdata['result'][0])
                 else:
                     groups.append(pdata['result'])
@@ -141,27 +141,18 @@ for package in groups:
     resources = []
     formats = set()
     files = []
-    #Key for the file link in the resource
-    urlkeys = ['url']
-    formatkey = 'format'
     
-    if cityname == "bonn":
-        urlkeys = ['file_url', 'link_to_api', 'url']
-        if 'file_link' in package and package['file_link']!= None and package['file_link'] != '':
-            print 'WARNING! file_link was actually used! Here it is: ' + package['file_link']
     if ('resources' in package):
         resources = package['resources']
 
     for file in resources:
-        for urlkey in urlkeys:
-            if (file[urlkey] not in [None, '']):
-                if '://' not in file[urlkey]:
-                    files.append(url + file[urlkey])
-                else:
-                    files.append(file[urlkey])
-                break
-        if formatkey in file and file[formatkey] not in [None, '']:
-            format = file[formatkey]
+        if (file['url'] not in [None, '']):
+            if '://' not in file['url']:
+                files.append(url + file['url'])
+            else:
+                files.append(file['url'])
+        if 'format' in file and file['format'] not in [None, '']:
+            format = file['format']
             formats.add(format.upper())
 
     row = metautils.getBlankRow()
@@ -209,7 +200,6 @@ for package in groups:
         row[u'Lizenz'] = 'nicht bekannt'
     if vstellekey in package and package[vstellekey] != None:
         row[u'Veröffentlichende Stelle'] = package[vstellekey]
-        print row[u'Veröffentlichende Stelle']
     else:
         row[u'Veröffentlichende Stelle'] = ''
         if 'extras' in package:
