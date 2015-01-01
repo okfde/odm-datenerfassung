@@ -60,6 +60,8 @@ elif cityname == "frankfurt":
     url = "http://www.offenedaten.frankfurt.de"
 elif cityname == "aachen":
     url = "http://daten.aachen.de"
+elif cityname == "muenchen":
+    url = "http://www.opengov-muenchen.de"
 elif cityname == "berlin":
     url = "http://datenregister.berlin.de"
     apikey = os.environ['BERLINCKANAPIKEY']
@@ -165,6 +167,11 @@ for package in groups:
     if cityname in ('hamburg', 'frankfurt', 'aachen'):
         licensekey = 'license_id'
         vstellekey = 'author'
+        catskey = 'groups'
+        catssubkey = 'title'
+    elif cityname == 'muenchen':
+        licensekey = 'license_id'
+        vstellekey = 'maintainer'
         catskey = 'groups'
         catssubkey = 'title'
     elif cityname == 'koeln':
