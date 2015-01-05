@@ -66,7 +66,7 @@ for cat in categories:
     dataset_dict['title'] = cat['name']
     dataset_dict['image_url'] = cat['image'] if 'image' in cat else None
     data_string = urllib.quote(json.dumps(dataset_dict))
-    request = urllib2.Request(url +'/api/3/action/group_update')
+    request = urllib2.Request(url +'/api/3/action/group_create')
     request.add_header('Authorization', apikey)
     response = urllib2.urlopen(request, data_string)
     response_dict = json.loads(response.read())
