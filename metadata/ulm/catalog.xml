@@ -52999,7 +52999,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>5562c415e895fb79ac1c0948ad943d30aad19ddb</gco:CharacterString>
+		<gco:CharacterString>95452d423c991f15917c852c2df92ba85a22dc9b</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -53058,7 +53058,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2015-01-07</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2015-01-08</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -53105,7 +53105,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 				</gmd:CI_Citation>
 			</gmd:citation>
 			<gmd:abstract>
-				<gco:CharacterString>Das Kapitel 2 des statistischen Jahrbuchs der Stadt Ulm zum "Bevölkerungsstand" beinhaltet Tabellen zur "Äusländischen Wohnbevölkerung nach Staatsangehörigkeiten". Damit sind Personen gemeint, die nicht die Deutsche Staatsangehörigkeit besitzen und in Deutschland / Ulm melderechtlich erfasst sind. Die Karte im DINA3-Papierformat stellt anhand einer Weltkarte die Herkunft der ausländischen Wohnbevölkerung Ulms im Jahr 2013  sowie  die Zuname/Abnahme der jeweiligen Staatsangehörigkeiten der ausländischen Wohnbevölkerung von dem Jahr 2012 zum Jahr  2013 dar. Aufgrund der Datenlage konnten Serbien und Kosovo nicht getrennt voneinander dargestellt werden. Die Darstellung beruht auf den Daten aus den statistischen Jahrbüchern von 2012 und 2013. Diese sind auch auf der Seite http://www.ulm.de/politik_verwaltung/rathaus/statistik.4336.3076,3571,3744,4336.htm abrufbar.
+				<gco:CharacterString>Das Kapitel 2 des statistischen Jahrbuchs der Stadt Ulm zum "Bevölkerungsstand" beinhaltet Tabellen zur "Ausländischen Wohnbevölkerung nach Staatsangehörigkeiten". Damit sind Personen gemeint, die nicht die deutsche Staatsangehörigkeit besitzen und in Deutschland / Ulm melderechtlich erfasst sind. Die Karte im DINA3-Papierformat stellt anhand einer Weltkarte die Herkunft der ausländischen Wohnbevölkerung Ulms im Jahr 2013 sowie die Zuname/Abnahme der jeweiligen Staatsangehörigkeiten der ausländischen Wohnbevölkerung von dem Jahr 2012 zum Jahr  2013 dar. Aufgrund der Datenlage konnten Serbien und Kosovo nicht getrennt voneinander dargestellt werden. Die Darstellung beruht auf den Daten aus den statistischen Jahrbüchern von 2012 und 2013. Diese sind auf der Seite http://www.ulm.de/politik_verwaltung/rathaus/statistik.4336.3076,3571,3744,4336.htm abrufbar.
 
 </gco:CharacterString>
 			</gmd:abstract>
@@ -53184,7 +53184,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-07</gco:Date>
+										<gco:Date>2015-01-08</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -53205,7 +53205,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-07</gco:Date>
+										<gco:Date>2015-01-08</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -53226,7 +53226,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-07</gco:Date>
+										<gco:Date>2015-01-08</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
