@@ -1848,7 +1848,7 @@ Die Karten sind in Ma&#223;st&#228;ben von 1:2.500 bis 1:100.000 erh&#228;ltlich
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltbelastung</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Altablagerung</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-02-21</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2015-01-13</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Altablagerungen im Sinne des Bundes-Bodenschutzgesetzes sind stillgelegte Abfallbeseitigungsanlagen und Fl&#228;chen, auf denen Abf&#228;lle behandelt, gelagert oder abgelagert worden sind, d. h. meist alte bzw. "wilde" Deponien. Die Karte zeigt die Altablagerungen sowie die Wasserschutzgebiete.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::31468</dct:spatial>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
@@ -2729,7 +2729,7 @@ Zu den einzelnen B&#228;umen k&#246;nnen verschiedene Informationen wie Baumart,
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoff</dc:subject>
       <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Deponie</dc:subject>
       <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">pdf</dc:format>
-      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2014-02-05</dct:modified>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2015-01-13</dct:modified>
       <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadt Braunschweig f&#252;hrt f&#252;r die ehemaligen Deponien im Stadtgebiet gem&#228;&#223; einer Priorit&#228;tenliste Gef&#228;hrdungsabsch&#228;tzungen durch. Als Ergebnis der Gef&#228;hrdungsabsch&#228;tzung ist f&#252;r einen Teil der ehemaligen Deponien eine dauerhafte &#220;berwachung erforderlich. Der Fachbereich 61, Abteilung 61.4 f&#252;hrt die erforderliche &#220;berwachung durch.</dct:abstract>
       <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">keine</dc:rights>
