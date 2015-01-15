@@ -53465,7 +53465,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
    xmlns:gmd="http://www.isotc211.org/2005/gmd"
    xsi:schemaLocation="http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd">
 	<gmd:fileIdentifier xmlns:gmx="http://www.isotc211.org/2005/gmx">
-		<gco:CharacterString>efc481f232633b4643b9089444a22d1ddc72f719</gco:CharacterString>
+		<gco:CharacterString>0a479333bf9895ab17e45adbdc6c0b81790a9aa5</gco:CharacterString>
 	</gmd:fileIdentifier>
 	<gmd:language>
 	      <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ger">ger</gmd:LanguageCode>
@@ -53524,7 +53524,7 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 		</gmd:CI_ResponsibleParty>
 	</gmd:contact>
 	<gmd:dateStamp>
-		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2015-01-13</gco:DateTime>
+		<gco:DateTime xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv">2015-01-14</gco:DateTime>
 	</gmd:dateStamp>
 	<gmd:metadataStandardName>
 		<gco:CharacterString>ISO 19115:2003 (GDI-BW)</gco:CharacterString>
@@ -53571,7 +53571,12 @@ Zu den gpx-Tracks: http://daten.ulm.de/offene_daten/gpx-tracks/unterwegs-ulm</gc
 				</gmd:CI_Citation>
 			</gmd:citation>
 			<gmd:abstract>
-				<gco:CharacterString>Die Ausweisung von Wasserschutzgebieten (WSG) dient dem Schutz des Grundwassers und damit der Trinkwasserressourcen. Erfasst und fortgeschrieben werden - von der Planung bis zur Festsetzung - die nach § 51 WHG und § 24 WG ausgewiesenen/auszuweisenden WSG. Ein WSG kann aus bis zu 5 von insgesamt 7 verschiedenen Wasserschutzgebietszonen (WSG-Zone) bestehen. Aus den WSG-Zonen wird das WSG als Umring gebildet. 
+				<gco:CharacterString>Die Ausweisung von Wasserschutzgebieten (WSG) dient dem Schutz des Grundwassers und der Trinkwasserressourcen. 
+
+Ein Wasserschutzgebiet besteht aus 3 Zonen. Die Zone I (der Fassungsbereich) soll den Schutz der Wassergewinnungsanlagen und ihrer unmittelbaren Umgebung vor jeglicher Verunreinigung gewährleisten. Die Zone I umfasst einen Bereich von allseitig mindestens 10 m um die Wasserfassungen. 
+Die Engere Schutzzone, Zone II, soll den Schutz vor Verunreinigungen durch pathogene Mikroorganismen (z.B. Bakterien, Viren, Parasiten und Wurmeier) sowie vor sonstigen Beeinträchtigungen gewährleisten, die bei geringer Fließdauer und -strecke zur Wassergewin-nungsanlage gefährlich sind. Um dies zu erreichen, muss die Zone II von der Fassungsanlage mindestens bis zu der Linie reichen, von der aus das Grundwasser eine Fließzeit von 50 Tagen zur Fassung benötigt (50 Tagelinie). Diese Fließzeit und -strecke gewährleistet einen mikrobiologisch einwandfreien Zustand des geförderten Grundwassers. 
+Die Zone III (Weitere Schutzzone) eines Wasserschutzgebietes umfasst das gesamte Einzugsgebiet. Die Zone III soll den Schutz vor weit reichenden Beeinträchtigungen, insbesondere vor nicht oder schwer abbaubaren chemischen und vor radioaktiven Verunreinigungen gewährleisten. Die Zone III kann in die Zonen IIIA und IIIB unterteilt werden. 
+
 Die Wasserschutzgebiete können Sie auch im Kartendienst der Landesanstalt für Umwelt, Messungen und Naturschutz BW aufrufen: http://udo.lubw.baden-wuerttemberg.de/public/
 
 </gco:CharacterString>
@@ -53651,7 +53656,7 @@ Die Wasserschutzgebiete können Sie auch im Kartendienst der Landesanstalt für 
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-13</gco:Date>
+										<gco:Date>2015-01-14</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -53672,7 +53677,7 @@ Die Wasserschutzgebiete können Sie auch im Kartendienst der Landesanstalt für 
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-13</gco:Date>
+										<gco:Date>2015-01-14</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
@@ -53693,7 +53698,7 @@ Die Wasserschutzgebiete können Sie auch im Kartendienst der Landesanstalt für 
 							<gmd:date>
 								<gmd:CI_Date>
 									<gmd:date>
-										<gco:Date>2015-01-13</gco:Date>
+										<gco:Date>2015-01-14</gco:Date>
 									</gmd:date>
 									<gmd:dateType>
 										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision"/>
