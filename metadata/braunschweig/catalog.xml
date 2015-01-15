@@ -1,7 +1,7 @@
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
   <csw:RequestId/>
   <csw:SearchStatus/>
-  <csw:SearchResults numberOfRecordsMatched="151" numberOfRecordsReturned="151">
+  <csw:SearchResults numberOfRecordsMatched="153" numberOfRecordsReturned="153">
     <csw:Record xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">60167db3-c6e1-4cab-92ad-23cd365ba3ad</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bewertung bebauter Grundst&#252;cke im Stadtgebiet Braunschweig</dc:title>
@@ -3539,6 +3539,39 @@ Die Karten sind in den Ma&#223;st&#228;ben 1:20.000, 1:40.000 und 1:2.500 erh&#2
       </ows:BoundingBox>
     </csw:Record>
     <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">afc02416-f020-425b-9a0d-c73b4df68a05</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bericht 2012 &#252;ber Altdeponien in der Stadt Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umwelt&#252;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Boden</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltgef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gefahr durch Schadstoffe</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoffbewertung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltrisikobewertung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Gesundheitsgef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoff</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltschutz</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verunreinigung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Ablagerung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltbelastung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundwassergef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Altablagerung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Deponie</dc:subject>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">2012</dc:format>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2015-01-14</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadt Braunschweig f&#252;hrt f&#252;r die ehemaligen Deponien im Stadtgebiet gem&#228;&#223; einer Priorit&#228;tenliste Gef&#228;hrdungsabsch&#228;tzungen durch. Als Ergebnis der Gef&#228;hrdungsabsch&#228;tzung ist f&#252;r einen Teil der ehemaligen Deponien eine dauerhafte &#220;berwachung erforderlich. Der Fachbereich 61, Abteilung 61.4 f&#252;hrt die erforderliche &#220;berwachung durch.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">keine</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">beschr&#228;nkt</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">copyright</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2013-06-03</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
       <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">82ea095a-fefa-49ea-a051-c1d916d3ac7a</dc:identifier>
       <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Lage der Wertstoffcontainer im Stadtgebiet Braunschweig (Anwendung)</dc:title>
       <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">application</dc:type>
@@ -3769,6 +3802,37 @@ Die Karte gibt Ihnen hierzu eine &#220;bersicht f&#252;r das gesamte Stadtgebiet
       <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
       <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">restricted</dct:accessRights>
       <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-11-11</dct:created>
+      <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
+        <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
+        <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
+      </ows:BoundingBox>
+    </csw:Record>
+    <csw:Record>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">5841bdc7-7930-46a4-821a-ff74108c506d</dc:identifier>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Bericht 2013 &#252;ber Altdeponien in der Stadt Braunschweig</dc:title>
+      <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/">dataset</dc:type>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umwelt&#252;berwachung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Boden</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoff</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoffverhalten</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoffverhalten</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Schadstoffausbreitung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umwelt</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Umweltbelastung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Wassergef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Grundwassergef&#228;hrdung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Verunreinigung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Ablagerung</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Altstandort</dc:subject>
+      <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/">Deponie</dc:subject>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">2013</dc:format>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2015-01-14</dct:modified>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Die Stadt Braunschweig f&#252;hrt f&#252;r die ehemaligen Deponien im Stadtgebiet gem&#228;&#223; einer Priorit&#228;tenliste Gef&#228;hrdungsabsch&#228;tzungen durch. Als Ergebnis der Gef&#228;hrdungsabsch&#228;tzung ist f&#252;r einen Teil der ehemaligen Deponien eine dauerhafte &#220;berwachung notwendig. Der Fachbereich 61, Abteilung 61.4 f&#252;hrt diese durch.</dct:abstract>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">urn:ogc:def:crs:EPSG::25832</dct:spatial>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">keine</dc:rights>
+      <dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">restricted</dc:rights>
+      <dct:accessRights xmlns:dct="http://purl.org/dc/terms/">copyright</dct:accessRights>
+      <dct:created xmlns:dct="http://purl.org/dc/terms/">2014-06-02</dct:created>
       <ows:BoundingBox xmlns:ows="http://www.opengis.net/ows">
         <ows:LowerCorner>10.40 52.18</ows:LowerCorner>
         <ows:UpperCorner>10.65 52.36</ows:UpperCorner>
