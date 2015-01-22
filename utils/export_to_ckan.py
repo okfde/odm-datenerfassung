@@ -20,8 +20,8 @@ url = os.environ['CKANURL']
 apikey = os.environ['CKANAPIKEY']
 
 dict_cur = metautils.getDBCursor(settings, dictCursor = True)
-#TEMPORARY! EXCLUDE BW TO TEST HARVESTER
-dict_cur.execute("SELECT * FROM data WHERE originating_portal NOT LIKE %s", ('opendata.service-bw.de',))
+#Take all accepted data but not from catalogs except for Wuppertal/Wennigsen
+dict_cur.execute("SELECT * FROM data WHERE accepted = %s AND (source NOT LIKE %s OR city LIKE %s OR city LIKE %s)", (True, 'd', 'wennigsen', 'wuppertal'))
 
 def category_to_group(groupname):
     # maybe some other id
