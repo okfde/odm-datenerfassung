@@ -18,7 +18,7 @@ def mapData(data, nocity=False):
 
         if cityimport == 'rlp':
             package = result['item']
-        elif cityimport == 'rostock':
+        else:
             package = result
         
         row = metautils.getBlankRow()
@@ -76,6 +76,9 @@ elif cityimport == 'rlp':
     limit = 1000
     urlbase = "http://www.daten.rlp.de/api/2/search/dataset?q=&limit=" + str(limit) + "&all_fields=1"
     jsonurl = urllib.urlopen(urlbase)
+elif cityimport == 'bayern':
+    urlbase = "https://opendata.bayern.de/api/2/search/dataset?q=&limit=1000&all_fields=1"
+    jsonurl = urllib.urlopen(urlbase)
 else:
     print 'Error: \'rostock\' or \'rlp\' must be specified as the first argument'
     exit()
@@ -103,7 +106,7 @@ if cityimport == 'rlp':
     afterfilter = len(data)
     print 'Of the total ' + str(beforefilter) + ' records, ' + str(afterfilter) + ' appear to be related to a city'
     print 'The rest (' + str(len(notcitydata)) + ') will be assigned to Rheinland-Pfalz as a Land'
-elif cityimport == 'rostock':
+else:
     data = data['results']
 
 #Map and write the data. Still wondering how much of this can/should be pulled out to metautils
@@ -130,3 +133,5 @@ elif cityimport == 'rostock':
     metautils.removeDataFromPortal('opendata-hro.de')
     #Add data, checking that used cities are in RLP
     metautils.addDataToDB(datafordb=datafordb, originating_portal='opendata-hro.de', checked=True, accepted=True, remove_data=True)
+else:
+    print datafordb
