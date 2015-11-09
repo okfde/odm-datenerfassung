@@ -8,7 +8,7 @@ from dbsettings import settings
 from lxml import html
 from lxml import etree
 
-verbose = False
+verbose = True
 
 def findfilesanddata(html):
     #Start to get the data for each dataset
@@ -57,7 +57,7 @@ for category_link in cat_urls:
     parser = etree.HTMLParser(encoding='utf-8')
     data = etree.parse(rooturl + category_link, parser)
     #Get the category
-    category = data.xpath('//body//h1/text()')[2].strip()
+    category = data.xpath('/html/body/div/div[5]/div/div[1]//h1/text()')[0].strip()
     #category = urllib.unquote(category).decode('utf8')
     if (verbose): print 'Category: ' + category
 
@@ -82,6 +82,7 @@ for category_link in cat_urls:
         if (verbose): print 'Found ' + str(len(datasetparts)) + ' datasets by splitting by links to TOC'
         if len(datasetparts) != numdatasets:
             if (verbose): print 'Well, that didn\'t work either. Giving up'
+            print 'Exciting because of a serious error - turn on verbose in the code to find out what dataset is causing the problem'
             exit()
     else:
         if numdatasets>1:
@@ -105,6 +106,10 @@ for category_link in cat_urls:
         record['title'] = datasets[0]
         
         if (verbose): print 'Parsing dataset ' + record['title']
+        if 'noch im Aufbau' in record['title']:
+           # Nothing to see here
+           if (verbose): print 'Empty category'
+           continue
         record['url'] = rooturl + category_link + '#par' + str(count)
         count += 1
         datatables, filetables = findfilesanddata(data)
@@ -129,7 +134,14 @@ for category_link in cat_urls:
         record['formats'] = set()
         record['spatial'] = False
         for file in record['filelist']:
-            format = file.split('/')[-1].split('.')[1].upper()
+            formatarray = file.split('/')[-1].split('.')
+            format = 'Unknown'
+            if len(formatarray)>1:
+                format = formatarray[1].upper().split('?')[0]
+            elif 'WMS' in formatarray[0]:
+                format = 'WMS'
+            elif 'WFS' in formatarray[0]:
+                format = 'WFS'
             record['formats'].add(format)
             if metautils.isgeo(format):
                 record['spatial'] = True
@@ -137,24 +149,26 @@ for category_link in cat_urls:
 
         if len(datatables) > 1:
             if (verbose): print 'ERROR: More than one data table'
+            print 'Exciting because of a serious error - turn on verbose in the code to find out what dataset is causing the problem'
             exit()
         elif len(datatables) == 0:
             if (verbose): print 'ERROR: No data table'
+            print 'Exciting because of a serious error - turn on verbose in the code to find out what dataset is causing the problem'
             exit()
-            
+ 
         #parse the data table by row
         if (verbose): print 'Reading datatable...'
         rowelements = etree.HTML(datatables[0]).xpath('//tr')
         for row in rowelements:
             if len(row.xpath('td[1]/text()')) == 0: continue
             key = row.xpath('td[1]/text()')[0]
-            if (verbose): print key
             if len(row.xpath('td[2]/text()')) != 0:
                 val = row.xpath('td[2]/text()')[0]
             elif len(row.xpath('td[2]//a')) != 0: 
                 val = row.xpath('td[2]//a/text()')[0]
             else:
                 if (verbose): print 'ERROR: Missing value'
+                print 'Exciting because of a serious error - turn on verbose in the code to find out what dataset is causing the problem'
                 exit()
             if (verbose): print 'Parsing key ' + key.replace(':', '') + ' with value ' + val
             if u'veröffentlicht' in key:
